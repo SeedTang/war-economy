@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# duplicate of dist/index.html without the html/head/body wrapper
+dist/artifact.html
+
+# local tooling
+node_modules/
+
+# local dev-server config (contains machine-specific absolute paths)
+.claude/

@@ -1,0 +1,514 @@
+<title>WAR ECONOMY — 改动记录与机制总览</title>
+
+<style>
+  :root {
+    --ground: #f2f4f8;
+    --raised: #ffffff;
+    --line: #d3d9e4;
+    --ink: #171a24;
+    --ink-soft: #4e5769;
+    --ink-faint: #78829a;
+    --amber: #9a6f0a;
+    --amber-bg: #fdf3d8;
+    --red: #a8332f;
+    --red-bg: #fbe9e7;
+    --green: #2f6b45;
+    --green-bg: #e6f3ea;
+    --blue: #2b5f96;
+    --blue-bg: #e7effa;
+    --shadow: 0 1px 2px rgba(23,26,36,.06), 0 8px 24px rgba(23,26,36,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14161a;
+      --raised: #1c2029;
+      --line: #333b4a;
+      --ink: #e8e6df;
+      --ink-soft: #a5aec0;
+      --ink-faint: #7c869a;
+      --amber: #e8b84b;
+      --amber-bg: #2e2716;
+      --red: #e28080;
+      --red-bg: #33191c;
+      --green: #7fcb92;
+      --green-bg: #16291d;
+      --blue: #7fb4e8;
+      --blue-bg: #16233a;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #f2f4f8; --raised: #ffffff; --line: #d3d9e4;
+    --ink: #171a24; --ink-soft: #4e5769; --ink-faint: #78829a;
+    --amber: #9a6f0a; --amber-bg: #fdf3d8;
+    --red: #a8332f; --red-bg: #fbe9e7;
+    --green: #2f6b45; --green-bg: #e6f3ea;
+    --blue: #2b5f96; --blue-bg: #e7effa;
+    --shadow: 0 1px 2px rgba(23,26,36,.06), 0 8px 24px rgba(23,26,36,.05);
+  }
+  :root[data-theme="dark"] {
+    --ground: #14161a; --raised: #1c2029; --line: #333b4a;
+    --ink: #e8e6df; --ink-soft: #a5aec0; --ink-faint: #7c869a;
+    --amber: #e8b84b; --amber-bg: #2e2716;
+    --red: #e28080; --red-bg: #33191c;
+    --green: #7fcb92; --green-bg: #16291d;
+    --blue: #7fb4e8; --blue-bg: #16233a;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", Roboto, sans-serif;
+    line-height: 1.65;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 940px; margin: 0 auto; padding: 40px 20px 96px; }
+
+  .display {
+    font-family: "Arial Black", "Helvetica Neue", -apple-system, sans-serif;
+    font-weight: 900;
+    letter-spacing: -.01em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  .eyebrow {
+    font-size: 11px; font-weight: 800; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--amber);
+  }
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  header { border-bottom: 3px solid var(--ink); padding-bottom: 26px; margin-bottom: 40px; }
+  header h1 { font-size: clamp(30px, 6.5vw, 50px); margin: 8px 0 12px; }
+  header h1 span { color: var(--amber); }
+  header p { color: var(--ink-soft); max-width: 62ch; margin: 0; }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
+  }
+  .tag {
+    font-size: 12px; padding: 4px 11px; border-radius: 999px;
+    background: var(--raised); border: 1px solid var(--line); color: var(--ink-soft);
+  }
+
+  h2.sec {
+    font-size: clamp(20px, 3.4vw, 26px); margin: 56px 0 6px;
+    padding-top: 22px; border-top: 1px solid var(--line);
+  }
+  h2.sec:first-of-type { border-top: none; padding-top: 0; }
+  .sec-note { color: var(--ink-faint); font-size: 14.5px; margin: 0 0 24px; max-width: 66ch; }
+
+  /* --- change log: a real chronological sequence, so it is numbered --- */
+  ol.log { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  ol.log > li {
+    background: var(--raised); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 18px; box-shadow: var(--shadow);
+    display: grid; grid-template-columns: 46px 1fr; gap: 4px 16px; align-items: start;
+  }
+  .vnum {
+    grid-row: span 3;
+    font-size: 13px; font-weight: 800; color: var(--amber);
+    background: var(--amber-bg); border-radius: 7px;
+    padding: 7px 0; text-align: center; letter-spacing: .02em;
+  }
+  ol.log h3 { margin: 0; font-size: 16.5px; line-height: 1.35; }
+  .said {
+    color: var(--ink-faint); font-size: 13.5px; font-style: italic;
+    margin: 2px 0 6px; padding-inline-start: 11px;
+    border-inline-start: 2px solid var(--line);
+  }
+  ol.log ul { margin: 0; padding-inline-start: 18px; display: grid; gap: 4px; }
+  ol.log li li { font-size: 14.5px; color: var(--ink-soft); }
+  ol.log li li b { color: var(--ink); font-weight: 600; }
+
+  /* --- mechanics --- */
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); }
+  .card {
+    background: var(--raised); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 18px; box-shadow: var(--shadow);
+  }
+  .card h3 { margin: 0 0 8px; font-size: 15.5px; display: flex; align-items: center; gap: 8px; }
+  .card p, .card ul { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+  .card ul { padding-inline-start: 17px; display: grid; gap: 3px; }
+  .card + .card { margin: 0; }
+
+  .ladder { display: grid; gap: 0; margin: 0; }
+  .rung {
+    display: grid; grid-template-columns: 62px 1fr; gap: 14px; align-items: baseline;
+    padding: 9px 0; border-bottom: 1px dashed var(--line); font-size: 14.5px;
+  }
+  .rung:last-child { border-bottom: none; }
+  .rung .lv { font-weight: 800; font-size: 13px; }
+  .rung.good .lv { color: var(--green); }
+  .rung.warn .lv { color: var(--amber); }
+  .rung.bad .lv { color: var(--red); }
+  .rung span:last-child { color: var(--ink-soft); }
+
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 520px; }
+  caption { text-align: start; color: var(--ink-faint); font-size: 13px; padding-bottom: 8px; }
+  th, td { text-align: start; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+  th {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--ink-faint); font-weight: 700; white-space: nowrap;
+  }
+  td.num { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tbody tr:hover { background: var(--ground); }
+  .best { color: var(--green); font-weight: 700; }
+  .worst { color: var(--red); font-weight: 700; }
+  .spread { font-weight: 800; }
+
+  .pill {
+    display: inline-block; font-size: 11.5px; font-weight: 700;
+    padding: 2px 8px; border-radius: 5px; white-space: nowrap;
+  }
+  .p-cut { background: var(--red-bg); color: var(--red); }
+  .p-add { background: var(--green-bg); color: var(--green); }
+  .p-sys { background: var(--blue-bg); color: var(--blue); }
+
+  .callout {
+    background: var(--amber-bg); border: 1px solid var(--amber);
+    border-radius: 10px; padding: 15px 18px; margin: 22px 0 0;
+  }
+  .callout p { margin: 0; font-size: 14.5px; color: var(--ink); }
+  .callout strong { color: var(--amber); }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .88em; background: var(--ground);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px;
+  }
+  a { color: var(--blue); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+  @media (max-width: 560px) {
+    ol.log > li { grid-template-columns: 1fr; }
+    .vnum { grid-row: auto; width: 54px; }
+  }
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">POL 2001 · App Design Project</div>
+  <h1 class="display">WAR <span>ECONOMY</span><br>改动记录与机制总览</h1>
+  <p>一款关于「打赢一场战争要付出什么代价」的卡牌构筑 roguelike。下面第一部分是你在这个会话里下达的每一次设计决策，第二部分是游戏当前的完整机制。所有数值直接从代码导出，与线上版本一致。</p>
+  <div class="meta">
+    <span class="tag mono">44 张卡</span>
+    <span class="tag mono">31 项成就</span>
+    <span class="tag mono">18 种语言</span>
+    <span class="tag mono">207 条自动化断言</span>
+    <span class="tag mono">v14</span>
+  </div>
+</header>
+
+<h2 class="sec display">一、你下达的改动</h2>
+<p class="sec-note">按时间顺序。每条都记录了你要求的内容、实际改了什么、以及为什么这么设计——写「设计哲学」那份文档时可以直接取用。</p>
+
+<ol class="log">
+
+  <li>
+    <div class="vnum">起点</div>
+    <h3>按 Consolidated Edition 规格重建</h3>
+    <p class="said">「Make a game according to MD and requirement document」</p>
+    <ul>
+      <li><b>敌方战争金库</b>：每个敌人有可见的金库，招牌技能要花钱；偷光它，对方的大招就哑火。</li>
+      <li><b>四阵营体系</b>：各 5 张阵营卡，招牌卡进起始牌组，其余在奖励池中权重 ×1.5。</li>
+      <li>28 项成就、6 种死因、Boss 战、18 种语言（新增泰语）。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">美术</div>
+    <h3>像素画取代 emoji</h3>
+    <p class="said">「给每个国家、通用技能加像素风绘图，代替 emoji」</p>
+    <ul>
+      <li>48 张像素图以「调色板索引 + 字符网格」写在代码里，运行时画到 canvas，<b>零图片文件</b>。</li>
+      <li>后续按你的要求改成：日本＝日章旗、苏联＝钢铁工厂、美国＝山姆大叔。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">音频</div>
+    <h3>音效重做 + 战斗 BGM</h3>
+    <p class="said">「音效改一下，然后战斗的时候可以加 bgm」</p>
+    <ul>
+      <li>WebAudio 实时合成的小调进行曲循环，Boss 战提速；仍然零音频资源。</li>
+      <li>后来修复手机静音：iOS 需要在真实触摸手势里唤醒音频，且默认走铃声通道——<b>会被 iPhone 侧边静音拨片直接静音</b>，已声明 playback 音频会话绕开。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">规则</div>
+    <h3>偷来的钱进下回合收入 <span class="pill p-sys">全局规则</span></h3>
+    <p class="said">「all theft resolves into next turn's income, not this turn's gold」</p>
+    <ul>
+      <li>写进规格 §3.2 成为<b>双方通用</b>的一条规则，而不是逐卡修改。</li>
+      <li><b>你的理由（已记入规格）</b>：赃款直接进兜里，等于让日本阵营绕开了游戏的稀缺性约束，而稀缺性正是「机会成本」这一教学目标的地基。改成走收入后，偷窃依然强（照样抽干敌人金库、照样滚经济），但无法再兑换成当回合爆发。</li>
+      <li>顺带解决了原规则里一个未定义行为：敌人「偷」的是回合结束时已经清零的金币。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">平衡</div>
+    <h3>战争机器每场限一次；全员动员涨价 <span class="pill p-cut">削弱</span></h3>
+    <p class="said">「战争机器每轮战斗只能出现一次…手牌减免出现概率降低，费用改成 3 费」</p>
+    <ul>
+      <li>战争机器的收入加成每场战斗<b>只生效一次</b>，多余的复本直接变灰不可打（不浪费金币）。</li>
+      <li>全员动员 0 费 → <b>3 费</b>，奖励池权重砍半。免费的全手牌减费等于没有机会成本。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">平衡</div>
+    <h3>美国引擎卡集体涨价 <span class="pill p-cut">削弱</span></h3>
+    <p class="said">「美国滚雪球机制保留，但美国高级卡牌（除基础回血、进攻外）卡费 +1」</p>
+    <ul>
+      <li>自由轮 2→3、罗西的班次 1→2、艾克军火库 3→4、民主兵工厂 3→4；巴顿突进是进攻卡，按你的豁免保持 2 费。</li>
+      <li>滚雪球身份保留，但每一段加速都要显性付费。副作用已提前告知：自由轮 3 费后美国第一回合打不出招牌卡，开局故意最慢。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">内容</div>
+    <h3>地狱难度 + 游戏说明 + 阵营优劣 <span class="pill p-add">新增</span></h3>
+    <p class="said">「加一个地狱难度选项，每一关都是 boss，且加一个游戏说明，以及阵容介绍」</p>
+    <ul>
+      <li><b>地狱模式</b>：三场全部使用 Boss 版本（+HP、招牌招式 +30%），其他一切不变——纯粹的难度旋钮，不是另一个游戏。</li>
+      <li><b>游戏说明</b>：六条一句话规则。<b>四大阵营</b>：每家一条优势、一条弱点，让第一次选阵营是个有信息的选择。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">规则</div>
+    <h3>手牌 5 → 4，第 5 张只有美国买得到</h3>
+    <p class="said">「美国的自由轮让卡牌上限到 5，且所有国家每轮正常只有 4 张牌，必须有一个高阶卡组」</p>
+    <ul>
+      <li>少一张手牌＝每回合少一个选项，每一次机会成本的取舍都更锋利：你再也养不起「以防万一」的情境牌。</li>
+      <li>把手牌容量本身变成一种有价格的稀缺资源，而全游戏只有一张卡能买。</li>
+      <li>按你的裁决，<b>主动抽牌卡不受上限约束</b>，只有回合开始的自动补牌卡在 4 张。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">系统</div>
+    <h3>招牌卡开始收声誉；归零＝全球公敌</h3>
+    <p class="said">「默认语言 English，国家的特殊卡牌需要扣信誉分…信誉降到 0 所有对战国家永久加 buff」</p>
+    <ul>
+      <li>默认语言改为英语（不再嗅探浏览器语言；手动选过的仍然记住）。</li>
+      <li>四张 ★ 招牌卡打出即扣声誉——定义一个国家怎么打仗的那张牌，同时也是它道德上最贵的一张。</li>
+      <li>声誉阶梯：<b>≤2 国际干预</b>（当前敌人 +15 HP、全体攻击 +3）→ <b>0 全球公敌</b>（本局剩下的所有国家永久 +2 攻击）。两级都是一局一次、不可逆。</li>
+      <li>成就列表改为<b>每一条都显示解锁条件</b>，不再只有已解锁的才看得见。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">系统</div>
+    <h3>盟友援助 + 战间抉择 + 声誉成就 <span class="pill p-add">新增</span></h3>
+    <p class="said">「日本血太少了加 15 滴…加一些和声誉相关的游戏」</p>
+    <ul>
+      <li><b>盟友援助</b>补上了最大的设计漏洞：此前高声誉只是「少挨打」，毫无正收益。现在声誉 ≥7 每回合 +1 金币，达到上限还每回合回 2 血——「当好人」成了一条真能打的经济路线，而不只是道德姿态。</li>
+      <li><b>战间抉择</b>：每场胜利后、选卡之前的一个二选一交易，拒绝永远免费。让声誉在双向上可交易，每个都是道德与战力之间一个清晰的汇率。</li>
+      <li>三个声誉成就；日本 HP 30 → 45。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">系统</div>
+    <h3>删掉免费的敌人意图预告</h3>
+    <p class="said">「我没有任何增益卡牌就能知道对手下一步是什么，把这个预测删了」</p>
+    <ul>
+      <li>敌人意图默认显示 <code>? ? ?</code>，只有打出<b>天空之眼</b>才能看见接下来两步。</li>
+      <li>侦察从一张凑数卡变成了核心卡。<b>需要留意的副作用</b>：沙漠之狐（敌人预告攻击时穿透格挡）在没有侦察时变成了纯赌博。</li>
+      <li>这一条与原规格 §3.1「意图预告是互动核心」直接冲突——是你有意识的取舍，规格已同步更新。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">平衡</div>
+    <h3>声誉上限 8、不再回补；阵营卡每回合限一次</h3>
+    <p class="said">「声誉上限应该是 8 不是 10，且所有特殊技能牌一回合只能出现一次」</p>
+    <ul>
+      <li>上限 8＝开局值，且战斗之间<b>不再回补</b>：花掉就是花掉了。因此满级盟友援助成了「从未碰过脏事」的默认奖励，一旦动用声誉立刻失去。</li>
+      <li>每张阵营卡每回合只能打一次，砍掉同名强卡连环。</li>
+      <li>美国再砍一刀：艾克军火库每 3 收入 → 每 4 收入；巴顿突进 2× 收入 → 1.5×。苏联 Boss 血量加成 +15 → +5。</li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="vnum">平衡</div>
+    <h3>东京快车三连削 <span class="pill p-cut">削弱</span></h3>
+    <p class="said">「东京快车改成 2 费，偷取费用成 2 费，声誉 -1」</p>
+    <ul>
+      <li>1 费 → <b>2 费</b>，偷 3 金 → <b>偷 2 金</b>，并恢复 <b>声誉 -1</b>（其余三张招牌卡仍是 -2）。</li>
+      <li>把日本从 86.2% 拉回 15.2%，阵营极差从 80 个百分点收窄到 28 个。</li>
+    </ul>
+  </li>
+
+</ol>
+
+<h2 class="sec display">二、当前机制</h2>
+<p class="sec-note">下列数值全部由代码直接导出，与你手上的线上版本一致。</p>
+
+<div class="grid">
+
+  <div class="card">
+    <h3>⚙️ 一个回合</h3>
+    <ul>
+      <li>收取收入（基础 3 ＋ 建设加成 ＋ 盟友援助）</li>
+      <li>扣 <b>1 金军费</b>；扣完为负则本回合<b>不能打进攻牌</b></li>
+      <li>补牌至 <b>4 张</b>（美国打出自由轮后为 5）</li>
+      <li>花钱出牌 →「冲！」结束回合</li>
+      <li><b>没花完的金币作废</b>，不能存到下回合</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>💰 战争金库</h3>
+    <p>每个敌人有可见金库，起始 10 金、每回合 +1（美国 +2）。带 💰 标记的招式要从金库付款：闪击战 3 金、苏联格挡 2 金、神风 4 金、美国攻击升级每次 2 金。</p>
+    <p style="margin-top:8px">付不起就<b>降级</b>：闪击战变成单次 6 伤、苏联「补给线被切断」不格挡、神风变普通出击。<b>曼哈顿倒计时不受金库影响。</b></p>
+  </div>
+
+  <div class="card">
+    <h3>🕵️ 偷窃（双向规则）</h3>
+    <p>任何一方偷来的金币都<b>不进当前回合</b>：金库立刻扣钱，赃款随受害方的<b>下一次收入</b>到账。敌人偷你则是扣你下回合收入（最低 0）。</p>
+  </div>
+
+  <div class="card">
+    <h3>👁️ 情报</h3>
+    <p>敌人意图默认隐藏为 <code>? ? ?</code>。打出<b>天空之眼</b>后，本场战斗可持续看到敌人接下来<b>两步</b>行动，包括伤害数值和 💰 资金标记。</p>
+  </div>
+
+</div>
+
+<h3 class="display" style="font-size:18px;margin:34px 0 10px">🌍 声誉阶梯（上限 8，起始 8，一局之内不回补）</h3>
+<div class="card">
+  <div class="ladder">
+    <div class="rung good"><span class="lv mono">8</span><span><b>满级盟友援助</b>：每回合 +1 金币，且每回合回 2 血。只有从未花过声誉才拿得到。</span></div>
+    <div class="rung good"><span class="lv mono">7</span><span><b>盟友援助</b>：每回合 +1 金币。声誉标题「好人剧本」。</span></div>
+    <div class="rung warn"><span class="lv mono">3–6</span><span>无加成。声誉标题「道德灵活」。</span></div>
+    <div class="rung bad"><span class="lv mono">≤2</span><span><b>国际干预</b>：当前敌人 +15 HP，全体敌人攻击 +3。一局一次，不可逆。</span></div>
+    <div class="rung bad"><span class="lv mono">0</span><span><b>全球公敌</b>：本局剩余的所有国家永久 +2 攻击。一局一次，不可逆。声誉标题「战犯速通」。</span></div>
+  </div>
+  <p style="margin-top:12px;font-size:14px">扣声誉的来源：4 张招牌卡（东京快车 -1，其余 -2）、3 张脏牌（焦土 -2、阴一手 -2、假新闻 -1）、以及部分战间抉择。</p>
+</div>
+
+<h3 class="display" style="font-size:18px;margin:34px 0 10px">🤝 战间抉择</h3>
+<div class="scroll">
+  <table>
+    <caption>每场胜利后随机抽一个，选卡之前发生；拒绝永远免费，会致死的交易不会被抽到。</caption>
+    <thead><tr><th>抉择</th><th>接受</th><th>拒绝</th></tr></thead>
+    <tbody>
+      <tr><td>打捞权</td><td>声誉 -2 → 回复 14 血</td><td>无事发生</td></tr>
+      <tr><td>征用船厂</td><td>声誉 -2 → 多选一张奖励卡</td><td>无事发生</td></tr>
+      <tr><td>签署协定</td><td>失去 8 血 → 声誉 +3</td><td>无事发生</td></tr>
+      <tr><td>特赦计划</td><td>放弃本场奖励卡 → 声誉 +3</td><td>无事发生</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 class="display" style="font-size:18px;margin:34px 0 10px">🎌 四个敌人</h3>
+<div class="scroll">
+  <table>
+    <thead><tr><th>国家</th><th class="num">HP</th><th class="num">Boss 加成</th><th>机制</th><th>教学对应</th></tr></thead>
+    <tbody>
+      <tr><td>德国</td><td class="num">35</td><td class="num">+15</td><td>攻 8 → 闪击战 6×2（💰3）→ 攻 10；第 4 轮起全体攻击 -2</td><td>短期战争学说：速胜或败</td></tr>
+      <tr><td>苏联</td><td class="num">50</td><td class="num">+5</td><td>每损失 25% HP，攻击永久 +3</td><td>纵深动员：以空间人力换时间</td></tr>
+      <tr><td>日本</td><td class="num">45</td><td class="num">+15</td><td>隔回合偷你收入；半血以下解锁神风（💰4）</td><td>资源匮乏型扩张：靠掠夺输入</td></tr>
+      <tr><td>美国</td><td class="num">45</td><td class="num">+15</td><td>攻击每回合 +2（💰2）；曼哈顿倒计时 8 回合后 40 伤</td><td>潜在产能动员曲线</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 class="display" style="font-size:18px;margin:34px 0 10px">🃏 四个阵营</h3>
+<div class="scroll">
+  <table>
+    <caption>★ 为招牌卡，进起始牌组；其余 4 张在该阵营的奖励池中权重 ×1.5。</caption>
+    <thead><tr><th>阵营</th><th>路线</th><th>★ 招牌卡</th><th>另外四张</th></tr></thead>
+    <tbody>
+      <tr><td>德国</td><td>节奏</td><td>古德里安的豪赌 <span class="mono">1费 · 声誉-2</span></td><td>沙漠之狐、狼群战术、重点突破、高速公路后勤</td></tr>
+      <tr><td>苏联</td><td>消耗</td><td>朱可夫的铁钳 <span class="mono">2费 · 声誉-2</span></td><td>喀秋莎齐射、冬将军、大纵深作战、乌拉尔搬迁</td></tr>
+      <tr><td>日本</td><td>劫掠</td><td>东京快车 <span class="mono">2费 · 声誉-1</span></td><td>零式突袭、山本的赌注、夜袭、影子经济</td></tr>
+      <tr><td>美国</td><td>滚雪球</td><td>自由轮 <span class="mono">3费 · 声誉-2</span></td><td>罗西的班次、艾克军火库、巴顿突进、民主兵工厂</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid" style="margin-top:24px">
+  <div class="card">
+    <h3>🔥 两种难度</h3>
+    <p><b>标准</b>：只有第三场是 Boss。<b>地狱</b>：三场全是 Boss。在选阵营界面切换，一局之内固定。</p>
+  </div>
+  <div class="card">
+    <h3>🏆 31 项成就</h3>
+    <p>13 项通用（含 3 项声誉成就）、12 项对位、6 项死法。每一条都显示解锁条件，存在浏览器本地。全部集齐点亮金色「WAR IS OVER」徽章。</p>
+  </div>
+  <div class="card">
+    <h3>🃏 44 张卡</h3>
+    <p>24 张通用（军事 8／建设 8／政治 8，其中 3 张脏牌）＋ 4 个阵营各 5 张。起始牌组 8 张：2× 冲啊、招牌卡、2× 挖坑蹲着、战争机器、都上车、缝两针。</p>
+  </div>
+  <div class="card">
+    <h3>🌐 18 种语言</h3>
+    <p>默认英语。文案是<b>本地化而非翻译</b>——笑话按各语言重写。阿拉伯语为 RTL。<b>一局之内不可切换语言</b>（你早期定下的规则）。</p>
+  </div>
+</div>
+
+<h2 class="sec display">三、平衡数据变化</h2>
+<p class="sec-note">启发式机器人每阵营 500–1000 局全自动对战的胜率。机器人策略是共享的，因此<b>阵营之间的相对差距</b>才是有效信号，绝对胜率受机器人水平影响。</p>
+
+<div class="scroll">
+  <table>
+    <thead>
+      <tr><th>版本节点</th><th class="num">德国</th><th class="num">苏联</th><th class="num">日本</th><th class="num">美国</th><th class="num">极差</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>偷窃改走收入</td><td class="num">58.5</td><td class="num">50.0</td><td class="num">75.5</td><td class="num">74.5</td><td class="num spread">25.5</td></tr>
+      <tr><td>战争机器／全员动员／美国涨价</td><td class="num">63.3</td><td class="num">50.2</td><td class="num">73.4</td><td class="num">60.5</td><td class="num spread">23.2</td></tr>
+      <tr><td>手牌降到 4 张</td><td class="num">43.3</td><td class="num">26.8</td><td class="num">39.7</td><td class="num">36.2</td><td class="num spread">16.5</td></tr>
+      <tr><td>招牌卡开始扣声誉</td><td class="num">3.4</td><td class="num">9.4</td><td class="num worst">1.6</td><td class="num">30.2</td><td class="num spread">28.6</td></tr>
+      <tr><td>盟友援助＋战间抉择</td><td class="num">34.2</td><td class="num">54.8</td><td class="num">13.0</td><td class="num best">84.8</td><td class="num spread">71.8</td></tr>
+      <tr><td>隐藏意图／上限 8／东京快车免费</td><td class="num">6.2</td><td class="num">12.6</td><td class="num best">86.2</td><td class="num">37.8</td><td class="num spread">80.0</td></tr>
+      <tr><td><b>v14 · 东京快车三连削（当前）</b></td><td class="num">6.8</td><td class="num">13.8</td><td class="num">15.2</td><td class="num">34.8</td><td class="num spread">28.0</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout">
+  <p><strong>当前状态：</strong>东京快车那一刀把极差从 80 个百分点收窄到 28 个，是最近几版里最好的。但问题换了一面——<strong>不是某家太强，而是整体太难</strong>：四家里有三家胜率低于 16%，德国只有 6.8%。手牌 4 张、招牌卡收声誉、意图默认隐藏、阵营卡每回合限一次，每条单独看都合理，叠在一起把玩家能做的事削掉了太多。美国领先主要因为它的引擎不依赖招牌卡，几乎不用付声誉。</p>
+</div>
+
+<h2 class="sec display">四、文件与运行</h2>
+
+<div class="grid">
+  <div class="card">
+    <h3>发布</h3>
+    <ul>
+      <li><code>dist/index.html</code> — 完整游戏打包成单文件（587 KB，零外部请求），拖到 Netlify Drop 即可</li>
+      <li><code>node build.mjs</code> — 重新打包</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>源码</h3>
+    <ul>
+      <li><code>game.js</code> — 全部机制</li>
+      <li><code>lang/*.js</code> — 全部玩家可见文案（18 个文件）</li>
+      <li><code>sprites.js</code> — 全部像素画</li>
+      <li><code>style.css</code> · <code>i18n.js</code></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>测试</h3>
+    <ul>
+      <li><code>node test/harness.mjs</code> — 207 条机制断言</li>
+      <li><code>node test/langcheck.mjs</code> — 18 语言完整性审计</li>
+      <li><code>node test/sim.mjs 500</code> — 平衡模拟（加 <code>hell</code> 跑地狱难度）</li>
+    </ul>
+  </div>
+</div>
+
+</div>
