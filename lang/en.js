@@ -18,8 +18,8 @@ cards: {
   nope_zone:     { name: "Nope Zone", text: "For 3 turns, take 3 less damage from each hit.", flavor: "Trespassers will be yeeted." },
   all_hands:     { name: "All Hands on Deck", text: "This turn, all cards in hand cost 1 less (min 0).", flavor: "Coffee's free. Sleep is not." },
   enchilada:     { name: "The Whole Enchilada", text: "Draw 3 cards, heal 3 HP, income +1.", flavor: "Why choose?" },
-  scorched_sky:  { name: "Scorched Sky", text: "Deal 20 damage. Reputation -2.", flavor: "History is written by the— you know what, don't write this down." },
-  sucker_punch:  { name: "Sucker Punch", text: "This turn: attacks ignore Block and deal +50%. Reputation -2.", flavor: "Rules are for people who lose." },
+  scorched_sky:  { name: "Scorched Sky", text: "Deal 20 damage. Reputation -1.", flavor: "History is written by the— you know what, don't write this down." },
+  sucker_punch:  { name: "Sucker Punch", text: "This turn: attacks ignore Block and deal +50%. Reputation -1.", flavor: "Rules are for people who lose." },
   fake_news:     { name: "Fake News", text: "Draw 2 cards, heal 5 HP. Reputation -1.", flavor: "Technically, we're winning. Technically." },
   eye_sky:       { name: "Eye in the Sky", text: "See the enemy's next 2 moves for the rest of this battle.", flavor: "Smile for the camera." },
   talk_out:      { name: "Talk It Out", text: "The enemy's next attack is halved.", flavor: "Strongly worded letter, freshly loaded." },
@@ -28,14 +28,14 @@ cards: {
   time_out:      { name: "Time Out", text: "The enemy skips its next turn. You can't play attacks this turn. Exhaust.", flavor: "Everybody just... chill." },
 
   /* --- Germany: Tempo --- */
-  guderian:      { name: "Guderian's Gambit", text: "Deal 4 damage twice. If this is your first card this turn, both hits +2. Reputation -2.", flavor: "Achtung! Panzer! Etc.!" },
+  guderian:      { name: "Guderian's Gambit", text: "Deal 4 damage twice. If this is your first card this turn, both hits +2. Reputation -1.", flavor: "Achtung! Panzer! Etc.!" },
   desert_fox:    { name: "Desert Fox", text: "Deal 9 damage. Ignores Block if the enemy telegraphed an attack.", flavor: "He read your mail. All of it." },
   wolfpack:      { name: "Wolfpack", text: "Steal 3 gold from the enemy War Chest (arrives with your next income). Deal 4 damage.", flavor: "The convoy never saw it coming." },
   schwerpunkt:   { name: "Schwerpunkt", text: "Your next attack this turn deals double damage. Exhaust.", flavor: "Everything. One spot. Now." },
   autobahn:      { name: "Autobahn Logistics", text: "Draw 2. Cards drawn this way cost 1 less this turn.", flavor: "No speed limit on victory." },
 
   /* --- USSR: Attrition --- */
-  zhukov:        { name: "Zhukov's Vise", text: "Deal 5 damage twice. Heal 2 for each hit that lands on HP (not Block). Reputation -2.", flavor: "Surrounded? No. They're just... everywhere we look." },
+  zhukov:        { name: "Zhukov's Vise", text: "Deal 5 damage twice. Heal 2 for each hit that lands on HP (not Block). Reputation -1.", flavor: "Surrounded? No. They're just... everywhere we look." },
   katyusha:      { name: "Katyusha Barrage", text: "Deal 4 damage four times.", flavor: "Stalin's organ plays one song. It's a banger." },
   general_winter:{ name: "General Winter", text: "Enemy attacks -2 for 3 turns.", flavor: "Undefeated since 1812." },
   deep_battle:   { name: "Deep Battle", text: "Lose 3 HP. Deal 10 damage.", flavor: "Tukhachevsky did the math. The math is brutal." },
@@ -49,27 +49,27 @@ cards: {
   shadow_economy:{ name: "Shadow Economy", text: "Whenever you steal, the haul is 1 gold bigger. Permanent this battle.", flavor: "Off the books. Way off." },
 
   /* --- USA: Snowball --- */
-  liberty_ships: { name: "Liberty Ships", text: "Income +1. Draw 1 card. Hand limit 5 → 6 for the rest of this battle. Reputation -2.", flavor: "Built faster than they could be sunk. Barely." },
+  liberty_ships: { name: "Liberty Ships", text: "Income +1. Draw 1 card. Hand limit 5 → 6 for the rest of this battle. Reputation -1.", flavor: "Built faster than they could be sunk. Barely." },
   rosie:         { name: "Rosie's Shift", text: "This turn, Building cards cost 1 less (min 0).", flavor: "We Can Do It. We ARE Doing It." },
   ike_arsenal:   { name: "Ike's Arsenal", text: "All attacks permanently +1 for every 4 income you have.", flavor: "Logistics wins wars. Ike wins logistics." },
   patton_push:   { name: "Patton's Push", text: "Deal damage equal to 1.5× your income.", flavor: "He's not waiting for orders. He's not waiting for anything." },
   arsenal_democracy: { name: "Arsenal of Democracy", text: "Income permanently +2. Reputation +1.", flavor: "Turns out the moral high ground has a factory on it." },
   /* --- China: Protracted War --- */
-  taierzhuang:   { name: "Taierzhuang", text: "Deal 4 damage, +1 for every turn already elapsed this battle (max 14). Reputation -2.", flavor: "They expected a rout. They got a bill." },
+  taierzhuang:   { name: "Taierzhuang", text: "Deal 4 damage, +1 for every turn already elapsed this battle (max 14). Reputation -1.", flavor: "They expected a rout. They got a bill." },
   flying_tigers: { name: "Flying Tigers", text: "Deal 8 damage. Ignores Block.", flavor: "Volunteers. Technically." },
   the_hump:      { name: "The Hump", text: "Income +1. Draw 1 card.", flavor: "Fly the mountain or lose the war. They flew the mountain." },
   guerrilla:     { name: "Guerrilla Raids", text: "Enemy attacks -3 for 3 turns.", flavor: "No front line means no front line to break." },
   changsha:      { name: "Changsha Defence", text: "Gain 10 Block. If it fully blocks an attack, deal 10 back.", flavor: "Three times. They tried three times." },
 
   /* --- United Kingdom: Intelligence --- */
-  bletchley:     { name: "Bletchley Park", text: "See the enemy's next 2 moves for the rest of this battle. Draw 1 card. Reputation -2.", flavor: "The war's best-kept secret was a filing problem." },
+  bletchley:     { name: "Bletchley Park", text: "See the enemy's next 2 moves for the rest of this battle. Draw 1 card. Reputation -1.", flavor: "The war's best-kept secret was a filing problem." },
   chain_home:    { name: "Chain Home", text: "Take 4 less damage from every hit this turn.", flavor: "They saw them coming. That was the whole trick." },
   desert_rats:   { name: "Desert Rats", text: "Deal 9 damage; deal 13 instead if you can see the enemy's intent.", flavor: "Sand in everything. Including the enemy's plans." },
   convoy_blockade:{ name: "Convoy Blockade", text: "Steal 3 gold (arrives with your next income). The enemy War Chest stops growing for 3 turns.", flavor: "Nothing in, nothing out." },
   lancaster:     { name: "Lancaster Raid", text: "Deal 16 damage.", flavor: "Heavy, slow, and unmistakably on its way." },
 
   /* --- France: Resistance --- */
-  free_france:   { name: "Free France", text: "Deal 6 damage; deal 12 instead if you are below half HP. Reputation -2.", flavor: "A government in a radio studio. It counted." },
+  free_france:   { name: "Free France", text: "Deal 6 damage; deal 12 instead if you are below half HP. Reputation -1.", flavor: "A government in a radio studio. It counted." },
   maginot:       { name: "Maginot Line", text: "Gain 12 Block.", flavor: "Superb engineering. Wrong question." },
   resistance_net:{ name: "Resistance Network", text: "Steal 2 gold (arrives with your next income). Draw 1 card.", flavor: "Everyone's a postman now." },
   leclerc:       { name: "Leclerc's Column", text: "Deal 5 damage twice; +3 per hit if you are below half HP.", flavor: "He promised them Paris. He was not exaggerating." },

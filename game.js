@@ -206,9 +206,9 @@ const CARDS = {
     async play() { draw(3); heal(3); gainIncome(1); } },
 
   /* --- Shared: Politics, dirty --- */
-  scorched_sky: { cost: 3, cat: "pol", dirty: true, atk: true, rep: -2,
+  scorched_sky: { cost: 3, cat: "pol", dirty: true, atk: true, rep: -1,
     async play() { await attackEnemy(20); changeRep(-2); } },
-  sucker_punch: { cost: 1, cat: "pol", dirty: true, rep: -2,
+  sucker_punch: { cost: 1, cat: "pol", dirty: true, rep: -1,
     async play() { B.suckerPunch = true; changeRep(-2); log(T("log_sucker")); } },
   fake_news: { cost: 1, cat: "pol", dirty: true, rep: -1,
     async play() { draw(2); heal(5); changeRep(-1); } },
@@ -225,7 +225,7 @@ const CARDS = {
     async play() { B.enemySkip = true; B.noAttacks = true; log(T("log_timeout")); } },
 
   /* --- Faction: Germany — Tempo --- */
-  guderian: { cost: 1, cat: "mil", atk: true, faction: "germany", sig: true, rep: -2,
+  guderian: { cost: 1, cat: "mil", atk: true, faction: "germany", sig: true, rep: -1,
     async play() {
       const v = 4 + (B.ctxFirst ? 2 : 0);
       await attackEnemy(v); await sleep(200); await attackEnemy(v);
@@ -244,7 +244,7 @@ const CARDS = {
     async play() { draw(2, true); } },
 
   /* --- Faction: Soviet Union — Attrition --- */
-  zhukov: { cost: 2, cat: "mil", atk: true, faction: "soviet", sig: true, rep: -2,
+  zhukov: { cost: 2, cat: "mil", atk: true, faction: "soviet", sig: true, rep: -1,
     async play() {
       for (let k = 0; k < 2; k++) {
         const r = await attackEnemy(5);
@@ -280,7 +280,7 @@ const CARDS = {
     async play() { B.shadowEconomy++; log(T("log_shadow")); sfx.coin(); } },
 
   /* --- Faction: USA — Snowball --- */
-  liberty_ships: { cost: 3, cat: "bld", faction: "usa", sig: true, rep: -2,
+  liberty_ships: { cost: 3, cat: "bld", faction: "usa", sig: true, rep: -1,
     async play() {
       gainIncome(1);
       if (B.handCap < 6) { B.handCap = 6; log(T("log_handcap")); }
@@ -300,7 +300,7 @@ const CARDS = {
     async play() { gainIncome(2); changeRep(1); } },
 
   /* --- 阵营:中国 — 持久战 --- */
-  taierzhuang: { cost: 2, cat: "mil", atk: true, faction: "china", sig: true, rep: -2,
+  taierzhuang: { cost: 2, cat: "mil", atk: true, faction: "china", sig: true, rep: -1,
     async play() { await attackEnemy(Math.min(14, 4 + Math.max(0, B.turn - 1))); } },
   flying_tigers: { cost: 2, cat: "mil", atk: true, faction: "china",
     async play() { await attackEnemy(8, { pierce: true }); } },
@@ -312,7 +312,7 @@ const CARDS = {
     async play() { gainBlock(10); B.thorns += 10; } },
 
   /* --- 阵营:英国 — 情报 --- */
-  bletchley: { cost: 2, cat: "pol", faction: "uk", sig: true, rep: -2,
+  bletchley: { cost: 2, cat: "pol", faction: "uk", sig: true, rep: -1,
     async play() { B.foresight = true; log(T("log_recon")); draw(1); } },
   chain_home: { cost: 1, cat: "bld", faction: "uk",
     async play() { B.chainHome = true; log(T("log_chain_home")); sfx.block(); } },
@@ -324,7 +324,7 @@ const CARDS = {
     async play() { await attackEnemy(16); } },
 
   /* --- 阵营:法国 — 抵抗 --- */
-  free_france: { cost: 2, cat: "mil", atk: true, faction: "france", sig: true, rep: -2,
+  free_france: { cost: 2, cat: "mil", atk: true, faction: "france", sig: true, rep: -1,
     async play() { await attackEnemy(lowHp() ? 12 : 6); } },
   maginot: { cost: 2, cat: "mil", faction: "france",
     async play() { gainBlock(12); } },
@@ -445,6 +445,8 @@ function newRun(playerCountry, hell = false, endless = false) {
 
 function initBattle() {
   while (G.endless && G.battleIdx >= G.queue.length) queueMoreOpponents();
+  // 无尽:每一波开场血量回满。难度靠敌人涨,不靠你的血条慢慢磨没
+  if (G.endless) G.hp = G.maxHp;
   const id = G.queue[G.battleIdx];
   // 无尽:每三波一个 Boss;标准:只有最后一场
   const boss = G.endless ? (G.battleIdx % 3 === 2) : (G.battleIdx === 2 || G.hell);

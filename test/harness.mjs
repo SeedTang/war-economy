@@ -489,7 +489,7 @@ t("S14 All Hands rarer than peers",
 t("S20 七个国家", S("Object.keys(COUNTRIES).length") === 7);
 t("S20 七个阵营", S("Object.keys(FACTIONS).length") === 7);
 t("S20 59 张卡", S("Object.keys(CARDS).length") === 59);
-t("S20 新招牌卡各扣 2 声誉", S(`["taierzhuang","bletchley","free_france"].every(id => CARDS[id].rep === -2 && CARDS[id].sig)`) === true);
+t("S20 新招牌卡各扣 1 声誉", S(`["taierzhuang","bletchley","free_france"].every(id => CARDS[id].rep === -1 && CARDS[id].sig)`) === true);
 
 // 中国:伤害随回合数增长,且敌方被动也挂在回合数上
 fresh("china", "germany");
@@ -569,7 +569,7 @@ t("S19 rep cannot exceed 8", S("G.rep") === 8);
 
 // Tokyo Express is free of reputation now
 t("S19 Tokyo Express bills 1 reputation, not 2", S("CARDS.tokyo_express.rep") === -1);
-t("S19 other signatures still cost 2", S(`["guderian","zhukov","liberty_ships"].every(id => CARDS[id].rep === -2)`) === true);
+t("S19 other signatures also cost 1", S(`["guderian","zhukov","liberty_ships"].every(id => CARDS[id].rep === -1)`) === true);
 t("S19 Tokyo Express costs 2 gold", S("CARDS.tokyo_express.cost") === 2);
 run("G.rep = 8; B.hand = [{id:'tokyo_express'}]; B.gold = 5; updateBattle(); UI.play(0)"); await settle(300);
 t("S19 playing it bills 1 reputation", S("G.rep") === 7);
@@ -666,21 +666,25 @@ const offers = S(`(() => {
 })()`);
 t("S18 never offers a lethal deal", !offers.includes("accords"));
 
-/* ---------- S17: signature cards cost Reputation, Total Pariah at 0 ---------- */
+/* ---------- S17: 每张脏牌统一扣 1 声誉,0 触发世界公敌 ---------- */
 fresh("germany", "soviet");
 t("S17 runs start at 8 rep", S("(UI.pickCountry('germany'), G.rep)") === 8);
-t("S17 signature carries rep cost", S("CARDS.guderian.rep") === -2);
-t("S17 three signatures priced (Tokyo Express exempt)", S(`["guderian","zhukov","liberty_ships"].every(id => CARDS[id].rep === -2)`) === true);
+t("S17 signature carries rep cost", S("CARDS.guderian.rep") === -1);
+t("S17 全部招牌卡统一 -1", S(`["guderian","zhukov","liberty_ships","tokyo_express","taierzhuang","bletchley","free_france"].every(id => CARDS[id].rep === -1)`) === true);
+t("S17 通用脏牌也是 -1", S(`["scorched_sky","sucker_punch","fake_news"].every(id => CARDS[id].rep === -1)`) === true);
+t("S17 没有任何卡还扣 2 点以上", S(`Object.values(CARDS).every(c => c.rep === undefined || c.rep >= -1)`) === true);
 t("S17 non-signature faction cards are free", S("CARDS.desert_fox.rep === undefined && CARDS.katyusha.rep === undefined") === true);
 
 run("B.hand = [{id:'guderian'}]; B.gold = 5; B.enemy.block = 0; updateBattle();");
 run("UI.play(0)"); await settle(400);
-t("S17 playing signature costs 2 rep", S("G.rep") === 6);
+t("S17 playing signature costs 1 rep", S("G.rep") === 7);
 
-// burn down to the floor: 8 → 0 is four signature plays
-run("G.rep = 4; B.factionThisTurn = []; B.hand = [{id:'guderian'}]; B.gold = 5; updateBattle(); UI.play(0)"); await settle(400);
+// 8 → 2 是六次;这里直接停到 3,再打一次落到 2 触发国际干预
+run("G.rep = 3; B.factionThisTurn = []; B.hand = [{id:'guderian'}]; B.gold = 5; updateBattle(); UI.play(0)"); await settle(400);
 t("S17 rep 2 fires intervention", S("G.rep") === 2 && S("G.intervention") === true);
 t("S17 pariah not yet", S("G.pariah") === false);
+run("B.factionThisTurn = []; B.hand = [{id:'guderian'}]; B.gold = 5; updateBattle(); UI.play(0)"); await settle(400);
+t("S17 rep 1 仍未成公敌", S("G.rep") === 1 && S("G.pariah") === false);
 run("B.factionThisTurn = []; B.hand = [{id:'guderian'}]; B.gold = 5; updateBattle(); UI.play(0)"); await settle(400);
 t("S17 rep 0 fires Total Pariah", S("G.rep") === 0 && S("G.pariah") === true);
 
@@ -694,6 +698,7 @@ t("S17 pariah +2 stacks with intervention +3", 50 - S("G.hp") === base + 3 + 2);
 t("S17 rep does not refill mid-run", S("G.rep") === 0);
 run("G.battleIdx = 1; G.queue = ['soviet','japan','usa']; UI.fight();");
 t("S17 pariah persists into the next battle", S("G.pariah") === true);
+t("S17 声誉不会在战斗之间回满", S("G.rep") === 0);
 run("G.hp = 50; B.playerBlock = 0; B.winterTurns = 0; updateBattle();");
 const base2 = S("enemyAction(B.enemy.actIdx).hits[0]");
 run("UI.endTurn()"); await settle(900);
@@ -791,6 +796,20 @@ const exhausted = S(`(() => {
   return { n: r.length, distinct: new Set(r).size };
 })()`);
 t("S21 全收齐后退回允许重复", exhausted.n === 3 && exhausted.distinct === 3);
+
+/* ---------- S22: 无尽每波开场回满血 ---------- */
+run(`modeSelected = "endless"; UI.pickCountry("germany"); UI.fight();`);
+t("S22 无尽第一波满血", S("G.hp") === S("G.maxHp"));
+run("G.hp = 12; G.battleIdx = 1; UI.fight();");
+t("S22 第二波开场回满", S("G.hp") === S("G.maxHp"));
+run("G.hp = 5; G.battleIdx = 7; UI.fight();");
+t("S22 第八波照样回满", S("G.hp") === S("G.maxHp"));
+t("S22 敌人仍然按波次变强", S("B.enemy.maxHp") > S("COUNTRIES[B.enemy.id].hp"));
+// 标准模式不回血
+run(`modeSelected = "std"; UI.pickCountry("germany"); G.queue = ["soviet","japan","usa"]; G.battleIdx = 0; UI.fight();`);
+run("G.hp = 12; G.battleIdx = 1; UI.fight();");
+t("S22 标准模式战间不回血", S("G.hp") === 12);
+run(`modeSelected = "std";`);
 
 /* ---------- results ---------- */
 console.log(`\nPASS ${pass}  FAIL ${fail}`);
