@@ -475,14 +475,15 @@ t("S14 All Hands costs 3", S("CARDS.all_hands.cost") === 3);
 t("S14 All Hands reward weight 1", S("CARDS.all_hands.rewardWeight") === 1);
 fresh("japan", "usa");
 const wRoll = S(`(() => {
-  let allHands = 0, other = 0;
+  let allHands = 0, other = 0; const peers = new Set();
   for (let i = 0; i < 4000; i++) for (const id of rollRewards()) {
     if (id === "all_hands") allHands++;
-    else if (CARDS[id].cat === "bld" && !CARDS[id].faction) other++;
+    else if (CARDS[id].cat === "bld" && !CARDS[id].faction) { other++; peers.add(id); }
   }
-  return { allHands, other };
+  return { allHands, other, peers: peers.size };
 })()`);
-t("S14 All Hands rarer than peers", wRoll.allHands > 0 && wRoll.allHands * 1.6 < wRoll.other / 6);
+t("S14 All Hands rarer than peers",
+  wRoll.allHands > 0 && wRoll.peers > 0 && wRoll.allHands * 1.6 < wRoll.other / wRoll.peers);
 
 /* ---------- S20: 三个新国家 + 无尽模式 ---------- */
 t("S20 七个国家", S("Object.keys(COUNTRIES).length") === 7);
@@ -765,6 +766,26 @@ t("S13 strike blocks attack card", S("B.hand.length") === hl);
 run("B.gold = 1; B.bankrupt = false; updateBattle();"); // ensure block card playable when solvent
 run("UI.play(1)"); await settle(150);
 t("S13 defensive card fine", S("B.playerBlock") === 8);
+
+/* ---------- S21: 奖励不重复发已有的牌 ---------- */
+fresh("germany", "soviet");
+const dup = S(`(() => {
+  let repeats = 0;
+  for (let i = 0; i < 500; i++) {
+    const owned = new Set(G.deck);
+    for (const id of rollRewards()) if (owned.has(id)) repeats++;
+  }
+  return repeats;
+})()`);
+t("S21 起手牌组里的牌不会再出现在奖励里", dup === 0);
+
+// 边界:牌组收齐之后必须还能凑出三张,不能返回空
+const exhausted = S(`(() => {
+  G.deck = SHARED_IDS.concat(FACTIONS[G.playerCountry].pool);
+  const r = rollRewards();
+  return { n: r.length, distinct: new Set(r).size };
+})()`);
+t("S21 全收齐后退回允许重复", exhausted.n === 3 && exhausted.distinct === 3);
 
 /* ---------- results ---------- */
 console.log(`\nPASS ${pass}  FAIL ${fail}`);

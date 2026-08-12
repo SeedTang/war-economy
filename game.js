@@ -1496,11 +1496,16 @@ function nextBattle() {
 /* ---------------- reward / end screens ---------------- */
 let rewardPicks = null;
 
-/* Spec 2: reward pool = shared pool + own faction pool, faction ×1.5. */
+/* Spec 2: reward pool = shared pool + own faction pool, faction ×1.5.
+   奖励不给你已经有的牌——三张全是牌组里的旧牌等于没得选。
+   只有在无尽模式里把所有牌都收齐之后,才会退回去允许重复。 */
 function rollRewards() {
-  const items = [];
-  for (const id of SHARED_IDS) items.push({ id, w: CARDS[id].rewardWeight || 2 });
-  for (const id of FACTIONS[G.playerCountry].pool) items.push({ id, w: (CARDS[id].rewardWeight || 2) * 1.5 });
+  const owned = new Set(G.deck);
+  const all = [];
+  for (const id of SHARED_IDS) all.push({ id, w: CARDS[id].rewardWeight || 2 });
+  for (const id of FACTIONS[G.playerCountry].pool) all.push({ id, w: (CARDS[id].rewardWeight || 2) * 1.5 });
+  let items = all.filter(x => !owned.has(x.id));
+  if (items.length < 3) items = items.concat(all.filter(x => owned.has(x.id)));
   const picks = [];
   while (picks.length < 3 && items.length) {
     const total = items.reduce((s, x) => s + x.w, 0);
