@@ -298,7 +298,49 @@ const CARDS = {
     async play() { await attackEnemy(Math.floor(1.5 * grossIncome())); } },
   arsenal_democracy: { cost: 4, cat: "bld", faction: "usa",
     async play() { gainIncome(2); changeRep(1); } },
+
+  /* --- 阵营:中国 — 持久战 --- */
+  taierzhuang: { cost: 2, cat: "mil", atk: true, faction: "china", sig: true, rep: -2,
+    async play() { await attackEnemy(Math.min(14, 4 + Math.max(0, B.turn - 1))); } },
+  flying_tigers: { cost: 2, cat: "mil", atk: true, faction: "china",
+    async play() { await attackEnemy(8, { pierce: true }); } },
+  the_hump: { cost: 2, cat: "bld", faction: "china",
+    async play() { gainIncome(1); draw(1); } },
+  guerrilla: { cost: 1, cat: "pol", faction: "china",
+    async play() { B.winterTurns = 3; B.winterAmt = 3; log(T("log_guerrilla")); sfx.block(); } },
+  changsha: { cost: 3, cat: "mil", faction: "china",
+    async play() { gainBlock(10); B.thorns += 10; } },
+
+  /* --- 阵营:英国 — 情报 --- */
+  bletchley: { cost: 2, cat: "pol", faction: "uk", sig: true, rep: -2,
+    async play() { B.foresight = true; log(T("log_recon")); draw(1); } },
+  chain_home: { cost: 1, cat: "bld", faction: "uk",
+    async play() { B.chainHome = true; log(T("log_chain_home")); sfx.block(); } },
+  desert_rats: { cost: 2, cat: "mil", atk: true, faction: "uk",
+    async play() { await attackEnemy(B.foresight ? 13 : 9); } },
+  convoy_blockade: { cost: 2, cat: "mil", faction: "uk",
+    async play() { stealFromChest(3); B.chestFrozen = 3; log(T("log_blockade")); } },
+  lancaster: { cost: 3, cat: "mil", atk: true, faction: "uk",
+    async play() { await attackEnemy(16); } },
+
+  /* --- 阵营:法国 — 抵抗 --- */
+  free_france: { cost: 2, cat: "mil", atk: true, faction: "france", sig: true, rep: -2,
+    async play() { await attackEnemy(lowHp() ? 12 : 6); } },
+  maginot: { cost: 2, cat: "mil", faction: "france",
+    async play() { gainBlock(12); } },
+  resistance_net: { cost: 1, cat: "bld", faction: "france",
+    async play() { stealFromChest(2); draw(1); } },
+  leclerc: { cost: 2, cat: "mil", atk: true, faction: "france",
+    async play() {
+      const v = lowHp() ? 8 : 5;
+      await attackEnemy(v); await sleep(200); await attackEnemy(v);
+    } },
+  liberation: { cost: 3, cat: "bld", faction: "france",
+    async play() { heal(10); changeRep(1); } },
 };
+
+/* 法国的整套卡组只在落后时才付得起回报 */
+function lowHp() { return G.hp <= G.maxHp / 2; }
 
 const SHARED_IDS = Object.keys(CARDS).filter(id => !CARDS[id].faction);
 
@@ -307,6 +349,9 @@ const FACTIONS = {
   soviet:  { sig: "zhukov",        pool: ["katyusha", "general_winter", "deep_battle", "ural"] },
   japan:   { sig: "tokyo_express", pool: ["zero_rush", "yamamoto", "night_raid", "shadow_economy"] },
   usa:     { sig: "liberty_ships", pool: ["rosie", "ike_arsenal", "patton_push", "arsenal_democracy"] },
+  china:   { sig: "taierzhuang",   pool: ["flying_tigers", "the_hump", "guerrilla", "changsha"] },
+  uk:      { sig: "bletchley",     pool: ["chain_home", "desert_rats", "convoy_blockade", "lancaster"] },
+  france:  { sig: "free_france",   pool: ["maginot", "resistance_net", "leclerc", "liberation"] },
 };
 
 /* Spec 5.4: 3× Charge! (signature replaces one), 2× Dig In,
@@ -322,6 +367,9 @@ const COUNTRIES = {
   soviet:  { flag: "☭",  hp: 50, bossHp: 5 },
   japan:   { flag: "🇯🇵", hp: 45 },
   usa:     { flag: "🇺🇸", hp: 45 },
+  china:   { flag: "🇨🇳", hp: 55 },
+  uk:      { flag: "🇬🇧", hp: 40 },
+  france:  { flag: "🇫🇷", hp: 38 },
 };
 
 function repTitle(r) {
@@ -333,7 +381,8 @@ function repTitle(r) {
 /* ---------------- achievements ---------------- */
 const ACH_GENERAL = ["baptism", "mission_accomplished", "geneva", "war_criminal", "textbook",
                      "economist", "pickpocket", "no_scratch", "photo_finish", "polyglot",
-                     "spotless", "rockbottom", "slippery"];
+                     "spotless", "rockbottom", "slippery",
+                     "endless5", "endless10", "world_tour"];
 const ACH_MATCHUP = ["m_germany_soviet", "m_germany_usa", "m_germany_japan",
                      "m_soviet_germany", "m_soviet_usa", "m_soviet_japan",
                      "m_japan_usa", "m_japan_soviet", "m_japan_germany",
@@ -371,12 +420,13 @@ const REP_MAX = 8;   // reputation ceiling (spec 9)
 let G = null; // run state
 let B = null; // battle state
 
-function newRun(playerCountry, hell = false) {
+function newRun(playerCountry, hell = false, endless = false) {
   const others = Object.keys(COUNTRIES).filter(c => c !== playerCountry);
   G = {
     playerCountry,
-    hell,
-    queue: shuffle(others),
+    hell, endless,
+    // 标准/地狱:从其余六国里随机抽三个。无尽:永远续上下一个对手
+    queue: endless ? shuffle(others) : shuffle(others).slice(0, 3),
     battleIdx: 0,
     hp: 50, maxHp: 50,
     rep: 8, repFloor: 8,
@@ -394,11 +444,14 @@ function newRun(playerCountry, hell = false) {
 }
 
 function initBattle() {
+  while (G.endless && G.battleIdx >= G.queue.length) queueMoreOpponents();
   const id = G.queue[G.battleIdx];
-  const boss = G.battleIdx === 2 || G.hell;   // hell: every battle is a boss
-  const maxHp = COUNTRIES[id].hp + (boss ? (COUNTRIES[id].bossHp ?? 15) : 0);
+  // 无尽:每三波一个 Boss;标准:只有最后一场
+  const boss = G.endless ? (G.battleIdx % 3 === 2) : (G.battleIdx === 2 || G.hell);
+  const wave = G.endless ? G.battleIdx : 0;
+  const maxHp = COUNTRIES[id].hp + (boss ? (COUNTRIES[id].bossHp ?? 15) : 0) + 8 * wave;
   B = {
-    enemy: { id, boss, maxHp, hp: maxHp, block: 0, chest: 10, usaAtk: 4,
+    enemy: { id, boss, maxHp, hp: maxHp, wave, block: 0, chest: 10, usaAtk: 4,
              actIdx: 0, annStacks: 0, kamAnn: false, fumesAnn: false, stacks: 0 },
     draw: shuffle(G.deck), discard: [], exhausted: [], hand: [],
     turn: 0, gold: 0,
@@ -407,7 +460,8 @@ function initBattle() {
     playerBlock: 0, thorns: 0, turnAtkBonus: 0,
     suckerPunch: false, allHands: false, rosie: false, noAttacks: false,
     talkItOut: false, enemySkip: false, foresight: false,
-    schwerpunkt: false, winterTurns: 0, fundedDisabled: false,
+    schwerpunkt: false, winterTurns: 0, winterAmt: 2, fundedDisabled: false,
+    chainHome: false, chestFrozen: 0,
     shadowEconomy: 0, lootNext: 0, lootArrived: false, stolenTotal: 0,
     oncePlayed: [], handCap: HAND_LIMIT,
     cardsPlayed: 0, ctxFirst: false, playedThisTurn: [], factionThisTurn: [],
@@ -450,6 +504,24 @@ function enemyAction(idx) {
         return { kind: "kamikaze", dmg: boss ? 16 : 12, self: 5, funded: 4, warn: T("warn_divine"), src: "attack" };
       return { kind: "attack", hits: [4], src: "attack" };
     }
+    case "china": {
+      const pos = idx % 3;
+      const p = protractedBonus();
+      if (pos === 1) return { kind: "block", amount: 8, funded: 2 };
+      return { kind: "attack", hits: [(pos === 0 ? 5 : 7) + p], src: "attack" };
+    }
+    case "uk": {
+      const pos = idx % 3;
+      if (pos === 1) return { kind: "attack", hits: [0], steal: 2, chestGain: 3, src: "blockade" };
+      if (pos === 2 && idx >= 3)
+        return { kind: "attack", hits: [boss ? 19 : 14], funded: 4, src: "bomber", warn: T("warn_bomber") };
+      return { kind: "attack", hits: [pos === 0 ? 6 : 9], src: "attack" };
+    }
+    case "france": {
+      const pos = idx % 3;
+      if (pos === 2) return { kind: "block", amount: 6, funded: 2 };
+      return { kind: "attack", hits: [5 + (franceCornered() ? 5 : 0)], src: "attack" };
+    }
     case "usa": {
       if (idx === 7) return { kind: "nuke", dmg: boss ? 52 : 40, warn: T("warn_nuke"), src: "nuke" };
       // project +2 per future funded ramp so Eye in the Sky forecasts honestly
@@ -473,6 +545,22 @@ function sovietStacks() {
   e.stacks = Math.max(e.stacks || 0, current);
   return e.stacks;
 }
+/* 中国:伤害挂在"你花了多少回合"上,而不是"它掉了多少血" */
+/* 无尽:每挺过一波,所有敌人的每次攻击 +1 */
+function waveBonus() {
+  return (B && B.enemy && B.enemy.wave) ? B.enemy.wave : 0;
+}
+
+function protractedBonus() {
+  if (!B || B.enemy.id !== "china") return 0;
+  return 2 * Math.floor(Math.max(0, B.turn - 1) / 3);
+}
+/* 法国:半血以下才露出獠牙 */
+function franceCornered() {
+  const e = B && B.enemy;
+  return !!e && e.id === "france" && e.hp > 0 && e.hp < e.maxHp / 2;
+}
+
 function usaClock() {
   return Math.max(0, 8 - B.enemy.actIdx);
 }
@@ -539,8 +627,9 @@ function afterEnemyDamage() {
 
 async function enemyHit(raw, { halve = false, src = "attack" } = {}) {
   if (G.over || B.won) return;
-  let dmg = raw + (G.intervention ? 3 : 0) + (G.pariah ? 2 : 0);
-  if (B.winterTurns > 0) dmg = Math.max(0, dmg - 2);
+  let dmg = raw + (G.intervention ? 3 : 0) + (G.pariah ? 2 : 0) + waveBonus();
+  if (B.winterTurns > 0) dmg = Math.max(0, dmg - (B.winterAmt || 2));
+  if (B.chainHome) dmg = Math.max(0, dmg - 4);
   if (halve) dmg = Math.floor(dmg / 2);
   dmg = Math.max(0, dmg - nopeReduction());
   const blocked = Math.min(B.playerBlock, dmg);
@@ -694,7 +783,7 @@ function startPlayerTurn() {
   B.turn++; G.totalTurns++;
   B.playerBlock = 0; B.thorns = 0; B.turnAtkBonus = 0;
   B.suckerPunch = false; B.allHands = false; B.rosie = false; B.noAttacks = false;
-  B.schwerpunkt = false;
+  B.schwerpunkt = false; B.chainHome = false;
   B.cardsPlayed = 0; B.playedThisTurn = []; B.factionThisTurn = [];
   B.busy = false;
 
@@ -776,7 +865,9 @@ async function enemyTurn() {
   if (G.over || B.won) return;
   const e = B.enemy;
   e.block = 0;
-  e.chest += chestGain(e); // war chest income, even while chilling
+  // 皇家海军的封锁反过来用:金库停止增长
+  if (B.chestFrozen > 0) B.chestFrozen--;
+  else e.chest += chestGain(e); // war chest income, even while chilling
 
   if (B.enemySkip) {
     B.enemySkip = false;
@@ -818,7 +909,7 @@ async function enemyTurn() {
     }
     if (a.steal) {
       B.stealNext += a.steal;
-      e.chest += a.steal; // Japan banks what it loots
+      e.chest += a.chestGain || a.steal; // 掠夺者把战利品存进自己金库
       popup("#player-panel", `💰-${a.steal}`, "pop-steal");
       sfx.coin();
       log(T("log_steal", a.steal));
@@ -874,11 +965,19 @@ async function winBattle() {
   sfx.win();
 
   ach("baptism");
+  (G.beaten = G.beaten || []).push(B.enemy.id);
   ach(`m_${G.playerCountry}_${B.enemy.id}`);
   if (!B.tookDamage) ach("no_scratch");
   polyglotRecord();
 
-  const last = G.battleIdx === 2;
+  const last = !G.endless && G.battleIdx === 2;
+  if (G.endless) {
+    G.streak = (G.streak || 0) + 1;
+    recordStreak(G.streak);
+    if (G.streak >= 5) ach("endless5");
+    if (G.streak >= 10) ach("endless10");
+    if (new Set(G.beaten || []).size >= 6) ach("world_tour");
+  }
   if (last) {
     ach("mission_accomplished");
     if (!G.dirtyPlayed) ach("geneva");
@@ -1024,6 +1123,7 @@ function showTitle() {
     <div class="logo">WAR<span>ECONOMY</span></div>
     ${T("logo_sub") ? `<div class="logo-zh">${T("logo_sub")}</div>` : ""}
     ${done ? `<div class="badge-gold">🏅 ${T("badge_war_over")}<span>${T("badge_war_over_sub")}</span></div>` : ""}
+    ${bestStreak() ? `<div class="streak-badge">♾️ ${T("best_streak", bestStreak())}</div>` : ""}
     <p class="tag">${T("tagline")}</p>
     <ul class="howto">
       <li>${T("howto1")}</li>
@@ -1040,7 +1140,7 @@ function showTitle() {
 
 /* Difficulty is chosen on the select screen and survives a language
    switch (which re-renders the screen in place). */
-let hellSelected = false;
+let modeSelected = "std";   // "std" | "hell" | "endless"
 
 function showSelect() {
   rerender = showSelect;
@@ -1060,11 +1160,14 @@ function showSelect() {
     <p class="subtitle">${T("pick_side_sub")}</p>
 
     <div class="diff-row">
-      <button class="diff-btn${hellSelected ? "" : " on"}" onclick="UI.setHell(false)">
+      <button class="diff-btn${modeSelected === "std" ? " on" : ""}" onclick="UI.setMode('std')">
         <b>${T("diff_normal")}</b><span>${T("diff_normal_sub")}</span>
       </button>
-      <button class="diff-btn hell${hellSelected ? " on" : ""}" onclick="UI.setHell(true)">
+      <button class="diff-btn hell${modeSelected === "hell" ? " on" : ""}" onclick="UI.setMode('hell')">
         <b>🔥 ${T("diff_hell")}</b><span>${T("diff_hell_sub")}</span>
+      </button>
+      <button class="diff-btn endless${modeSelected === "endless" ? " on" : ""}" onclick="UI.setMode('endless')">
+        <b>♾️ ${T("diff_endless")}</b><span>${T("diff_endless_sub", bestStreak())}</span>
       </button>
     </div>
 
@@ -1100,15 +1203,16 @@ function showHelpModal() {
 function showBattleIntro() {
   rerender = showBattleIntro;
   const id = G.queue[G.battleIdx];
-  const boss = G.battleIdx === 2 || G.hell;
+  const boss = G.endless ? (G.battleIdx % 3 === 2) : (G.battleIdx === 2 || G.hell);
   const opener = G.battleIdx === 0
     ? `<p class="subtitle">${T("opener", coName(G.playerCountry))}</p>` : "";
   $("#app").innerHTML = `
   <div class="screen">
     ${opener}
     <span class="vs-badge ${boss ? "boss" : ""}">${
-      G.hell ? T("hell_badge", G.battleIdx + 1)
-             : (boss ? T("boss_badge") : T("battle_badge", G.battleIdx + 1))}</span>
+      G.endless ? T("endless_badge", G.battleIdx + 1)
+        : G.hell ? T("hell_badge", G.battleIdx + 1)
+        : (boss ? T("boss_badge") : T("battle_badge", G.battleIdx + 1))}</span>
     ${flagHtml(id, "intro-flag")}
     <div class="intro-name">${coName(id)}</div>
     <p class="intro-quote">“${esc(coIntro(id))}”</p>
@@ -1124,7 +1228,7 @@ function renderBattleSkeleton() {
   $("#app").innerHTML = `
   <div class="battle">
     <div class="topbar">
-      <span class="battle-no">⚔️ ${G.battleIdx + 1}/3</span>
+      <span class="battle-no">${G.endless ? T("wave_no", G.battleIdx + 1) : `⚔️ ${G.battleIdx + 1}/3`}</span>
       <div id="rep-box">
         <span>🌍</span>
         <div class="repbar"><div id="rep-fill"></div></div>
@@ -1140,7 +1244,7 @@ function renderBattleSkeleton() {
         ${flagHtml(e.id, "enemy-flag")}
         <div style="flex:1;min-width:0">
           <div class="enemy-name">${coName(e.id)}${
-            e.boss ? ` <span class="boss-tag">${G.hell ? T("hell_tag") : T("final_boss_tag")}</span>` : ""}</div>
+            e.boss ? ` <span class="boss-tag">${G.endless ? T("endless_tag") : G.hell ? T("hell_tag") : T("final_boss_tag")}</span>` : ""}</div>
           <div class="hpbar"><div id="enemy-hp-fill"></div></div>
           <div class="hp-line"><span id="enemy-hp-text"></span><span id="enemy-chest" title="${esc(T("war_chest"))}"></span><span id="enemy-block"></span></div>
         </div>
@@ -1175,8 +1279,8 @@ function renderBattleSkeleton() {
 function intentHtml(a, future = false) {
   if (!a) return "";
   const e = B.enemy;
-  const iv = (G.intervention ? 3 : 0) + (G.pariah ? 2 : 0);
-  const winter = B.winterTurns > 0 ? 2 : 0;
+  const iv = (G.intervention ? 3 : 0) + (G.pariah ? 2 : 0) + waveBonus();
+  const winter = (B.winterTurns > 0 ? (B.winterAmt || 2) : 0) + (B.chainHome ? 4 : 0);
   const adj = v => Math.max(0, v + iv - winter);
   let txt = "", warn = false;
   if (a.kind === "attack") {
@@ -1317,6 +1421,25 @@ function updateBattle() {
   $("#send-it").disabled = B.busy || B.won || G.over;
 }
 
+/* 无尽模式:对手永远续得上,且不会连着重复同一个 */
+function queueMoreOpponents() {
+  const others = Object.keys(COUNTRIES).filter(c => c !== G.playerCountry);
+  let next = shuffle(others);
+  if (next[0] === G.queue[G.queue.length - 1] && next.length > 1)
+    [next[0], next[1]] = [next[1], next[0]];
+  G.queue = G.queue.concat(next);
+}
+
+/* 最长连胜是无尽模式唯一的跨局存档 */
+function bestStreak() {
+  try { return parseInt(localStorage.getItem("we_streak") || "0", 10) || 0; }
+  catch (e) { return 0; }
+}
+function recordStreak(n) {
+  try { if (n > bestStreak()) localStorage.setItem("we_streak", String(n)); }
+  catch (e) { /* 无痕模式等 */ }
+}
+
 /* ---------------- between-battle dilemmas (spec 9.2) ----------------
    One randomly drawn deal after each victory, priced in Reputation, HP,
    or the card reward itself. Declining is always free. */
@@ -1446,7 +1569,9 @@ function showDeath(cause) {
     <div class="corner-bar">${langBtnHtml()}</div>
     <h1 class="screen-title">${T("death_title")}</h1>
     <div class="cause">☠ ${deathText(cause)}</div>
-    <p class="subtitle">${T("defeated_by", e, G.battleIdx + 1)}</p>
+    <p class="subtitle">${G.endless
+        ? T("endless_result", G.streak || 0, bestStreak())
+        : T("defeated_by", e, G.battleIdx + 1)}</p>
     <div class="stat-grid">
       <span class="k">${T("k_rep")}</span><span class="v">🌍 ${G.rep}/10 — ${repTitle(G.rep)}</span>
       <span class="k">${T("k_turns_survived")}</span><span class="v">⏱ ${G.totalTurns}</span>
@@ -1541,8 +1666,14 @@ function showAchModal() {
 /* ---------------- UI handlers ---------------- */
 window.UI = {
   toSelect() { sfx.click(); showSelect(); },
-  setHell(v) { hellSelected = v; sfx.click(); showSelect(); },
-  pickCountry(id) { sfx.click(); newRun(id, hellSelected); runLocked = true; showBattleIntro(); },
+  setMode(m) { modeSelected = m; sfx.click(); showSelect(); },
+  setHell(v) { modeSelected = v ? "hell" : "std"; sfx.click(); showSelect(); },
+  pickCountry(id) {
+    sfx.click();
+    newRun(id, modeSelected === "hell", modeSelected === "endless");
+    runLocked = true;
+    showBattleIntro();
+  },
   showHelp() { sfx.click(); showHelpModal(); },
   fight() { sfx.click(); initBattle(); },
   play(i) { playCard(i); },

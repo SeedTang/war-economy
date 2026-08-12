@@ -484,6 +484,82 @@ const wRoll = S(`(() => {
 })()`);
 t("S14 All Hands rarer than peers", wRoll.allHands > 0 && wRoll.allHands * 1.6 < wRoll.other / 6);
 
+/* ---------- S20: 三个新国家 + 无尽模式 ---------- */
+t("S20 七个国家", S("Object.keys(COUNTRIES).length") === 7);
+t("S20 七个阵营", S("Object.keys(FACTIONS).length") === 7);
+t("S20 59 张卡", S("Object.keys(CARDS).length") === 59);
+t("S20 新招牌卡各扣 2 声誉", S(`["taierzhuang","bletchley","free_france"].every(id => CARDS[id].rep === -2 && CARDS[id].sig)`) === true);
+
+// 中国:伤害随回合数增长,且敌方被动也挂在回合数上
+fresh("china", "germany");
+t("S20 中国起手牌含台儿庄", S("G.deck.includes('taierzhuang')") === true);
+run("B.turn = 1; B.hand = [{id:'taierzhuang'}]; B.gold = 9; B.enemy.hp = 300; B.enemy.maxHp = 300; B.enemy.block = 0; updateBattle();");
+let e20 = S("B.enemy.hp");
+run("UI.play(0)"); await settle(300);
+t("S20 台儿庄第1回合打 4", e20 - S("B.enemy.hp") === 4);
+run("G.rep = 8; B.turn = 8; B.factionThisTurn = []; B.hand = [{id:'taierzhuang'}]; B.gold = 9; updateBattle();");
+e20 = S("B.enemy.hp");
+run("UI.play(0)"); await settle(300);
+t("S20 台儿庄第8回合打 11", e20 - S("B.enemy.hp") === 11);
+
+fresh("japan", "china");
+t("S20 中国敌人 55 血", S("B.enemy.maxHp") === 55);
+run("B.turn = 1;"); t("S20 持久加成 第1回合为0", S("protractedBonus()") === 0);
+run("B.turn = 7;"); t("S20 持久加成 第7回合为+4", S("protractedBonus()") === 4);
+run("B.turn = 1;"); t("S20 中国第二格是格挡", S("enemyAction(1).kind") === "block");
+
+// 英国:侦察加成、金库冻结、封锁喂自己金库
+fresh("uk", "germany");
+run("B.foresight = false; B.hand = [{id:'desert_rats'}]; B.gold = 9; B.enemy.block = 0; B.enemy.hp = 300; updateBattle();");
+e20 = S("B.enemy.hp"); run("UI.play(0)"); await settle(300);
+t("S20 沙漠之鼠 无侦察 9", e20 - S("B.enemy.hp") === 9);
+run("B.foresight = true; B.factionThisTurn = []; B.hand = [{id:'desert_rats'}]; B.gold = 9; updateBattle();");
+e20 = S("B.enemy.hp"); run("UI.play(0)"); await settle(300);
+t("S20 沙漠之鼠 有侦察 13", e20 - S("B.enemy.hp") === 13);
+run("B.hand = [{id:'convoy_blockade'}]; B.gold = 9; B.enemy.chest = 10; B.lootNext = 0; updateBattle(); UI.play(0)"); await settle(300);
+t("S20 封锁偷 3 并冻结金库", S("B.lootNext") === 3 && S("B.chestFrozen") === 3);
+const chestBefore = S("B.enemy.chest");
+run("B.hand = []; UI.endTurn()"); await settle(900);
+t("S20 冻结期间金库不增长", S("B.enemy.chest") <= chestBefore);
+
+fresh("japan", "uk");
+t("S20 英国敌人 40 血", S("B.enemy.maxHp") === 40);
+t("S20 英国第二格是封锁", S("enemyAction(1).steal") === 2 && S("enemyAction(1).chestGain") === 3);
+t("S20 英国轰炸机需资助 4", S("enemyAction(5).funded") === 4);
+
+// 法国:半血以下翻倍;敌方被动同理
+fresh("france", "germany");
+run("G.hp = 50; B.hand = [{id:'free_france'}]; B.gold = 9; B.enemy.block = 0; B.enemy.hp = 300; updateBattle();");
+e20 = S("B.enemy.hp"); run("UI.play(0)"); await settle(300);
+t("S20 自由法国 满血 6", e20 - S("B.enemy.hp") === 6);
+run("G.rep = 8; G.hp = 20; B.factionThisTurn = []; B.hand = [{id:'free_france'}]; B.gold = 9; updateBattle();");
+e20 = S("B.enemy.hp"); run("UI.play(0)"); await settle(300);
+t("S20 自由法国 残血 12", e20 - S("B.enemy.hp") === 12);
+
+fresh("japan", "france");
+t("S20 法国敌人 38 血", S("B.enemy.maxHp") === 38);
+t("S20 法国满血攻 5", S("enemyAction(0).hits[0]") === 5);
+run("B.enemy.hp = 10;");
+t("S20 法国残血攻 10", S("enemyAction(0).hits[0]") === 10);
+
+// Chain Home 减伤
+fresh("uk", "germany");
+run("G.hp = 50; B.playerBlock = 0; B.chainHome = true; B.enemy.actIdx = 0; updateBattle(); UI.endTurn()"); await settle(900);
+t("S20 Chain Home 减 4 伤", S("G.hp") === 46);
+
+// 无尽模式
+run(`modeSelected = "endless"; UI.pickCountry("germany"); UI.fight();`);
+t("S20 无尽标记", S("G.endless") === true);
+t("S20 无尽第一波不是Boss", S("B.enemy.boss") === false);
+t("S20 无尽波次为0", S("B.enemy.wave") === 0);
+run("G.battleIdx = 2; UI.fight();");
+t("S20 无尽每三波一个Boss", S("B.enemy.boss") === true);
+t("S20 无尽第3波血量递增", S("B.enemy.maxHp") > S("COUNTRIES[B.enemy.id].hp"));
+t("S20 无尽波次加成", S("waveBonus()") === 2);
+run("G.battleIdx = 20; UI.fight();");
+t("S20 对手池自动续上", S("B.enemy.id") !== undefined && S("G.queue.length") > 20);
+run(`modeSelected = "std";`);
+
 /* ---------- S19: v13 — rep cap 8, hidden intents, once-per-turn, nerfs ---------- */
 fresh("japan", "germany");
 t("S19 reputation ceiling is 8", S("REP_MAX") === 8);
@@ -662,7 +738,7 @@ fresh("usa", "japan");
 t("S16 cap resets next battle", S("B.handCap") === 4);
 
 /* ---------- S15: hell difficulty ---------- */
-run(`hellSelected = true; UI.pickCountry("japan"); G.queue = ["germany","soviet","usa"]; G.battleIdx = 0; UI.fight();`);
+run(`modeSelected = "hell"; UI.pickCountry("japan"); G.queue = ["germany","soviet","usa"]; G.battleIdx = 0; UI.fight();`);
 t("S15 hell flag set", S("G.hell") === true);
 t("S15 battle 1 is boss", S("B.enemy.boss") === true);
 t("S15 boss HP in battle 1 (35+15)", S("B.enemy.maxHp") === 50);
@@ -671,7 +747,7 @@ run("G.battleIdx = 1; UI.fight();");
 t("S15 battle 2 also boss", S("B.enemy.boss") === true);
 
 // standard mode unchanged
-run(`hellSelected = false; UI.pickCountry("japan"); G.queue = ["germany","soviet","usa"]; G.battleIdx = 0; UI.fight();`);
+run(`modeSelected = "std"; UI.pickCountry("japan"); G.queue = ["germany","soviet","usa"]; G.battleIdx = 0; UI.fight();`);
 t("S15 standard battle 1 not boss", S("B.enemy.boss") === false);
 t("S15 standard battle 1 HP 35", S("B.enemy.maxHp") === 35);
 run("G.battleIdx = 2; UI.fight();");

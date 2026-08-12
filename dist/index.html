@@ -417,6 +417,14 @@ button.card.unplayable:hover { transform: none; }
 .diff-btn.on b { color: var(--amber); }
 .diff-btn.hell.on { border-color: var(--dirty); background: #3a1e1e; }
 .diff-btn.hell.on b { color: #ff9e9e; }
+.diff-btn.endless.on { border-color: var(--purple); background: #2b2038; }
+.diff-btn.endless.on b { color: #d4b4f0; }
+/* 三档难度在窄屏上竖排,免得挤成一团 */
+@media (max-width: 560px) { .diff-row { flex-direction: column; } }
+.streak-badge {
+  font-size: 12px; color: var(--purple); letter-spacing: .06em;
+  border: 1px solid var(--purple); border-radius: 999px; padding: 4px 14px;
+}
 .diff-btn:hover { transform: translateY(-1px); }
 
 /* ---------- help / faction pros-cons ---------- */
@@ -686,6 +694,26 @@ cards: {
   ike_arsenal:   { name: "Ike's Arsenal", text: "All attacks permanently +1 for every 4 income you have.", flavor: "Logistics wins wars. Ike wins logistics." },
   patton_push:   { name: "Patton's Push", text: "Deal damage equal to 1.5× your income.", flavor: "He's not waiting for orders. He's not waiting for anything." },
   arsenal_democracy: { name: "Arsenal of Democracy", text: "Income permanently +2. Reputation +1.", flavor: "Turns out the moral high ground has a factory on it." },
+  /* --- China: Protracted War --- */
+  taierzhuang:   { name: "Taierzhuang", text: "Deal 4 damage, +1 for every turn already elapsed this battle (max 14). Reputation -2.", flavor: "They expected a rout. They got a bill." },
+  flying_tigers: { name: "Flying Tigers", text: "Deal 8 damage. Ignores Block.", flavor: "Volunteers. Technically." },
+  the_hump:      { name: "The Hump", text: "Income +1. Draw 1 card.", flavor: "Fly the mountain or lose the war. They flew the mountain." },
+  guerrilla:     { name: "Guerrilla Raids", text: "Enemy attacks -3 for 3 turns.", flavor: "No front line means no front line to break." },
+  changsha:      { name: "Changsha Defence", text: "Gain 10 Block. If it fully blocks an attack, deal 10 back.", flavor: "Three times. They tried three times." },
+
+  /* --- United Kingdom: Intelligence --- */
+  bletchley:     { name: "Bletchley Park", text: "See the enemy's next 2 moves for the rest of this battle. Draw 1 card. Reputation -2.", flavor: "The war's best-kept secret was a filing problem." },
+  chain_home:    { name: "Chain Home", text: "Take 4 less damage from every hit this turn.", flavor: "They saw them coming. That was the whole trick." },
+  desert_rats:   { name: "Desert Rats", text: "Deal 9 damage; deal 13 instead if you can see the enemy's intent.", flavor: "Sand in everything. Including the enemy's plans." },
+  convoy_blockade:{ name: "Convoy Blockade", text: "Steal 3 gold (arrives with your next income). The enemy War Chest stops growing for 3 turns.", flavor: "Nothing in, nothing out." },
+  lancaster:     { name: "Lancaster Raid", text: "Deal 16 damage.", flavor: "Heavy, slow, and unmistakably on its way." },
+
+  /* --- France: Resistance --- */
+  free_france:   { name: "Free France", text: "Deal 6 damage; deal 12 instead if you are below half HP. Reputation -2.", flavor: "A government in a radio studio. It counted." },
+  maginot:       { name: "Maginot Line", text: "Gain 12 Block.", flavor: "Superb engineering. Wrong question." },
+  resistance_net:{ name: "Resistance Network", text: "Steal 2 gold (arrives with your next income). Draw 1 card.", flavor: "Everyone's a postman now." },
+  leclerc:       { name: "Leclerc's Column", text: "Deal 5 damage twice; +3 per hit if you are below half HP.", flavor: "He promised them Paris. He was not exaggerating." },
+  liberation:    { name: "Liberation", text: "Heal 10 HP. Reputation +1.", flavor: "The bells worked. Somebody had hidden the clappers." },
 },
 countries: {
   germany: { name: "Germany",
@@ -700,6 +728,15 @@ countries: {
   usa: { name: "United States",
     intro: "Slow start, unstoppable finish. You have eight turns. Spend them wisely.",
     gimmick: "Attacks start at 4 and grow +2 every turn (💰2 per ramp — stall it by robbing the chest). <b>The Manhattan Clock</b> hits zero in 8 turns: 40 damage, no appeal." },
+  china: { name: "China",
+    intro: "It will not collapse and it will not hurry. Every turn you spend is a turn it banks.",
+    gimmick: "<b>Protracted War:</b> every 3 turns that pass, its attacks gain +2 permanently. It also blocks for 8 (💰2). The clock is on its side, not yours." },
+  uk: { name: "United Kingdom",
+    intro: "It reads your mail and starves your ports. Bring your own economy.",
+    gimmick: "Every other turn it <b>blockades</b>: your next income -2, and its own chest +3. From its 4th action it unlocks <b>Heavy Bombers</b> (💰4) for 14 damage." },
+  france: { name: "France",
+    intro: "Folds fast, fights hardest at the end. Don't leave it standing.",
+    gimmick: "<b>Resistance:</b> below half HP every attack gains +5. The cheapest enemy to open against, the most expensive to leave half-dead." },
 },
 deaths: {
   KILLED_IN_ACTION: "Killed in Action",
@@ -739,6 +776,9 @@ ach: {
   rockbottom: { name: "Rock Bottom", text: "Everyone hates you. You won anyway.", hint: "Win a run while Total Pariah is active." },
 
   slippery: { name: "Slippery Slope", text: "It started with one small favour.", hint: "Fall from 8 to 0 Reputation inside a single battle." },
+  endless5:   { name: "Long War", text: "Five and still standing.", hint: "Survive 5 waves in Endless mode." },
+  endless10:  { name: "No Armistice", text: "Somebody should have signed something by now.", hint: "Survive 10 waves in Endless mode." },
+  world_tour: { name: "Everyone's Problem", text: "You have now personally annoyed the entire planet.", hint: "Defeat all six other nations in a single Endless run." },
 
   maginot:        { name: "Maginot Mindset", text: "The defense was perfect. The war moved.", hint: "Die to Blitzkrieg while holding 2+ Block cards." },
   winter_regards: { name: "General Winter Sends Regards", text: "You are not the first. You will not be the last.", hint: "Die to the USSR at its highest attack tier." },
@@ -803,6 +843,30 @@ strings: {
 
   con_usa: "Expensive cards, slowest start of all four.",
 
+  arch_china: "PROTRACTED — time is your ammunition",
+  arch_uk: "INTELLIGENCE — know it before it happens",
+  arch_france: "RESISTANCE — strongest when losing",
+  pro_china: "Hits harder the longer the fight runs.",
+  con_china: "Slow damage early; needs the fight to last.",
+  pro_uk: "Sees the enemy's plan and starves its treasury.",
+  con_uk: "Thin HP; punished hard by a fast opener.",
+  pro_france: "Doubles down once you drop below half HP.",
+  con_france: "Weak while healthy — the kit only pays when you're losing.",
+  diff_endless: "Endless",
+  diff_endless_sub: n => n ? `Best streak: ${n}` : "Fight until you fall",
+  endless_badge: n => `♾️ ENDLESS — WAVE ${n}`,
+  endless_tag: "WAVE BOSS",
+  wave_no: n => `♾️ Wave ${n}`,
+  best_streak: n => `Best Endless streak: ${n}`,
+  endless_result: (n, best) => `Survived ${n} wave${n === 1 ? "" : "s"}. Best: ${best}.`,
+  warn_bomber: "✈️ Heavy bombers inbound.",
+  log_guerrilla: "No front line to break: enemy attacks -3 for 3 turns.",
+  log_chain_home: "Radar chain lit: -4 damage from every hit this turn.",
+  log_blockade: "Ports closed. Their chest stops growing for 3 turns.",
+  chip_chain_home: "📡 -4 dmg per hit (turn)",
+  chip_chest_frozen: n => `⚓ chest frozen (${n}t)`,
+  chip_protracted: n => `⏳ Protracted: +${n} atk`,
+  chip_cornered: "🔥 Cornered: +5 atk",
   pick_side: "Pick Your Side",
   pick_side_sub: "Your nation sets your signature card and your reward pool. Pick a doctrine, not a flag.",
   arch_germany: "TEMPO — strike first, strike twice",
@@ -1050,6 +1114,21 @@ cards: {
   ike_arsenal:   { name: "艾克的军火库", text: "你每有 4 点收入，所有攻击永久 +1。", flavor: "后勤赢得战争。艾克赢得后勤。" },
   patton_push:   { name: "巴顿的突进", text: "造成等于你收入 1.5 倍的伤害。", flavor: "他不等命令。他什么都不等。" },
   arsenal_democracy: { name: "民主兵工厂", text: "收入永久+2。声誉+1。", flavor: "原来道德高地上真有座工厂。" },
+  taierzhuang: { name: "台儿庄大捷", text: "造成 4 点伤害，本场战斗每过 1 回合再 +1（最高 14）。声誉 -2。", flavor: "他们以为是溃败，结果收到了账单。" },
+  flying_tigers: { name: "飞虎队", text: "造成 8 点伤害，无视格挡。", flavor: "志愿者。名义上是。" },
+  the_hump: { name: "驼峰航线", text: "收入 +1。抽 1 张牌。", flavor: "翻过那座山，或者输掉战争。他们翻了过去。" },
+  guerrilla: { name: "游击袭扰", text: "敌方攻击 -3，持续 3 回合。", flavor: "没有战线，也就没有能被突破的战线。" },
+  changsha: { name: "长沙会战", text: "获得 10 点格挡。若完全挡下一次攻击，反击 10 点。", flavor: "三次。他们试了三次。" },
+  bletchley: { name: "布莱切利园", text: "本场战斗可见敌人接下来两步。抽 1 张牌。声誉 -2。", flavor: "这场战争保守得最好的秘密，是个档案管理问题。" },
+  chain_home: { name: "本土雷达链", text: "本回合每次受击伤害 -4。", flavor: "他们提前看见了。诀窍就这一个。" },
+  desert_rats: { name: "沙漠之鼠", text: "造成 9 点伤害；若你能看见敌人意图，改为 13 点。", flavor: "到处都是沙子。包括敌人的计划里。" },
+  convoy_blockade: { name: "船队封锁", text: "偷 3 金（下回合入账）。敌方金库 3 回合内停止增长。", flavor: "进不来，也出不去。" },
+  lancaster: { name: "兰开斯特轰炸", text: "造成 16 点伤害。", flavor: "又重又慢，而且明摆着冲你来的。" },
+  free_france: { name: "自由法国", text: "造成 6 点伤害；若你生命低于一半，改为 12 点。声誉 -2。", flavor: "一个设在广播室里的政府。它真的算数。" },
+  maginot: { name: "马奇诺防线", text: "获得 12 点格挡。", flavor: "工程极其出色。问题问错了。" },
+  resistance_net: { name: "抵抗网络", text: "偷 2 金（下回合入账）。抽 1 张牌。", flavor: "现在人人都是邮差。" },
+  leclerc: { name: "勒克莱尔纵队", text: "造成 5 点伤害两次；若生命低于一半，每次 +3。", flavor: "他答应带他们进巴黎。他没有夸张。" },
+  liberation: { name: "解放", text: "回复 10 点生命。声誉 +1。", flavor: "钟能响了。之前有人把钟舌藏了起来。" },
 },
 countries: {
   germany: { name: "德国",
@@ -1064,6 +1143,15 @@ countries: {
   usa: { name: "美国",
     intro: "起步慢，收尾无解。你有八个回合，省着点花。",
     gimmick: "攻击力从 4 起步，每回合 +2。<b>曼哈顿倒计时</b>在 8 回合后归零：40 点伤害，不接受申诉。" },
+  china: { name: "中国",
+    intro: "它不会垮，也不会着急。你花掉的每一个回合，都被它存了起来。",
+    gimmick: "<b>持久战：</b>每过 3 回合，攻击永久 +2。还会格挡 8（💰2）。时间站在它那边，不在你这边。" },
+  uk: { name: "英国",
+    intro: "它读你的信，饿死你的港口。请自带经济。",
+    gimmick: "每隔一回合<b>封锁</b>一次：你下回合收入 -2，它自己金库 +3。从第 4 个动作起解锁<b>重型轰炸机</b>（💰4），14 点伤害。" },
+  france: { name: "法国",
+    intro: "垮得最快，最后打得最凶。别让它站着。",
+    gimmick: "<b>抵抗：</b>生命低于一半时，所有攻击 +5。开局最便宜的敌人，留成残血最贵。" },
 },
 deaths: {
   KILLED_IN_ACTION: "阵亡",
@@ -1129,6 +1217,30 @@ strings: {
 
   con_usa: "卡牌费用高，四家里开局最慢。",
 
+  arch_china: "持久——时间就是弹药",
+  arch_uk: "情报——先知道，再动手",
+  arch_france: "抵抗——越落后越强",
+  pro_china: "打得越久越疼。",
+  con_china: "前期伤害低，需要把仗拖长。",
+  pro_uk: "看穿敌人计划，还能饿死它的金库。",
+  con_uk: "血薄，怕被速攻开局。",
+  pro_france: "生命掉到一半以下反而加倍凶狠。",
+  con_france: "顺风时很弱——这套牌只在你落后时才回本。",
+  diff_endless: "无尽",
+  diff_endless_sub: n => n ? `最高纪录：${n} 波` : "一直打到倒下为止",
+  endless_badge: n => `♾️ 无尽 — 第 ${n} 波`,
+  endless_tag: "波次首领",
+  wave_no: n => `♾️ 第 ${n} 波`,
+  best_streak: n => `无尽模式最高纪录：${n} 波`,
+  endless_result: (n, b) => `撑过了 ${n} 波。最高纪录：${b}。`,
+  warn_bomber: "✈️ 重型轰炸机来了。",
+  log_guerrilla: "没有战线可以突破：敌方攻击 -3，持续 3 回合。",
+  log_chain_home: "雷达链点亮：本回合每次受击伤害 -4。",
+  log_blockade: "港口封锁。它的金库 3 回合内不再增长。",
+  chip_chain_home: "📡 每次受击 -4（本回合）",
+  chip_chest_frozen: n => `⚓ 金库冻结（${n}回合）`,
+  chip_protracted: n => `⏳ 持久战：攻击 +${n}`,
+  chip_cornered: "🔥 困兽：攻击 +5",
   pick_side: "选择阵营",
   pick_side_sub: "只影响开场白。这仗怎么打都一样。战争通常如此。",
 
@@ -1349,6 +1461,9 @@ ach: {
   spotless: { name: "一尘不染", text: "没有一笔账目经得起传唤——但他们连一笔都找不到。", hint: "全程不让声誉低于 7 并通关。" },
   rockbottom: { name: "跌到谷底", text: "所有人都恨你。你还是赢了。", hint: "在全球公敌状态下通关。" },
   slippery: { name: "滑坡的开始", text: "一切都始于一个小小的通融。", hint: "在一场战斗内让声誉从 8 掉到 0。" },
+  endless5: { name: "长期战争", text: "五场了，还站着。", hint: "无尽模式撑过 5 波。" },
+  endless10: { name: "没有停战协定", text: "按理说这时候该有人签点什么了。", hint: "无尽模式撑过 10 波。" },
+  world_tour: { name: "全世界的麻烦", text: "你已经亲手把整个星球都得罪了一遍。", hint: "在一局无尽模式里击败其余全部六国。" },
   maginot:        { name: "马奇诺思维", text: "防线很完美。战争挪了个地方。", hint: "手握2张以上格挡牌时死于闪击战。" },
   winter_regards: { name: "冬将军的问候", text: "你不是第一个。也不会是最后一个。", hint: "在苏联最高攻击档位下阵亡。" },
   broke_dead:     { name: "又穷又死", text: "破产：另一种无条件投降。", hint: "破产状态下死于日本。" },
@@ -1411,6 +1526,21 @@ cards: {
   ike_arsenal:   { name: "艾克的軍火庫", text: "你每有 4 點收入，所有攻擊永久 +1。", flavor: "後勤贏得戰爭。艾克贏得後勤。" },
   patton_push:   { name: "巴頓的突進", text: "造成等於你收入 1.5 倍的傷害。", flavor: "他不等命令。他什麼都不等。" },
   arsenal_democracy: { name: "民主兵工廠", text: "收入永久+2。聲譽+1。", flavor: "原來道德高地上真有座工廠。" },
+  taierzhuang: { name: "台兒莊大捷", text: "造成 4 點傷害，本場戰鬥每過 1 回合再 +1（最高 14）。聲譽 -2。", flavor: "他們以為是潰敗，結果收到了帳單。" },
+  flying_tigers: { name: "飛虎隊", text: "造成 8 點傷害，無視格擋。", flavor: "志願者。名義上是。" },
+  the_hump: { name: "駝峰航線", text: "收入 +1。抽 1 張牌。", flavor: "翻過那座山，或者輸掉戰爭。他們翻了過去。" },
+  guerrilla: { name: "游擊襲擾", text: "敵方攻擊 -3，持續 3 回合。", flavor: "沒有戰線，也就沒有能被突破的戰線。" },
+  changsha: { name: "長沙會戰", text: "獲得 10 點格擋。若完全擋下一次攻擊，反擊 10 點。", flavor: "三次。他們試了三次。" },
+  bletchley: { name: "布萊切利園", text: "本場戰鬥可見敵人接下來兩步。抽 1 張牌。聲譽 -2。", flavor: "這場戰爭保守得最好的祕密，是個檔案管理問題。" },
+  chain_home: { name: "本土雷達鏈", text: "本回合每次受擊傷害 -4。", flavor: "他們提前看見了。訣竅就這一個。" },
+  desert_rats: { name: "沙漠之鼠", text: "造成 9 點傷害；若你能看見敵人意圖，改為 13 點。", flavor: "到處都是沙子。包括敵人的計畫裡。" },
+  convoy_blockade: { name: "船隊封鎖", text: "偷 3 金（下回合入帳）。敵方金庫 3 回合內停止增長。", flavor: "進不來，也出不去。" },
+  lancaster: { name: "蘭開斯特轟炸", text: "造成 16 點傷害。", flavor: "又重又慢，而且明擺著衝你來的。" },
+  free_france: { name: "自由法國", text: "造成 6 點傷害；若你生命低於一半，改為 12 點。聲譽 -2。", flavor: "一個設在廣播室裡的政府。它真的算數。" },
+  maginot: { name: "馬奇諾防線", text: "獲得 12 點格擋。", flavor: "工程極其出色。問題問錯了。" },
+  resistance_net: { name: "抵抗網絡", text: "偷 2 金（下回合入帳）。抽 1 張牌。", flavor: "現在人人都是郵差。" },
+  leclerc: { name: "勒克萊爾縱隊", text: "造成 5 點傷害兩次；若生命低於一半，每次 +3。", flavor: "他答應帶他們進巴黎。他沒有誇張。" },
+  liberation: { name: "解放", text: "回復 10 點生命。聲譽 +1。", flavor: "鐘能響了。之前有人把鐘舌藏了起來。" },
 },
 countries: {
   germany: { name: "德國",
@@ -1425,6 +1555,15 @@ countries: {
   usa: { name: "美國",
     intro: "起步慢，收尾無解。你有八個回合，省著點花。",
     gimmick: "攻擊力從 4 起步，每回合 +2。<b>曼哈頓倒數</b>在 8 回合後歸零：40 點傷害，不接受申訴。" },
+  china: { name: "中國",
+    intro: "它不會垮，也不會著急。你花掉的每一個回合，都被它存了起來。",
+    gimmick: "<b>持久戰：</b>每過 3 回合，攻擊永久 +2。還會格擋 8（💰2）。時間站在它那邊，不在你這邊。" },
+  uk: { name: "英國",
+    intro: "它讀你的信，餓死你的港口。請自帶經濟。",
+    gimmick: "每隔一回合<b>封鎖</b>一次：你下回合收入 -2，它自己金庫 +3。從第 4 個動作起解鎖<b>重型轟炸機</b>（💰4），14 點傷害。" },
+  france: { name: "法國",
+    intro: "垮得最快，最後打得最兇。別讓它站著。",
+    gimmick: "<b>抵抗：</b>生命低於一半時，所有攻擊 +5。開局最便宜的敵人，留成殘血最貴。" },
 },
 deaths: {
   KILLED_IN_ACTION: "陣亡",
@@ -1490,6 +1629,30 @@ strings: {
 
   con_usa: "卡牌費用高，四家裡開局最慢。",
 
+  arch_china: "持久——時間就是彈藥",
+  arch_uk: "情報——先知道，再動手",
+  arch_france: "抵抗——越落後越強",
+  pro_china: "打得越久越疼。",
+  con_china: "前期傷害低，需要把仗拖長。",
+  pro_uk: "看穿敵人計畫，還能餓死它的金庫。",
+  con_uk: "血薄，怕被速攻開局。",
+  pro_france: "生命掉到一半以下反而加倍兇狠。",
+  con_france: "順風時很弱——這套牌只在你落後時才回本。",
+  diff_endless: "無盡",
+  diff_endless_sub: n => n ? `最高紀錄：${n} 波` : "一直打到倒下為止",
+  endless_badge: n => `♾️ 無盡 — 第 ${n} 波`,
+  endless_tag: "波次首領",
+  wave_no: n => `♾️ 第 ${n} 波`,
+  best_streak: n => `無盡模式最高紀錄：${n} 波`,
+  endless_result: (n, b) => `撐過了 ${n} 波。最高紀錄：${b}。`,
+  warn_bomber: "✈️ 重型轟炸機來了。",
+  log_guerrilla: "沒有戰線可以突破：敵方攻擊 -3，持續 3 回合。",
+  log_chain_home: "雷達鏈點亮：本回合每次受擊傷害 -4。",
+  log_blockade: "港口封鎖。它的金庫 3 回合內不再增長。",
+  chip_chain_home: "📡 每次受擊 -4（本回合）",
+  chip_chest_frozen: n => `⚓ 金庫凍結（${n}回合）`,
+  chip_protracted: n => `⏳ 持久戰：攻擊 +${n}`,
+  chip_cornered: "🔥 困獸：攻擊 +5",
   pick_side: "選擇陣營",
   pick_side_sub: "只影響開場白。這仗怎麼打都一樣。戰爭通常如此。",
 
@@ -1710,6 +1873,9 @@ ach: {
   spotless: { name: "一塵不染", text: "他們連一筆帳都找不到。", hint: "全程不讓聲譽低於 7 並通關。" },
   rockbottom: { name: "跌到谷底", text: "所有人都恨你。你還是贏了。", hint: "在全球公敵狀態下通關。" },
   slippery: { name: "滑坡的開始", text: "一切都始於一個小小的通融。", hint: "在一場戰鬥內讓聲譽從 8 掉到 0。" },
+  endless5: { name: "長期戰爭", text: "五場了，還站著。", hint: "無盡模式撐過 5 波。" },
+  endless10: { name: "沒有停戰協定", text: "按理說這時候該有人簽點什麼了。", hint: "無盡模式撐過 10 波。" },
+  world_tour: { name: "全世界的麻煩", text: "你已經親手把整個星球都得罪了一遍。", hint: "在一局無盡模式裡擊敗其餘全部六國。" },
   maginot:        { name: "馬奇諾思維", text: "防線很完美。戰爭挪了個地方。", hint: "手握2張以上格擋牌時死於閃電戰。" },
   winter_regards: { name: "冬將軍的問候", text: "你不是第一個。也不會是最後一個。", hint: "在蘇聯最高攻擊檔位下陣亡。" },
   broke_dead:     { name: "又窮又死", text: "破產：另一種無條件投降。", hint: "破產狀態下死於日本。" },
@@ -1770,6 +1936,21 @@ cards: {
   ike_arsenal:   { name: "アイクの兵器庫", text: "収入4につき、すべての攻撃が永久に+1。", flavor: "兵站が戦争を制す。アイクが兵站を制す。" },
   patton_push:   { name: "パットンの突進", text: "収入の1.5倍のダメージを与える。", flavor: "彼は命令を待たない。何も待たない。" },
   arsenal_democracy: { name: "民主主義の兵器廠", text: "収入が永久に+2。評判+1。", flavor: "道徳的高地には工場が建っていたのだ。" },
+  taierzhuang: { name: "台児荘の戦い", text: "4ダメージを与え、この戦闘で経過したターンごとに+1（最大14）。評判-2。", flavor: "敗走を期待していた。届いたのは請求書だった。" },
+  flying_tigers: { name: "フライング・タイガース", text: "8ダメージ。ブロックを無視する。", flavor: "義勇兵。建前上は。" },
+  the_hump: { name: "ハンプ空路", text: "収入+1。1枚引く。", flavor: "山を越えるか、戦争に負けるか。彼らは越えた。" },
+  guerrilla: { name: "遊撃襲撃", text: "敵の攻撃-3、3ターン継続。", flavor: "戦線がなければ、破られる戦線もない。" },
+  changsha: { name: "長沙防衛", text: "ブロック10を得る。攻撃を完全に防いだら10を返す。", flavor: "三度。三度も試した。" },
+  bletchley: { name: "ブレッチリー・パーク", text: "この戦闘中、敵の次の2手が見える。1枚引く。評判-2。", flavor: "この戦争最大の機密は、書類整理の問題だった。" },
+  chain_home: { name: "チェーン・ホーム", text: "このターン、受けるダメージが毎回4減る。", flavor: "先に見えていた。種はそれだけだ。" },
+  desert_rats: { name: "砂漠のネズミ", text: "9ダメージ。敵の意図が見えているなら13ダメージ。", flavor: "どこもかしこも砂。敵の作戦の中にも。" },
+  convoy_blockade: { name: "船団封鎖", text: "3ゴールド奪う（次の収入で届く）。敵の軍資金が3ターン増えなくなる。", flavor: "入るものも、出るものもない。" },
+  lancaster: { name: "ランカスター空襲", text: "16ダメージ。", flavor: "重く、遅く、そして明らかにこちらへ向かっている。" },
+  free_france: { name: "自由フランス", text: "6ダメージ。HPが半分未満なら12ダメージ。評判-2。", flavor: "放送室に置かれた政府。それでも本物だった。" },
+  maginot: { name: "マジノ線", text: "ブロック12を得る。", flavor: "工学的には見事。問いが間違っていた。" },
+  resistance_net: { name: "レジスタンス網", text: "2ゴールド奪う（次の収入で届く）。1枚引く。", flavor: "今や全員が郵便配達人だ。" },
+  leclerc: { name: "ルクレール隊", text: "5ダメージを2回。HPが半分未満なら各+3。", flavor: "パリを約束した。誇張ではなかった。" },
+  liberation: { name: "解放", text: "HPを10回復。評判+1。", flavor: "鐘は鳴った。誰かが舌を隠していたのだ。" },
 },
 countries: {
   germany: { name: "ドイツ",
@@ -1784,6 +1965,15 @@ countries: {
   usa: { name: "アメリカ合衆国",
     intro: "立ち上がりは遅い、終わり方は止まらない。8 ターンだ、賢く使え。",
     gimmick: "攻撃は 4 から始まり毎ターン +2。<b>マンハッタン・カウントダウン</b>は 8 ターンでゼロ：40 ダメージ、異議は認めない。" },
+  china: { name: "中国",
+    intro: "崩れないし、急ぎもしない。君が使ったターンは、そのまま相手の蓄えになる。",
+    gimmick: "<b>持久戦：</b>3ターンごとに攻撃が永久に+2。ブロック8（💰2）も使う。時計は相手の味方だ。" },
+  uk: { name: "イギリス",
+    intro: "君の通信を読み、港を干上がらせる。経済は自前で持ってくること。",
+    gimmick: "1ターンおきに<b>封鎖</b>：君の次の収入-2、相手の軍資金+3。4手目から<b>重爆撃機</b>（💰4）で14ダメージ。" },
+  france: { name: "フランス",
+    intro: "崩れるのは早く、最後が一番強い。立たせたまま放置するな。",
+    gimmick: "<b>レジスタンス：</b>HPが半分未満で全攻撃+5。開幕は最も安い敵、半殺しで放置すると最も高くつく。" },
 },
 deaths: {
   KILLED_IN_ACTION: "戦死",
@@ -1849,6 +2039,30 @@ strings: {
 
   con_usa: "カードが高く、4か国で最も出足が遅い。",
 
+  arch_china: "持久 — 時間が弾薬だ",
+  arch_uk: "情報 — 起こる前に知る",
+  arch_france: "抵抗 — 負けているほど強い",
+  pro_china: "長引くほど痛くなる。",
+  con_china: "序盤の火力が低く、長期戦が前提。",
+  pro_uk: "敵の計画を読み、軍資金を干上がらせる。",
+  con_uk: "HPが薄く、速攻に弱い。",
+  pro_france: "HPが半分を切ると火力が倍化する。",
+  con_france: "有利なうちは弱い——このデッキは負けている時にしか回収できない。",
+  diff_endless: "エンドレス",
+  diff_endless_sub: n => n ? `最高記録：${n}波` : "倒れるまで戦い続ける",
+  endless_badge: n => `♾️ エンドレス — 第${n}波`,
+  endless_tag: "波のボス",
+  wave_no: n => `♾️ 第${n}波`,
+  best_streak: n => `エンドレス最高記録：${n}波`,
+  endless_result: (n, b) => `${n}波を生き延びた。最高記録：${b}。`,
+  warn_bomber: "✈️ 重爆撃機が来る。",
+  log_guerrilla: "破るべき戦線がない：敵の攻撃-3、3ターン継続。",
+  log_chain_home: "レーダー網点灯：このターン、受けるダメージが毎回4減る。",
+  log_blockade: "港を封鎖。相手の軍資金が3ターン増えない。",
+  chip_chain_home: "📡 被弾ごとに-4（ターン）",
+  chip_chest_frozen: n => `⚓ 軍資金凍結（${n}T）`,
+  chip_protracted: n => `⏳ 持久戦：攻撃+${n}`,
+  chip_cornered: "🔥 窮鼠：攻撃+5",
   pick_side: "陣営を選べ",
   pick_side_sub: "見た目だけの選択。どちらでも戦争は同じだ。戦争とはだいたいそういうもの。",
 
@@ -2069,6 +2283,9 @@ ach: {
   spotless: { name: "一点の曇りもなく", text: "召喚状を出せる項目が一つもない。", hint: "評判を一度も7未満にせずクリアする。" },
   rockbottom: { name: "どん底", text: "全員に憎まれている。それでも勝った。", hint: "世界の敵の状態でクリアする。" },
   slippery: { name: "転落の第一歩", text: "始まりは小さな便宜だった。", hint: "1回の戦闘で評判を8から0まで落とす。" },
+  endless5: { name: "長い戦争", text: "5波、まだ立っている。", hint: "エンドレスで5波生き延びる。" },
+  endless10: { name: "休戦協定なし", text: "そろそろ誰かが何かに署名すべきでは。", hint: "エンドレスで10波生き延びる。" },
+  world_tour: { name: "全世界の厄介者", text: "君は文字どおり地球全体を怒らせた。", hint: "1回のエンドレスで他の6か国すべてを倒す。" },
   maginot:        { name: "マジノ線思考", text: "防御は完璧だった。戦争のほうが動いた。", hint: "ブロックカード2枚以上を持ったまま電撃戦で死ぬ。" },
   winter_regards: { name: "冬将軍からのご挨拶", text: "君は最初ではない。最後でもない。", hint: "攻撃力最大のソ連に倒される。" },
   broke_dead:     { name: "破産して、死亡", text: "破産：もうひとつの無条件降伏。", hint: "破産状態で日本に倒される。" },
@@ -2129,6 +2346,21 @@ cards: {
   ike_arsenal:   { name: "아이크의 무기고", text: "수입 4마다 모든 공격이 영구히 +1.", flavor: "보급이 전쟁을 이긴다. 아이크가 보급을 이긴다." },
   patton_push:   { name: "패튼의 돌파", text: "수입의 1.5배만큼 피해를 준다.", flavor: "그는 명령을 기다리지 않는다. 아무것도 기다리지 않는다." },
   arsenal_democracy: { name: "민주주의의 무기고", text: "수입이 영구히 +2. 평판 +1.", flavor: "도덕적 고지 위에 공장이 있었을 줄이야." },
+  taierzhuang: { name: "타이얼좡 전투", text: "4 피해를 주고, 이번 전투에서 지난 턴마다 +1(최대 14). 평판 -2.", flavor: "패주를 예상했다. 청구서가 왔다." },
+  flying_tigers: { name: "플라잉 타이거스", text: "8 피해. 방어를 무시한다.", flavor: "의용대다. 명목상으로는." },
+  the_hump: { name: "험프 항로", text: "수입 +1. 1장 뽑는다.", flavor: "산을 넘거나 전쟁을 지거나. 그들은 넘었다." },
+  guerrilla: { name: "유격 습격", text: "적 공격 -3, 3턴 지속.", flavor: "전선이 없으면 뚫릴 전선도 없다." },
+  changsha: { name: "창사 방어전", text: "방어 10을 얻는다. 공격을 완전히 막으면 10을 되돌려준다.", flavor: "세 번. 세 번이나 시도했다." },
+  bletchley: { name: "블레츨리 파크", text: "이번 전투 동안 적의 다음 두 수를 본다. 1장 뽑는다. 평판 -2.", flavor: "이 전쟁 최고의 기밀은 서류 정리 문제였다." },
+  chain_home: { name: "체인 홈", text: "이번 턴, 매 타격마다 받는 피해 -4.", flavor: "먼저 봤다. 비결은 그게 전부다." },
+  desert_rats: { name: "데저트 랫츠", text: "9 피해. 적의 의도가 보이면 13 피해.", flavor: "모든 곳에 모래가. 적의 계획 속에도." },
+  convoy_blockade: { name: "수송선단 봉쇄", text: "3골드를 훔친다(다음 수입에 입금). 적 금고가 3턴간 증가하지 않는다.", flavor: "들어오는 것도, 나가는 것도 없다." },
+  lancaster: { name: "랭커스터 폭격", text: "16 피해.", flavor: "무겁고, 느리고, 분명히 이쪽으로 오고 있다." },
+  free_france: { name: "자유 프랑스", text: "6 피해. HP가 절반 미만이면 12 피해. 평판 -2.", flavor: "방송실에 있는 정부. 그래도 유효했다." },
+  maginot: { name: "마지노선", text: "방어 12를 얻는다.", flavor: "공학적으로는 훌륭했다. 질문이 틀렸을 뿐." },
+  resistance_net: { name: "레지스탕스 조직망", text: "2골드를 훔친다(다음 수입에 입금). 1장 뽑는다.", flavor: "이제 모두가 우체부다." },
+  leclerc: { name: "르클레르 부대", text: "5 피해를 2회. HP가 절반 미만이면 각 +3.", flavor: "파리를 약속했다. 과장이 아니었다." },
+  liberation: { name: "해방", text: "HP 10 회복. 평판 +1.", flavor: "종이 울렸다. 누군가 종추를 숨겨뒀던 것이다." },
 },
 countries: {
   germany: { name: "독일",
@@ -2143,6 +2375,15 @@ countries: {
   usa: { name: "미국",
     intro: "시작은 느리고, 마무리는 막을 수 없다. 여덟 턴이다. 잘 써라.",
     gimmick: "공격이 4에서 시작해 매 턴 +2. <b>맨해튼 카운트다운</b>은 8턴 뒤 0: 40 피해, 항소 불가." },
+  china: { name: "중국",
+    intro: "무너지지도, 서두르지도 않는다. 네가 쓴 턴은 전부 저쪽의 적립금이다.",
+    gimmick: "<b>지구전:</b> 3턴마다 공격이 영구히 +2. 방어 8(💰2)도 쓴다. 시계는 저쪽 편이다." },
+  uk: { name: "영국",
+    intro: "네 통신을 읽고 네 항구를 말린다. 경제는 직접 챙겨 와라.",
+    gimmick: "한 턴 걸러 <b>봉쇄</b>: 네 다음 수입 -2, 자기 금고 +3. 4번째 행동부터 <b>중폭격기</b>(💰4) 14 피해." },
+  france: { name: "프랑스",
+    intro: "가장 빨리 무너지고, 마지막에 가장 세게 싸운다. 세워둔 채 두지 마라.",
+    gimmick: "<b>레지스탕스:</b> HP 절반 미만에서 모든 공격 +5. 시작은 가장 싼 적, 반쯤 죽여 놓으면 가장 비싼 적." },
 },
 deaths: {
   KILLED_IN_ACTION: "전사",
@@ -2208,6 +2449,30 @@ strings: {
 
   con_usa: "카드가 비싸고 넷 중 시작이 가장 느리다.",
 
+  arch_china: "지구전 — 시간이 곧 탄약",
+  arch_uk: "정보 — 벌어지기 전에 안다",
+  arch_france: "저항 — 질수록 강해진다",
+  pro_china: "싸움이 길어질수록 아프게 때린다.",
+  con_china: "초반 화력이 낮고, 장기전이 전제.",
+  pro_uk: "적의 계획을 읽고 금고를 말린다.",
+  con_uk: "HP가 얇아 속공에 약하다.",
+  pro_france: "HP 절반 아래로 떨어지면 두 배로 사나워진다.",
+  con_france: "유리할 땐 약하다 — 이 덱은 질 때만 값을 한다.",
+  diff_endless: "엔들리스",
+  diff_endless_sub: n => n ? `최고 기록: ${n}웨이브` : "쓰러질 때까지 싸운다",
+  endless_badge: n => `♾️ 엔들리스 — ${n}웨이브`,
+  endless_tag: "웨이브 보스",
+  wave_no: n => `♾️ ${n}웨이브`,
+  best_streak: n => `엔들리스 최고 기록: ${n}웨이브`,
+  endless_result: (n, b) => `${n}웨이브 생존. 최고: ${b}.`,
+  warn_bomber: "✈️ 중폭격기가 온다.",
+  log_guerrilla: "뚫을 전선이 없다: 적 공격 -3, 3턴 지속.",
+  log_chain_home: "레이더망 점등: 이번 턴 매 타격 피해 -4.",
+  log_blockade: "항구 봉쇄. 적 금고가 3턴간 늘지 않는다.",
+  chip_chain_home: "📡 타격당 -4 (턴)",
+  chip_chest_frozen: n => `⚓ 금고 동결 (${n}T)`,
+  chip_protracted: n => `⏳ 지구전: 공격 +${n}`,
+  chip_cornered: "🔥 궁지: 공격 +5",
   pick_side: "진영 선택",
   pick_side_sub: "겉모습만 바뀐다. 어느 쪽이든 전쟁은 똑같다. 전쟁이 대개 그렇다.",
 
@@ -2428,6 +2693,9 @@ ach: {
   spotless: { name: "티 하나 없이", text: "소환장을 보낼 항목이 하나도 없다.", hint: "평판을 한 번도 7 아래로 떨어뜨리지 않고 클리어." },
   rockbottom: { name: "바닥까지", text: "모두가 당신을 미워한다. 그래도 이겼다.", hint: "전 세계의 적 상태로 클리어." },
   slippery: { name: "미끄러운 비탈", text: "작은 편의 하나에서 시작됐다.", hint: "한 전투 안에서 평판을 8에서 0까지 떨어뜨리기." },
+  endless5: { name: "긴 전쟁", text: "다섯 번째인데도 서 있다.", hint: "엔들리스에서 5웨이브 생존." },
+  endless10: { name: "휴전 없음", text: "이쯤이면 누군가 뭔가에 서명했어야 한다.", hint: "엔들리스에서 10웨이브 생존." },
+  world_tour: { name: "모두의 골칫거리", text: "이제 지구 전체를 직접 화나게 만들었다.", hint: "한 번의 엔들리스에서 나머지 6개국을 모두 격파." },
   maginot:        { name: "마지노선 마인드", text: "방어는 완벽했다. 전쟁이 옆으로 지나갔을 뿐.", hint: "방어 카드 2장 이상을 든 채 전격전에 죽어라." },
   winter_regards: { name: "동장군의 안부 인사", text: "당신이 처음도 아니고, 마지막도 아닐 것이다.", hint: "공격력이 최고조인 소련에게 죽어라." },
   broke_dead:     { name: "파산 AND 사망", text: "파산: 또 하나의 무조건 항복.", hint: "파산 상태로 일본에게 죽어라." },
@@ -2488,6 +2756,21 @@ cards: {
   ike_arsenal:   { name: "El arsenal de Ike", text: "Todos los ataques +1 permanente por cada 4 de ingresos que tengas.", flavor: "La logística gana guerras. Ike gana la logística." },
   patton_push:   { name: "El empuje de Patton", text: "Inflige daño igual a 1,5× tus ingresos.", flavor: "No espera órdenes. No espera nada." },
   arsenal_democracy: { name: "Arsenal de la Democracia", text: "Ingresos +2 permanente. Reputación +1.", flavor: "Resulta que la superioridad moral tenía una fábrica encima." },
+  taierzhuang: { name: "Taierzhuang", text: "Inflige 4 de daño, +1 por cada turno ya transcurrido en esta batalla (máx. 14). Reputación -2.", flavor: "Esperaban una desbandada. Recibieron una factura." },
+  flying_tigers: { name: "Tigres Voladores", text: "Inflige 8 de daño. Ignora el Bloqueo.", flavor: "Voluntarios. Técnicamente." },
+  the_hump: { name: "La Joroba", text: "Ingresos +1. Roba 1 carta.", flavor: "Cruza la montaña o pierde la guerra. Cruzaron la montaña." },
+  guerrilla: { name: "Incursiones guerrilleras", text: "Ataques enemigos -3 durante 3 turnos.", flavor: "Sin frente no hay frente que romper." },
+  changsha: { name: "Defensa de Changsha", text: "Gana 10 de Bloqueo. Si bloquea un ataque por completo, devuelve 10.", flavor: "Tres veces. Lo intentaron tres veces." },
+  bletchley: { name: "Bletchley Park", text: "Ves los 2 próximos movimientos enemigos el resto de la batalla. Roba 1 carta. Reputación -2.", flavor: "El secreto mejor guardado de la guerra era un problema de archivo." },
+  chain_home: { name: "Chain Home", text: "Recibes 4 menos de daño por cada golpe este turno.", flavor: "Los vieron venir. Ese era todo el truco." },
+  desert_rats: { name: "Ratas del Desierto", text: "Inflige 9 de daño; 13 si puedes ver la intención enemiga.", flavor: "Arena en todo. También en los planes del enemigo." },
+  convoy_blockade: { name: "Bloqueo de convoyes", text: "Roba 3 de oro (llega con tus próximos ingresos). El Cofre enemigo deja de crecer 3 turnos.", flavor: "Ni entra ni sale nada." },
+  lancaster: { name: "Incursión Lancaster", text: "Inflige 16 de daño.", flavor: "Pesado, lento e inconfundiblemente en camino." },
+  free_france: { name: "Francia Libre", text: "Inflige 6 de daño; 12 si estás por debajo de la mitad de PV. Reputación -2.", flavor: "Un gobierno en un estudio de radio. Y contaba." },
+  maginot: { name: "Línea Maginot", text: "Gana 12 de Bloqueo.", flavor: "Ingeniería soberbia. Pregunta equivocada." },
+  resistance_net: { name: "Red de la Resistencia", text: "Roba 2 de oro (llega con tus próximos ingresos). Roba 1 carta.", flavor: "Ahora todo el mundo es cartero." },
+  leclerc: { name: "Columna Leclerc", text: "Inflige 5 de daño dos veces; +3 por golpe si estás por debajo de la mitad de PV.", flavor: "Les prometió París. No exageraba." },
+  liberation: { name: "Liberación", text: "Cura 10 PV. Reputación +1.", flavor: "Las campanas funcionaron. Alguien había escondido los badajos." },
 },
 countries: {
   germany: { name: "Alemania",
@@ -2502,6 +2785,15 @@ countries: {
   usa: { name: "Estados Unidos",
     intro: "Arranque lento, final imparable. Tienes ocho turnos. Gástalos bien.",
     gimmick: "Sus ataques empiezan en 4 y suben +2 cada turno. <b>El Reloj Manhattan</b> llega a cero en 8 turnos: 40 de daño, sin apelación." },
+  china: { name: "China",
+    intro: "Ni se derrumba ni tiene prisa. Cada turno que gastas es un turno que ella ahorra.",
+    gimmick: "<b>Guerra prolongada:</b> cada 3 turnos sus ataques ganan +2 permanente. También bloquea 8 (💰2). El reloj juega de su lado." },
+  uk: { name: "Reino Unido",
+    intro: "Lee tu correo y ahoga tus puertos. Trae tu propia economía.",
+    gimmick: "Cada dos turnos <b>bloquea</b>: tus próximos ingresos -2 y su cofre +3. Desde su 4ª acción desbloquea <b>bombarderos pesados</b> (💰4) por 14 de daño." },
+  france: { name: "Francia",
+    intro: "Se hunde rápido y pelea más fuerte al final. No la dejes en pie.",
+    gimmick: "<b>Resistencia:</b> por debajo de la mitad de PV, todos sus ataques ganan +5. El enemigo más barato de abrir, el más caro de dejar medio muerto." },
 },
 deaths: {
   KILLED_IN_ACTION: "Caído en combate",
@@ -2567,6 +2859,30 @@ strings: {
 
   con_usa: "Cartas caras y el arranque más lento de los cuatro.",
 
+  arch_china: "PROLONGADA — el tiempo es tu munición",
+  arch_uk: "INTELIGENCIA — saberlo antes de que pase",
+  arch_france: "RESISTENCIA — más fuerte perdiendo",
+  pro_china: "Pega más fuerte cuanto más dura el combate.",
+  con_china: "Poco daño temprano; necesita que la pelea se alargue.",
+  pro_uk: "Ve el plan enemigo y ahoga su tesorería.",
+  con_uk: "Pocos PV; castigada por una apertura rápida.",
+  pro_france: "Redobla al bajar de la mitad de PV.",
+  con_france: "Débil mientras estás sano: el mazo solo paga cuando pierdes.",
+  diff_endless: "Infinito",
+  diff_endless_sub: n => n ? `Mejor racha: ${n}` : "Pelea hasta caer",
+  endless_badge: n => `♾️ INFINITO — OLEADA ${n}`,
+  endless_tag: "JEFE DE OLEADA",
+  wave_no: n => `♾️ Oleada ${n}`,
+  best_streak: n => `Mejor racha Infinita: ${n}`,
+  endless_result: (n, b) => `Sobreviviste ${n} oleada${n === 1 ? "" : "s"}. Mejor: ${b}.`,
+  warn_bomber: "✈️ Bombarderos pesados en camino.",
+  log_guerrilla: "Sin frente que romper: ataques enemigos -3 durante 3 turnos.",
+  log_chain_home: "Cadena de radares encendida: -4 de daño por golpe este turno.",
+  log_blockade: "Puertos cerrados. Su cofre deja de crecer 3 turnos.",
+  chip_chain_home: "📡 -4 daño por golpe (turno)",
+  chip_chest_frozen: n => `⚓ cofre congelado (${n}t)`,
+  chip_protracted: n => `⏳ Prolongada: +${n} atq`,
+  chip_cornered: "🔥 Acorralada: +5 atq",
   pick_side: "Elige tu bando",
   pick_side_sub: "Elección estética. La guerra es idéntica igualmente. Suelen serlo.",
 
@@ -2787,6 +3103,9 @@ ach: {
   spotless: { name: "Impecable", text: "Ni una partida contable que citar.", hint: "Gana una partida sin bajar nunca de 7 de Reputación." },
   rockbottom: { name: "Tocando fondo", text: "Todos te odian. Ganaste igual.", hint: "Gana una partida con Paria Total activo." },
   slippery: { name: "Pendiente resbaladiza", text: "Empezó con un pequeño favor.", hint: "Cae de 8 a 0 de Reputación en una sola batalla." },
+  endless5: { name: "Guerra larga", text: "Cinco y sigues en pie.", hint: "Sobrevive 5 oleadas en modo Infinito." },
+  endless10: { name: "Sin armisticio", text: "A estas alturas alguien debería haber firmado algo.", hint: "Sobrevive 10 oleadas en modo Infinito." },
+  world_tour: { name: "El problema de todos", text: "Ya has molestado personalmente al planeta entero.", hint: "Derrota a las otras seis naciones en una sola partida Infinita." },
   maginot:        { name: "Mentalidad Maginot", text: "La defensa era perfecta. La guerra se movió.", hint: "Muere por el Blitzkrieg con 2+ cartas de Bloqueo en la mano." },
   winter_regards: { name: "Saludos del General Invierno", text: "No eres el primero. No serás el último.", hint: "Muere ante la URSS en su nivel máximo de ataque." },
   broke_dead:     { name: "Arruinado Y muerto", text: "La bancarrota: la otra rendición incondicional.", hint: "Muere ante Japón estando en bancarrota." },
@@ -2847,6 +3166,21 @@ cards: {
   ike_arsenal:   { name: "O Arsenal do Ike", text: "Todos os ataques +1 permanente para cada 4 de renda que você tiver.", flavor: "Logística ganha guerras. Ike ganha a logística." },
   patton_push:   { name: "O Avanço de Patton", text: "Causa dano igual a 1,5× sua renda.", flavor: "Ele não espera ordens. Ele não espera nada." },
   arsenal_democracy: { name: "Arsenal da Democracia", text: "Renda +2 permanente. Reputação +1.", flavor: "No fim, a superioridade moral tinha uma fábrica em cima." },
+  taierzhuang: { name: "Taierzhuang", text: "Causa 4 de dano, +1 por cada turno já decorrido nesta batalha (máx. 14). Reputação -2.", flavor: "Esperavam uma debandada. Receberam uma fatura." },
+  flying_tigers: { name: "Tigres Voadores", text: "Causa 8 de dano. Ignora Bloqueio.", flavor: "Voluntários. Tecnicamente." },
+  the_hump: { name: "A Corcova", text: "Renda +1. Compre 1 carta.", flavor: "Cruze a montanha ou perca a guerra. Eles cruzaram." },
+  guerrilla: { name: "Ataques de guerrilha", text: "Ataques inimigos -3 por 3 turnos.", flavor: "Sem frente não há frente para romper." },
+  changsha: { name: "Defesa de Changsha", text: "Ganhe 10 de Bloqueio. Se bloquear um ataque por completo, devolve 10.", flavor: "Três vezes. Tentaram três vezes." },
+  bletchley: { name: "Bletchley Park", text: "Veja os 2 próximos movimentos inimigos pelo resto da batalha. Compre 1 carta. Reputação -2.", flavor: "O segredo mais bem guardado da guerra era um problema de arquivo." },
+  chain_home: { name: "Chain Home", text: "Receba 4 a menos de dano por golpe neste turno.", flavor: "Eles viram chegando. Era esse o truque todo." },
+  desert_rats: { name: "Ratos do Deserto", text: "Causa 9 de dano; 13 se você puder ver a intenção inimiga.", flavor: "Areia em tudo. Inclusive nos planos do inimigo." },
+  convoy_blockade: { name: "Bloqueio de comboios", text: "Rouba 3 de ouro (chega com sua próxima renda). O Cofre inimigo para de crescer por 3 turnos.", flavor: "Nada entra, nada sai." },
+  lancaster: { name: "Ataque Lancaster", text: "Causa 16 de dano.", flavor: "Pesado, lento e inconfundivelmente a caminho." },
+  free_france: { name: "França Livre", text: "Causa 6 de dano; 12 se você estiver abaixo de metade dos PV. Reputação -2.", flavor: "Um governo num estúdio de rádio. E valia." },
+  maginot: { name: "Linha Maginot", text: "Ganhe 12 de Bloqueio.", flavor: "Engenharia soberba. Pergunta errada." },
+  resistance_net: { name: "Rede da Resistência", text: "Rouba 2 de ouro (chega com sua próxima renda). Compre 1 carta.", flavor: "Agora todo mundo é carteiro." },
+  leclerc: { name: "Coluna Leclerc", text: "Causa 5 de dano duas vezes; +3 por golpe se estiver abaixo de metade dos PV.", flavor: "Ele prometeu Paris. Não estava exagerando." },
+  liberation: { name: "Libertação", text: "Cura 10 PV. Reputação +1.", flavor: "Os sinos funcionaram. Alguém tinha escondido os badalos." },
 },
 countries: {
   germany: { name: "Alemanha",
@@ -2861,6 +3195,15 @@ countries: {
   usa: { name: "Estados Unidos",
     intro: "Começo lento, final imparável. Você tem oito turnos. Gaste bem.",
     gimmick: "Ataques começam em 4 e sobem +2 por turno. <b>O Relógio Manhattan</b> zera em 8 turnos: 40 de dano, sem recurso." },
+  china: { name: "China",
+    intro: "Não desmorona e não tem pressa. Cada turno que você gasta é um turno que ela guarda.",
+    gimmick: "<b>Guerra prolongada:</b> a cada 3 turnos seus ataques ganham +2 permanente. Também bloqueia 8 (💰2). O relógio joga a favor dela." },
+  uk: { name: "Reino Unido",
+    intro: "Lê sua correspondência e sufoca seus portos. Traga sua própria economia.",
+    gimmick: "A cada dois turnos ele <b>bloqueia</b>: sua próxima renda -2 e o cofre dele +3. Da 4ª ação em diante libera <b>bombardeiros pesados</b> (💰4) por 14 de dano." },
+  france: { name: "França",
+    intro: "Cai rápido e luta mais forte no fim. Não a deixe de pé.",
+    gimmick: "<b>Resistência:</b> abaixo de metade dos PV, todos os ataques ganham +5. O inimigo mais barato de abrir, o mais caro de deixar meio morto." },
 },
 deaths: {
   KILLED_IN_ACTION: "Morto em combate",
@@ -2926,6 +3269,30 @@ strings: {
 
   con_usa: "Cartas caras e o começo mais lento dos quatro.",
 
+  arch_china: "PROLONGADA — o tempo é sua munição",
+  arch_uk: "INTELIGÊNCIA — saber antes de acontecer",
+  arch_france: "RESISTÊNCIA — mais forte perdendo",
+  pro_china: "Bate mais forte quanto mais o combate dura.",
+  con_china: "Pouco dano no início; precisa que a luta se estenda.",
+  pro_uk: "Vê o plano inimigo e sufoca o tesouro dele.",
+  con_uk: "Poucos PV; punida por uma abertura rápida.",
+  pro_france: "Dobra a aposta ao cair abaixo de metade dos PV.",
+  con_france: "Fraca enquanto você está bem — o baralho só paga quando você perde.",
+  diff_endless: "Infinito",
+  diff_endless_sub: n => n ? `Melhor sequência: ${n}` : "Lute até cair",
+  endless_badge: n => `♾️ INFINITO — ONDA ${n}`,
+  endless_tag: "CHEFE DE ONDA",
+  wave_no: n => `♾️ Onda ${n}`,
+  best_streak: n => `Melhor sequência Infinita: ${n}`,
+  endless_result: (n, b) => `Sobreviveu a ${n} onda${n === 1 ? "" : "s"}. Melhor: ${b}.`,
+  warn_bomber: "✈️ Bombardeiros pesados a caminho.",
+  log_guerrilla: "Sem frente para romper: ataques inimigos -3 por 3 turnos.",
+  log_chain_home: "Cadeia de radares ligada: -4 de dano por golpe neste turno.",
+  log_blockade: "Portos fechados. O cofre dele para de crescer por 3 turnos.",
+  chip_chain_home: "📡 -4 dano por golpe (turno)",
+  chip_chest_frozen: n => `⚓ cofre congelado (${n}t)`,
+  chip_protracted: n => `⏳ Prolongada: +${n} atq`,
+  chip_cornered: "🔥 Encurralada: +5 atq",
   pick_side: "Escolha seu lado",
   pick_side_sub: "Escolha cosmética. A guerra é idêntica de qualquer jeito. Guerras costumam ser.",
 
@@ -3147,6 +3514,9 @@ ach: {
   spotless: { name: "Impecável", text: "Nenhum item contábil para intimar.", hint: "Vença uma run sem nunca cair abaixo de 7 de Reputação." },
   rockbottom: { name: "No fundo do poço", text: "Todo mundo te odeia. Você venceu mesmo assim.", hint: "Vença uma run com Pária Total ativo." },
   slippery: { name: "Ladeira escorregadia", text: "Começou com um favorzinho.", hint: "Caia de 8 para 0 de Reputação numa única batalha." },
+  endless5: { name: "Guerra longa", text: "Cinco e ainda de pé.", hint: "Sobreviva a 5 ondas no modo Infinito." },
+  endless10: { name: "Sem armistício", text: "A esta altura alguém já devia ter assinado alguma coisa.", hint: "Sobreviva a 10 ondas no modo Infinito." },
+  world_tour: { name: "O problema de todo mundo", text: "Você já irritou pessoalmente o planeta inteiro.", hint: "Derrote as outras seis nações numa única run Infinita." },
   maginot:        { name: "Mentalidade Maginot", text: "A defesa era perfeita. A guerra mudou de lugar.", hint: "Morra pra Blitzkrieg segurando 2+ cartas de Bloqueio." },
   winter_regards: { name: "Lembranças do General Inverno", text: "Você não é o primeiro. Não será o último.", hint: "Morra pra URSS no nível máximo de ataque dela." },
   broke_dead:     { name: "Falido E Morto", text: "Falência: a outra rendição incondicional.", hint: "Morra pro Japão estando falido." },
@@ -3207,6 +3577,21 @@ cards: {
   ike_arsenal:   { name: "L'arsenal d'Ike", text: "Toutes les attaques +1 permanent pour chaque tranche de 4 de revenu.", flavor: "La logistique gagne les guerres. Ike gagne la logistique." },
   patton_push:   { name: "La percée de Patton", text: "Inflige des dégâts égaux à 1,5× votre revenu.", flavor: "Il n'attend pas les ordres. Il n'attend rien du tout." },
   arsenal_democracy: { name: "Arsenal de la démocratie", text: "Revenu +2 permanent. Réputation +1.", flavor: "Il s'avère que la supériorité morale abritait une usine." },
+  taierzhuang: { name: "Taierzhuang", text: "Inflige 4 dégâts, +1 par tour déjà écoulé dans cette bataille (max 14). Réputation -2.", flavor: "Ils attendaient une déroute. Ils ont reçu une facture." },
+  flying_tigers: { name: "Tigres Volants", text: "Inflige 8 dégâts. Ignore le Blocage.", flavor: "Des volontaires. Techniquement." },
+  the_hump: { name: "La Bosse", text: "Revenu +1. Piochez 1 carte.", flavor: "Franchir la montagne ou perdre la guerre. Ils l'ont franchie." },
+  guerrilla: { name: "Raids de guérilla", text: "Attaques ennemies -3 pendant 3 tours.", flavor: "Pas de ligne de front, donc pas de front à percer." },
+  changsha: { name: "Défense de Changsha", text: "Gagnez 10 de Blocage. Si elle bloque entièrement une attaque, renvoie 10.", flavor: "Trois fois. Ils ont essayé trois fois." },
+  bletchley: { name: "Bletchley Park", text: "Voyez les 2 prochains coups ennemis pour le reste de la bataille. Piochez 1 carte. Réputation -2.", flavor: "Le secret le mieux gardé de la guerre était un problème de classement." },
+  chain_home: { name: "Chain Home", text: "Vous subissez 4 dégâts de moins par coup ce tour.", flavor: "Ils les voyaient venir. Toute l'astuce était là." },
+  desert_rats: { name: "Rats du Désert", text: "Inflige 9 dégâts ; 13 si vous voyez l'intention ennemie.", flavor: "Du sable partout. Y compris dans les plans de l'ennemi." },
+  convoy_blockade: { name: "Blocus des convois", text: "Vole 3 pièces d'or (livrées au prochain revenu). Le Trésor ennemi cesse de croître pendant 3 tours.", flavor: "Rien n'entre, rien ne sort." },
+  lancaster: { name: "Raid Lancaster", text: "Inflige 16 dégâts.", flavor: "Lourd, lent, et manifestement en route." },
+  free_france: { name: "France Libre", text: "Inflige 6 dégâts ; 12 si vous êtes sous la moitié de vos PV. Réputation -2.", flavor: "Un gouvernement dans un studio de radio. Et ça comptait." },
+  maginot: { name: "Ligne Maginot", text: "Gagnez 12 de Blocage.", flavor: "Ingénierie superbe. Mauvaise question." },
+  resistance_net: { name: "Réseau de la Résistance", text: "Vole 2 pièces d'or (livrées au prochain revenu). Piochez 1 carte.", flavor: "Tout le monde est facteur maintenant." },
+  leclerc: { name: "Colonne Leclerc", text: "Inflige 5 dégâts deux fois ; +3 par coup si vous êtes sous la moitié de vos PV.", flavor: "Il leur avait promis Paris. Il n'exagérait pas." },
+  liberation: { name: "Libération", text: "Soigne 10 PV. Réputation +1.", flavor: "Les cloches ont marché. Quelqu'un avait caché les battants." },
 },
 countries: {
   germany: { name: "Allemagne",
@@ -3221,6 +3606,15 @@ countries: {
   usa: { name: "États-Unis",
     intro: "Démarrage lent, fin imparable. Tu as huit tours. Dépense-les bien.",
     gimmick: "Les attaques démarrent à 4 et montent de +2 par tour. <b>L'Horloge Manhattan</b> atteint zéro en 8 tours : 40 dégâts, sans appel." },
+  china: { name: "Chine",
+    intro: "Elle ne s'effondre pas et elle ne se presse pas. Chaque tour que vous dépensez, elle l'encaisse.",
+    gimmick: "<b>Guerre prolongée :</b> tous les 3 tours, ses attaques gagnent +2 définitivement. Elle bloque aussi pour 8 (💰2). L'horloge est de son côté." },
+  uk: { name: "Royaume-Uni",
+    intro: "Il lit votre courrier et assèche vos ports. Apportez votre propre économie.",
+    gimmick: "Un tour sur deux, il <b>bloque</b> : votre prochain revenu -2, son trésor +3. Dès sa 4ᵉ action il débloque les <b>bombardiers lourds</b> (💰4) pour 14 dégâts." },
+  france: { name: "France",
+    intro: "S'effondre vite, se bat le plus fort à la fin. Ne la laissez pas debout.",
+    gimmick: "<b>Résistance :</b> sous la moitié de ses PV, toutes ses attaques gagnent +5. L'ennemi le moins cher à entamer, le plus cher à laisser à moitié mort." },
 },
 deaths: {
   KILLED_IN_ACTION: "Mort au combat",
@@ -3286,6 +3680,30 @@ strings: {
 
   con_usa: "Cartes chères, démarrage le plus lent des quatre.",
 
+  arch_china: "PROLONGÉE — le temps est votre munition",
+  arch_uk: "RENSEIGNEMENT — le savoir avant que ça arrive",
+  arch_france: "RÉSISTANCE — plus forte quand elle perd",
+  pro_china: "Frappe d'autant plus fort que le combat dure.",
+  con_china: "Peu de dégâts au début ; il lui faut un combat long.",
+  pro_uk: "Voit le plan ennemi et assèche son trésor.",
+  con_uk: "PV réduits ; punie par une ouverture rapide.",
+  pro_france: "Redouble une fois passé sous la moitié des PV.",
+  con_france: "Faible tant que vous allez bien — ce deck ne paie que quand vous perdez.",
+  diff_endless: "Infini",
+  diff_endless_sub: n => n ? `Meilleure série : ${n}` : "Combattez jusqu'à tomber",
+  endless_badge: n => `♾️ INFINI — VAGUE ${n}`,
+  endless_tag: "BOSS DE VAGUE",
+  wave_no: n => `♾️ Vague ${n}`,
+  best_streak: n => `Meilleure série Infini : ${n}`,
+  endless_result: (n, b) => `Survécu à ${n} vague${n === 1 ? "" : "s"}. Record : ${b}.`,
+  warn_bomber: "✈️ Bombardiers lourds en approche.",
+  log_guerrilla: "Aucun front à percer : attaques ennemies -3 pendant 3 tours.",
+  log_chain_home: "Chaîne radar allumée : -4 dégâts par coup ce tour.",
+  log_blockade: "Ports fermés. Son trésor cesse de croître pendant 3 tours.",
+  chip_chain_home: "📡 -4 dég./coup (tour)",
+  chip_chest_frozen: n => `⚓ trésor gelé (${n}t)`,
+  chip_protracted: n => `⏳ Prolongée : +${n} att`,
+  chip_cornered: "🔥 Acculée : +5 att",
   pick_side: "Choisis ton camp",
   pick_side_sub: "Choix cosmétique. La guerre est identique dans tous les cas. C'est souvent le cas.",
 
@@ -3506,6 +3924,9 @@ ach: {
   spotless: { name: "Irréprochable", text: "Pas une ligne comptable à citer à comparaître.", hint: "Gagnez une partie sans jamais descendre sous 7 de Réputation." },
   rockbottom: { name: "Le fond du trou", text: "Tout le monde vous déteste. Vous avez gagné quand même.", hint: "Gagnez une partie avec Paria absolu actif." },
   slippery: { name: "Pente savonneuse", text: "Ça a commencé par un petit arrangement.", hint: "Chutez de 8 à 0 de Réputation en une seule bataille." },
+  endless5: { name: "Longue guerre", text: "Cinq vagues, toujours debout.", hint: "Survivez à 5 vagues en mode Infini." },
+  endless10: { name: "Pas d'armistice", text: "Quelqu'un aurait dû signer quelque chose depuis le temps.", hint: "Survivez à 10 vagues en mode Infini." },
+  world_tour: { name: "Le problème de tout le monde", text: "Vous avez maintenant personnellement agacé la planète entière.", hint: "Battez les six autres nations dans une seule partie Infinie." },
   maginot:        { name: "Mentalité Maginot", text: "La défense était parfaite. La guerre a bougé.", hint: "Mourez sous le Blitzkrieg avec 2+ cartes de Blocage en main." },
   winter_regards: { name: "Les salutations du Général Hiver", text: "Vous n'êtes pas le premier. Vous ne serez pas le dernier.", hint: "Mourez face à l'URSS à son palier d'attaque maximal." },
   broke_dead:     { name: "Fauché ET mort", text: "La faillite : l'autre capitulation sans conditions.", hint: "Mourez face au Japon en étant en faillite." },
@@ -3566,6 +3987,21 @@ cards: {
   ike_arsenal:   { name: "Ikes Arsenal", text: "Alle Angriffe dauerhaft +1 pro 4 Einkommen.", flavor: "Logistik gewinnt Kriege. Ike gewinnt Logistik." },
   patton_push:   { name: "Pattons Vorstoß", text: "Verursacht Schaden in Höhe von 1,5× deinem Einkommen.", flavor: "Er wartet nicht auf Befehle. Er wartet auf gar nichts." },
   arsenal_democracy: { name: "Arsenal der Demokratie", text: "Einkommen dauerhaft +2. Ruf +1.", flavor: "Auf der moralischen Überlegenheit steht offenbar eine Fabrik." },
+  taierzhuang: { name: "Taierzhuang", text: "Verursacht 4 Schaden, +1 pro bereits vergangener Runde in diesem Kampf (max. 14). Ruf -2.", flavor: "Sie erwarteten eine Flucht. Sie bekamen eine Rechnung." },
+  flying_tigers: { name: "Flying Tigers", text: "Verursacht 8 Schaden. Ignoriert Block.", flavor: "Freiwillige. Formal jedenfalls." },
+  the_hump: { name: "Der Hump", text: "Einkommen +1. Ziehe 1 Karte.", flavor: "Über den Berg oder den Krieg verlieren. Sie flogen über den Berg." },
+  guerrilla: { name: "Partisanenüberfälle", text: "Gegnerische Angriffe -3 für 3 Züge.", flavor: "Keine Front heißt keine Front zum Durchbrechen." },
+  changsha: { name: "Verteidigung von Changsha", text: "Erhalte 10 Block. Blockt es einen Angriff vollständig, gib 10 zurück.", flavor: "Dreimal. Sie versuchten es dreimal." },
+  bletchley: { name: "Bletchley Park", text: "Sieh die nächsten 2 Züge des Gegners für den Rest des Kampfes. Ziehe 1 Karte. Ruf -2.", flavor: "Das bestgehütete Geheimnis des Krieges war ein Ablageproblem." },
+  chain_home: { name: "Chain Home", text: "Du erleidest diesen Zug 4 Schaden weniger pro Treffer.", flavor: "Sie sahen sie kommen. Das war der ganze Trick." },
+  desert_rats: { name: "Wüstenratten", text: "Verursacht 9 Schaden; 13, wenn du die gegnerische Absicht sehen kannst.", flavor: "Sand in allem. Auch in den Plänen des Gegners." },
+  convoy_blockade: { name: "Geleitzugblockade", text: "Stiehlt 3 Gold (kommt mit dem nächsten Einkommen). Die gegnerische Kriegskasse wächst 3 Züge lang nicht.", flavor: "Nichts rein, nichts raus." },
+  lancaster: { name: "Lancaster-Angriff", text: "Verursacht 16 Schaden.", flavor: "Schwer, langsam und unverkennbar unterwegs." },
+  free_france: { name: "Freies Frankreich", text: "Verursacht 6 Schaden; 12, wenn du unter der Hälfte deiner LP bist. Ruf -2.", flavor: "Eine Regierung in einem Rundfunkstudio. Und sie zählte." },
+  maginot: { name: "Maginot-Linie", text: "Erhalte 12 Block.", flavor: "Hervorragende Ingenieursarbeit. Falsche Frage." },
+  resistance_net: { name: "Résistance-Netzwerk", text: "Stiehlt 2 Gold (kommt mit dem nächsten Einkommen). Ziehe 1 Karte.", flavor: "Jetzt ist jeder Briefträger." },
+  leclerc: { name: "Leclercs Kolonne", text: "Verursacht zweimal 5 Schaden; +3 pro Treffer, wenn du unter der Hälfte deiner LP bist.", flavor: "Er versprach ihnen Paris. Er übertrieb nicht." },
+  liberation: { name: "Befreiung", text: "Heilt 10 LP. Ruf +1.", flavor: "Die Glocken funktionierten. Jemand hatte die Klöppel versteckt." },
 },
 countries: {
   germany: { name: "Deutschland",
@@ -3580,6 +4016,15 @@ countries: {
   usa: { name: "Vereinigte Staaten",
     intro: "Langsamer Start, unaufhaltsames Ende. Du hast acht Runden. Nutze sie klug.",
     gimmick: "Angriffe starten bei 4 und steigen um +2 pro Runde. <b>Die Manhattan-Uhr</b> erreicht in 8 Runden null: 40 Schaden, keine Berufung." },
+  china: { name: "China",
+    intro: "Es bricht nicht zusammen und es hat keine Eile. Jeder Zug, den du ausgibst, ist ein Zug, den es einzahlt.",
+    gimmick: "<b>Zermürbungskrieg:</b> alle 3 Züge gewinnen seine Angriffe dauerhaft +2. Es blockt außerdem für 8 (💰2). Die Uhr arbeitet für es, nicht für dich." },
+  uk: { name: "Vereinigtes Königreich",
+    intro: "Es liest deine Post und trocknet deine Häfen aus. Bring deine eigene Wirtschaft mit.",
+    gimmick: "Jeden zweiten Zug <b>blockiert</b> es: dein nächstes Einkommen -2, seine eigene Kasse +3. Ab der 4. Aktion schaltet es <b>schwere Bomber</b> (💰4) für 14 Schaden frei." },
+  france: { name: "Frankreich",
+    intro: "Fällt schnell, kämpft am Ende am härtesten. Lass es nicht stehen.",
+    gimmick: "<b>Résistance:</b> unter der Hälfte seiner LP gewinnen alle Angriffe +5. Der billigste Gegner zum Anfangen, der teuerste zum Halbtotliegenlassen." },
 },
 deaths: {
   KILLED_IN_ACTION: "Gefallen",
@@ -3645,6 +4090,30 @@ strings: {
 
   con_usa: "Teure Karten, langsamster Start von allen vieren.",
 
+  arch_china: "ZERMÜRBUNG — Zeit ist deine Munition",
+  arch_uk: "AUFKLÄRUNG — es wissen, bevor es passiert",
+  arch_france: "RÉSISTANCE — am stärksten im Rückstand",
+  pro_china: "Schlägt umso härter zu, je länger der Kampf läuft.",
+  con_china: "Wenig Schaden früh; braucht einen langen Kampf.",
+  pro_uk: "Sieht den Plan des Gegners und trocknet seine Kasse aus.",
+  con_uk: "Wenig LP; wird von einem schnellen Auftakt hart bestraft.",
+  pro_france: "Legt nach, sobald du unter die Hälfte deiner LP fällst.",
+  con_france: "Schwach, solange es dir gut geht — das Deck zahlt sich nur aus, wenn du verlierst.",
+  diff_endless: "Endlos",
+  diff_endless_sub: n => n ? `Bestleistung: ${n}` : "Kämpfe, bis du fällst",
+  endless_badge: n => `♾️ ENDLOS — WELLE ${n}`,
+  endless_tag: "WELLENBOSS",
+  wave_no: n => `♾️ Welle ${n}`,
+  best_streak: n => `Beste Endlos-Serie: ${n}`,
+  endless_result: (n, b) => `${n} Welle${n === 1 ? "" : "n"} überstanden. Bestwert: ${b}.`,
+  warn_bomber: "✈️ Schwere Bomber im Anflug.",
+  log_guerrilla: "Keine Front zum Durchbrechen: gegnerische Angriffe -3 für 3 Züge.",
+  log_chain_home: "Radarkette aktiv: -4 Schaden pro Treffer in diesem Zug.",
+  log_blockade: "Häfen dicht. Seine Kasse wächst 3 Züge lang nicht.",
+  chip_chain_home: "📡 -4 Schaden/Treffer (Zug)",
+  chip_chest_frozen: n => `⚓ Kasse eingefroren (${n} Z.)`,
+  chip_protracted: n => `⏳ Zermürbung: +${n} Angr.`,
+  chip_cornered: "🔥 In die Enge: +5 Angr.",
   pick_side: "Wähle deine Seite",
   pick_side_sub: "Rein kosmetisch. Der Krieg ist so oder so derselbe. Das sind Kriege meistens.",
 
@@ -3865,6 +4334,9 @@ ach: {
   spotless: { name: "Blütenweiß", text: "Kein einziger Posten, den man vorladen könnte.", hint: "Gewinne einen Run, ohne je unter 7 Ruf zu fallen." },
   rockbottom: { name: "Ganz unten", text: "Alle hassen dich. Gewonnen hast du trotzdem.", hint: "Gewinne einen Run mit aktivem Totalem Paria." },
   slippery: { name: "Schiefe Bahn", text: "Angefangen hat es mit einem kleinen Gefallen.", hint: "Falle in einem einzigen Kampf von 8 auf 0 Ruf." },
+  endless5: { name: "Langer Krieg", text: "Fünf Wellen, und du stehst noch.", hint: "Überstehe 5 Wellen im Endlos-Modus." },
+  endless10: { name: "Kein Waffenstillstand", text: "Irgendwer hätte inzwischen etwas unterschreiben müssen.", hint: "Überstehe 10 Wellen im Endlos-Modus." },
+  world_tour: { name: "Das Problem aller", text: "Du hast jetzt persönlich den gesamten Planeten verärgert.", hint: "Besiege alle sechs anderen Nationen in einem einzigen Endlos-Lauf." },
   maginot:        { name: "Maginot-Mentalität", text: "Die Verteidigung war perfekt. Der Krieg ist umgezogen.", hint: "Stirb am Blitzkrieg mit 2+ Blockkarten auf der Hand." },
   winter_regards: { name: "General Winter lässt grüßen", text: "Du bist nicht der Erste. Du wirst nicht der Letzte sein.", hint: "Stirb an der UdSSR auf ihrer höchsten Angriffsstufe." },
   broke_dead:     { name: "Pleite UND tot", text: "Bankrott: die andere bedingungslose Kapitulation.", hint: "Stirb an Japan, während du pleite bist." },
@@ -3925,6 +4397,21 @@ cards: {
   ike_arsenal:   { name: "L'arsenale di Ike", text: "Tutti gli attacchi +1 permanente per ogni 4 di reddito.", flavor: "La logistica vince le guerre. Ike vince la logistica." },
   patton_push:   { name: "La spinta di Patton", text: "Infligge danni pari a 1,5× il tuo reddito.", flavor: "Non aspetta ordini. Non aspetta niente." },
   arsenal_democracy: { name: "Arsenale della Democrazia", text: "Reddito +2 permanente. Reputazione +1.", flavor: "A quanto pare sulla superiorità morale c'è una fabbrica." },
+  taierzhuang: { name: "Taierzhuang", text: "Infligge 4 danni, +1 per ogni turno già trascorso in questa battaglia (max 14). Reputazione -2.", flavor: "Si aspettavano una rotta. Hanno ricevuto un conto." },
+  flying_tigers: { name: "Tigri Volanti", text: "Infligge 8 danni. Ignora il Blocco.", flavor: "Volontari. Tecnicamente." },
+  the_hump: { name: "La Gobba", text: "Reddito +1. Pesca 1 carta.", flavor: "Superare la montagna o perdere la guerra. La superarono." },
+  guerrilla: { name: "Incursioni partigiane", text: "Attacchi nemici -3 per 3 turni.", flavor: "Senza fronte non c'è fronte da sfondare." },
+  changsha: { name: "Difesa di Changsha", text: "Ottieni 10 Blocco. Se blocca del tutto un attacco, restituisce 10.", flavor: "Tre volte. Ci provarono tre volte." },
+  bletchley: { name: "Bletchley Park", text: "Vedi le prossime 2 mosse nemiche per il resto della battaglia. Pesca 1 carta. Reputazione -2.", flavor: "Il segreto meglio custodito della guerra era un problema di archiviazione." },
+  chain_home: { name: "Chain Home", text: "Subisci 4 danni in meno per ogni colpo questo turno.", flavor: "Li vedevano arrivare. Il trucco era tutto lì." },
+  desert_rats: { name: "Topi del Deserto", text: "Infligge 9 danni; 13 se puoi vedere l'intenzione nemica.", flavor: "Sabbia dappertutto. Anche nei piani del nemico." },
+  convoy_blockade: { name: "Blocco dei convogli", text: "Ruba 3 oro (arriva col prossimo reddito). Il Forziere nemico smette di crescere per 3 turni.", flavor: "Niente entra, niente esce." },
+  lancaster: { name: "Incursione Lancaster", text: "Infligge 16 danni.", flavor: "Pesante, lento e inequivocabilmente in arrivo." },
+  free_france: { name: "Francia Libera", text: "Infligge 6 danni; 12 se sei sotto metà PV. Reputazione -2.", flavor: "Un governo dentro uno studio radiofonico. E contava." },
+  maginot: { name: "Linea Maginot", text: "Ottieni 12 Blocco.", flavor: "Ingegneria superba. Domanda sbagliata." },
+  resistance_net: { name: "Rete della Resistenza", text: "Ruba 2 oro (arriva col prossimo reddito). Pesca 1 carta.", flavor: "Adesso sono tutti postini." },
+  leclerc: { name: "Colonna Leclerc", text: "Infligge 5 danni due volte; +3 per colpo se sei sotto metà PV.", flavor: "Aveva promesso loro Parigi. Non esagerava." },
+  liberation: { name: "Liberazione", text: "Cura 10 PV. Reputazione +1.", flavor: "Le campane funzionavano. Qualcuno aveva nascosto i battacchi." },
 },
 countries: {
   germany: { name: "Germania",
@@ -3939,6 +4426,15 @@ countries: {
   usa: { name: "Stati Uniti",
     intro: "Partenza lenta, finale inarrestabile. Hai otto turni. Spendili bene.",
     gimmick: "Gli attacchi partono da 4 e salgono di +2 a turno. <b>L'Orologio Manhattan</b> arriva a zero in 8 turni: 40 danni, senza appello." },
+  china: { name: "Cina",
+    intro: "Non crolla e non ha fretta. Ogni turno che spendi è un turno che lei incassa.",
+    gimmick: "<b>Guerra prolungata:</b> ogni 3 turni i suoi attacchi guadagnano +2 permanente. Blocca anche per 8 (💰2). L'orologio gioca per lei." },
+  uk: { name: "Regno Unito",
+    intro: "Legge la tua posta e ti prosciuga i porti. Portati la tua economia.",
+    gimmick: "Un turno sì e uno no <b>blocca</b>: il tuo prossimo reddito -2, il suo forziere +3. Dalla 4ª azione sblocca i <b>bombardieri pesanti</b> (💰4) per 14 danni." },
+  france: { name: "Francia",
+    intro: "Cade in fretta, combatte più duro alla fine. Non lasciarla in piedi.",
+    gimmick: "<b>Resistenza:</b> sotto metà PV tutti gli attacchi guadagnano +5. Il nemico più economico da aprire, il più caro da lasciare mezzo morto." },
 },
 deaths: {
   KILLED_IN_ACTION: "Caduto in combattimento",
@@ -4004,6 +4500,30 @@ strings: {
 
   con_usa: "Carte costose e la partenza più lenta delle quattro.",
 
+  arch_china: "PROLUNGATA — il tempo è la tua munizione",
+  arch_uk: "INTELLIGENCE — saperlo prima che accada",
+  arch_france: "RESISTENZA — più forte quando perde",
+  pro_china: "Colpisce più forte quanto più dura lo scontro.",
+  con_china: "Pochi danni all'inizio; ha bisogno che la lotta si allunghi.",
+  pro_uk: "Vede il piano nemico e ne prosciuga il tesoro.",
+  con_uk: "Pochi PV; punita da un'apertura veloce.",
+  pro_france: "Rilancia una volta scesa sotto metà PV.",
+  con_france: "Debole finché stai bene: il mazzo rende solo quando perdi.",
+  diff_endless: "Infinita",
+  diff_endless_sub: n => n ? `Record: ${n}` : "Combatti finché non cadi",
+  endless_badge: n => `♾️ INFINITA — ONDATA ${n}`,
+  endless_tag: "BOSS D'ONDATA",
+  wave_no: n => `♾️ Ondata ${n}`,
+  best_streak: n => `Record Infinita: ${n}`,
+  endless_result: (n, b) => `Sopravvissuto a ${n} ondat${n === 1 ? "a" : "e"}. Record: ${b}.`,
+  warn_bomber: "✈️ Bombardieri pesanti in arrivo.",
+  log_guerrilla: "Nessun fronte da sfondare: attacchi nemici -3 per 3 turni.",
+  log_chain_home: "Catena radar accesa: -4 danni per colpo questo turno.",
+  log_blockade: "Porti chiusi. Il suo forziere non cresce per 3 turni.",
+  chip_chain_home: "📡 -4 danni per colpo (turno)",
+  chip_chest_frozen: n => `⚓ forziere congelato (${n}t)`,
+  chip_protracted: n => `⏳ Prolungata: +${n} att`,
+  chip_cornered: "🔥 Alle strette: +5 att",
   pick_side: "Scegli la tua parte",
   pick_side_sub: "Scelta estetica. La guerra è identica comunque. Di solito lo sono.",
 
@@ -4224,6 +4744,9 @@ ach: {
   spotless: { name: "Immacolato", text: "Non una voce di bilancio da citare in giudizio.", hint: "Vinci una partita senza mai scendere sotto 7 di Reputazione." },
   rockbottom: { name: "Toccato il fondo", text: "Ti odiano tutti. Hai vinto lo stesso.", hint: "Vinci una partita con Paria totale attivo." },
   slippery: { name: "China scivolosa", text: "È cominciata con un piccolo favore.", hint: "Scendi da 8 a 0 di Reputazione in una sola battaglia." },
+  endless5: { name: "Guerra lunga", text: "Cinque ondate e sei ancora in piedi.", hint: "Sopravvivi a 5 ondate in modalità Infinita." },
+  endless10: { name: "Nessun armistizio", text: "A quest'ora qualcuno avrebbe dovuto firmare qualcosa.", hint: "Sopravvivi a 10 ondate in modalità Infinita." },
+  world_tour: { name: "Il problema di tutti", text: "Ora hai personalmente infastidito l'intero pianeta.", hint: "Sconfiggi le altre sei nazioni in una sola partita Infinita." },
   maginot:        { name: "Mentalità Maginot", text: "La difesa era perfetta. La guerra si è spostata.", hint: "Muori per il Blitzkrieg con 2+ carte di Blocco in mano." },
   winter_regards: { name: "Saluti dal Generale Inverno", text: "Non sei il primo. Non sarai l'ultimo.", hint: "Muori contro l'URSS al suo livello massimo di attacco." },
   broke_dead:     { name: "In bolletta E morto", text: "La bancarotta: l'altra resa incondizionata.", hint: "Muori contro il Giappone mentre sei in bancarotta." },
@@ -4284,6 +4807,21 @@ cards: {
   ike_arsenal:   { name: "Арсенал Айка", text: "Все атаки навсегда +1 за каждые 4 дохода.", flavor: "Логистика выигрывает войны. Айк выигрывает логистику." },
   patton_push:   { name: "Рывок Паттона", text: "Наносит урон, равный 1,5× вашего дохода.", flavor: "Он не ждёт приказов. Он вообще ничего не ждёт." },
   arsenal_democracy: { name: "Арсенал демократии", text: "Доход навсегда +2. Репутация +1.", flavor: "Оказывается, на моральной высоте стоит завод." },
+  taierzhuang: { name: "Тайэрчжуан", text: "Наносит 4 урона, +1 за каждый уже прошедший ход в этом бою (макс. 14). Репутация -2.", flavor: "Ждали разгрома. Получили счёт." },
+  flying_tigers: { name: "«Летающие тигры»", text: "Наносит 8 урона. Игнорирует блок.", flavor: "Добровольцы. Формально." },
+  the_hump: { name: "«Горб»", text: "Доход +1. Возьмите 1 карту.", flavor: "Перелететь хребет или проиграть войну. Они перелетели." },
+  guerrilla: { name: "Партизанские налёты", text: "Атаки врага -3 на 3 хода.", flavor: "Нет линии фронта — нечего и прорывать." },
+  changsha: { name: "Оборона Чанша", text: "Даёт 10 блока. Если блок полностью поглотил атаку — 10 в ответ.", flavor: "Трижды. Они пытались трижды." },
+  bletchley: { name: "Блетчли-парк", text: "До конца боя видны следующие 2 хода врага. Возьмите 1 карту. Репутация -2.", flavor: "Главный секрет войны оказался проблемой картотеки." },
+  chain_home: { name: "«Чейн-Хоум»", text: "В этот ход вы получаете на 4 урона меньше от каждого удара.", flavor: "Они видели их заранее. В этом весь фокус." },
+  desert_rats: { name: "«Пустынные крысы»", text: "Наносит 9 урона; 13, если вы видите намерение врага.", flavor: "Песок везде. В том числе в планах противника." },
+  convoy_blockade: { name: "Блокада конвоев", text: "Крадёт 3 золота (придут со следующим доходом). Казна врага не растёт 3 хода.", flavor: "Ничего внутрь, ничего наружу." },
+  lancaster: { name: "Налёт «Ланкастеров»", text: "Наносит 16 урона.", flavor: "Тяжёлые, медленные и совершенно очевидно летящие к вам." },
+  free_france: { name: "«Свободная Франция»", text: "Наносит 6 урона; 12, если у вас меньше половины ОЗ. Репутация -2.", flavor: "Правительство в радиостудии. И оно имело значение." },
+  maginot: { name: "Линия Мажино", text: "Даёт 12 блока.", flavor: "Инженерия великолепна. Вопрос был не тот." },
+  resistance_net: { name: "Сеть Сопротивления", text: "Крадёт 2 золота (придут со следующим доходом). Возьмите 1 карту.", flavor: "Теперь почтальон каждый." },
+  leclerc: { name: "Колонна Леклерка", text: "Наносит 5 урона дважды; +3 за удар, если у вас меньше половины ОЗ.", flavor: "Он обещал им Париж. Он не преувеличивал." },
+  liberation: { name: "Освобождение", text: "Восстанавливает 10 ОЗ. Репутация +1.", flavor: "Колокола зазвонили. Кто-то до этого прятал языки." },
 },
 countries: {
   germany: { name: "Германия",
@@ -4298,6 +4836,15 @@ countries: {
   usa: { name: "США",
     intro: "Медленный старт, неудержимый финиш. У тебя восемь ходов. Трать их с умом.",
     gimmick: "Атаки начинаются с 4 и растут на +2 каждый ход. <b>Манхэттенский отсчёт</b> обнулится через 8 ходов: 40 урона, без апелляций." },
+  china: { name: "Китай",
+    intro: "Он не рухнет и не станет спешить. Каждый потраченный вами ход он кладёт себе в копилку.",
+    gimmick: "<b>Затяжная война:</b> каждые 3 хода его атаки навсегда +2. Ещё и блокирует на 8 (💰2). Часы работают на него, не на вас." },
+  uk: { name: "Великобритания",
+    intro: "Читает вашу почту и душит ваши порты. Экономику приносите свою.",
+    gimmick: "Через ход <b>блокада</b>: ваш следующий доход -2, его казна +3. С 4-го действия открывает <b>тяжёлые бомбардировщики</b> (💰4) на 14 урона." },
+  france: { name: "Франция",
+    intro: "Ломается быстро, а в конце дерётся злее всех. Не оставляйте её на ногах.",
+    gimmick: "<b>Сопротивление:</b> ниже половины ОЗ все атаки +5. Самый дешёвый противник для начала и самый дорогой, если бросить его полуживым." },
 },
 deaths: {
   KILLED_IN_ACTION: "Погиб в бою",
@@ -4363,6 +4910,30 @@ strings: {
 
   con_usa: "Дорогие карты и самый медленный старт из четырёх.",
 
+  arch_china: "ЗАТЯЖНАЯ — время и есть ваш боезапас",
+  arch_uk: "РАЗВЕДКА — знать до того, как случится",
+  arch_france: "СОПРОТИВЛЕНИЕ — сильнее, когда проигрывает",
+  pro_china: "Бьёт тем сильнее, чем дольше идёт бой.",
+  con_china: "Слабый урон в начале; нужен долгий бой.",
+  pro_uk: "Видит план врага и сушит его казну.",
+  con_uk: "Мало ОЗ; жёстко наказывается быстрым стартом.",
+  pro_france: "Удваивает ставку, как только вы падаете ниже половины ОЗ.",
+  con_france: "Слаба, пока вы здоровы: колода окупается только в проигрыше.",
+  diff_endless: "Бесконечность",
+  diff_endless_sub: n => n ? `Рекорд: ${n}` : "Бейтесь, пока не упадёте",
+  endless_badge: n => `♾️ БЕСКОНЕЧНОСТЬ — ВОЛНА ${n}`,
+  endless_tag: "БОСС ВОЛНЫ",
+  wave_no: n => `♾️ Волна ${n}`,
+  best_streak: n => `Рекорд «Бесконечности»: ${n}`,
+  endless_result: (n, b) => `Продержались ${n} волн. Рекорд: ${b}.`,
+  warn_bomber: "✈️ Идут тяжёлые бомбардировщики.",
+  log_guerrilla: "Прорывать нечего: атаки врага -3 на 3 хода.",
+  log_chain_home: "Радарная цепь включена: -4 урона от каждого удара в этот ход.",
+  log_blockade: "Порты закрыты. Его казна не растёт 3 хода.",
+  chip_chain_home: "📡 -4 урона за удар (ход)",
+  chip_chest_frozen: n => `⚓ казна заморожена (${n} х.)`,
+  chip_protracted: n => `⏳ Затяжная: +${n} атк`,
+  chip_cornered: "🔥 Загнана в угол: +5 атк",
   pick_side: "Выбери сторону",
   pick_side_sub: "Чисто косметика. Война одинаковая в любом случае. Обычно так и бывает.",
 
@@ -4583,6 +5154,9 @@ ach: {
   spotless: { name: "Безупречно", text: "Ни одной статьи, по которой можно вызвать в суд.", hint: "Пройдите забег, ни разу не опустив репутацию ниже 7." },
   rockbottom: { name: "На самом дне", text: "Вас ненавидят все. Вы всё равно победили.", hint: "Пройдите забег со статусом «Изгой мира»." },
   slippery: { name: "Скользкий склон", text: "Началось с одной маленькой услуги.", hint: "Уроните репутацию с 8 до 0 за один бой." },
+  endless5: { name: "Долгая война", text: "Пятая волна, а вы всё ещё стоите.", hint: "Продержитесь 5 волн в режиме «Бесконечность»." },
+  endless10: { name: "Без перемирия", text: "К этому моменту кто-нибудь уже должен был что-нибудь подписать.", hint: "Продержитесь 10 волн в режиме «Бесконечность»." },
+  world_tour: { name: "Проблема для всех", text: "Теперь вы лично разозлили всю планету.", hint: "Победите все шесть других стран за один бесконечный забег." },
   maginot:        { name: "Мышление Мажино", text: "Оборона была идеальной. Война просто переехала.", hint: "Погибните от блицкрига с 2+ картами блока в руке." },
   winter_regards: { name: "Привет от Генерала Мороза", text: "Вы не первый. И не последний.", hint: "Погибните от СССР на его максимальной ступени атаки." },
   broke_dead:     { name: "Банкрот И труп", text: "Банкротство: другая безоговорочная капитуляция.", hint: "Погибните от Японии, будучи банкротом." },
@@ -4643,6 +5217,21 @@ cards: {
   ike_arsenal:   { name: "Arsenał Ike'a", text: "Wszystkie ataki na stałe +1 za każde 4 dochodu.", flavor: "Logistyka wygrywa wojny. Ike wygrywa logistykę." },
   patton_push:   { name: "Natarcie Pattona", text: "Zadaje obrażenia równe 1,5× twojego dochodu.", flavor: "Nie czeka na rozkazy. Nie czeka na nic." },
   arsenal_democracy: { name: "Arsenał demokracji", text: "Dochód na stałe +2. Reputacja +1.", flavor: "Okazuje się, że na moralnych wyżynach stoi fabryka." },
+  taierzhuang: { name: "Taierzhuang", text: "Zadaje 4 obrażenia, +1 za każdą turę, która już minęła w tej bitwie (maks. 14). Reputacja -2.", flavor: "Spodziewali się pogromu. Dostali rachunek." },
+  flying_tigers: { name: "Latające Tygrysy", text: "Zadaje 8 obrażeń. Ignoruje Blok.", flavor: "Ochotnicy. Formalnie." },
+  the_hump: { name: "Garb", text: "Dochód +1. Dobierz 1 kartę.", flavor: "Przelecieć góry albo przegrać wojnę. Przelecieli." },
+  guerrilla: { name: "Napady partyzanckie", text: "Ataki wroga -3 przez 3 tury.", flavor: "Bez frontu nie ma frontu do przełamania." },
+  changsha: { name: "Obrona Changsha", text: "Zyskaj 10 Bloku. Jeśli w pełni zablokuje atak, oddaje 10.", flavor: "Trzy razy. Próbowali trzy razy." },
+  bletchley: { name: "Bletchley Park", text: "Widzisz 2 następne ruchy wroga do końca bitwy. Dobierz 1 kartę. Reputacja -2.", flavor: "Najlepiej strzeżonym sekretem wojny był problem z archiwum." },
+  chain_home: { name: "Chain Home", text: "W tej turze otrzymujesz o 4 obrażenia mniej z każdego ciosu.", flavor: "Widzieli ich nadlatujących. Cała sztuczka na tym polegała." },
+  desert_rats: { name: "Szczury Pustyni", text: "Zadaje 9 obrażeń; 13, jeśli widzisz zamiar wroga.", flavor: "Piach wszędzie. Także w planach przeciwnika." },
+  convoy_blockade: { name: "Blokada konwojów", text: "Kradnie 3 złota (dotrą z następnym dochodem). Skarbiec wroga nie rośnie przez 3 tury.", flavor: "Nic do środka, nic na zewnątrz." },
+  lancaster: { name: "Nalot Lancasterów", text: "Zadaje 16 obrażeń.", flavor: "Ciężkie, powolne i bezdyskusyjnie w drodze." },
+  free_france: { name: "Wolna Francja", text: "Zadaje 6 obrażeń; 12, jeśli masz poniżej połowy PŻ. Reputacja -2.", flavor: "Rząd w studiu radiowym. I liczył się." },
+  maginot: { name: "Linia Maginota", text: "Zyskaj 12 Bloku.", flavor: "Znakomita inżynieria. Złe pytanie." },
+  resistance_net: { name: "Siatka ruchu oporu", text: "Kradnie 2 złota (dotrą z następnym dochodem). Dobierz 1 kartę.", flavor: "Teraz każdy jest listonoszem." },
+  leclerc: { name: "Kolumna Leclerca", text: "Zadaje 5 obrażeń dwa razy; +3 za cios, jeśli masz poniżej połowy PŻ.", flavor: "Obiecał im Paryż. Nie przesadzał." },
+  liberation: { name: "Wyzwolenie", text: "Leczy 10 PŻ. Reputacja +1.", flavor: "Dzwony zadziałały. Ktoś wcześniej schował serca." },
 },
 countries: {
   germany: { name: "Niemcy",
@@ -4657,6 +5246,15 @@ countries: {
   usa: { name: "Stany Zjednoczone",
     intro: "Wolny start, nie do zatrzymania na końcu. Masz osiem tur. Wydaj je mądrze.",
     gimmick: "Ataki startują od 4 i rosną o +2 co turę. <b>Zegar Manhattan</b> dojdzie do zera w 8 tur: 40 obrażeń, bez odwołania." },
+  china: { name: "Chiny",
+    intro: "Nie runie i nie będzie się spieszyć. Każda tura, którą wydasz, trafia do jego skarbonki.",
+    gimmick: "<b>Wojna przewlekła:</b> co 3 tury jego ataki zyskują +2 na stałe. Blokuje też za 8 (💰2). Zegar pracuje dla niego." },
+  uk: { name: "Wielka Brytania",
+    intro: "Czyta twoją pocztę i dusi twoje porty. Przynieś własną gospodarkę.",
+    gimmick: "Co drugą turę <b>blokuje</b>: twój następny dochód -2, a jego skarbiec +3. Od 4. akcji odblokowuje <b>ciężkie bombowce</b> (💰4) na 14 obrażeń." },
+  france: { name: "Francja",
+    intro: "Pada szybko, najmocniej bije na końcu. Nie zostawiaj jej na nogach.",
+    gimmick: "<b>Ruch oporu:</b> poniżej połowy PŻ wszystkie ataki zyskują +5. Najtańszy przeciwnik na start, najdroższy, gdy zostawisz go półżywego." },
 },
 deaths: {
   KILLED_IN_ACTION: "Poległ w boju",
@@ -4722,6 +5320,30 @@ strings: {
 
   con_usa: "Drogie karty i najwolniejszy start z całej czwórki.",
 
+  arch_china: "PRZEWLEKŁA — czas to twoja amunicja",
+  arch_uk: "WYWIAD — wiedzieć, zanim się stanie",
+  arch_france: "OPÓR — najsilniejsza, gdy przegrywa",
+  pro_china: "Bije tym mocniej, im dłużej trwa walka.",
+  con_china: "Słabe obrażenia na starcie; potrzebuje długiej walki.",
+  pro_uk: "Widzi plan wroga i osusza mu skarbiec.",
+  con_uk: "Mało PŻ; boleśnie karana przez szybkie otwarcie.",
+  pro_france: "Podbija stawkę, gdy spadniesz poniżej połowy PŻ.",
+  con_france: "Słaba, póki jesteś zdrów — talia zwraca się dopiero, gdy przegrywasz.",
+  diff_endless: "Nieskończony",
+  diff_endless_sub: n => n ? `Rekord: ${n}` : "Walcz, aż padniesz",
+  endless_badge: n => `♾️ NIESKOŃCZONY — FALA ${n}`,
+  endless_tag: "BOSS FALI",
+  wave_no: n => `♾️ Fala ${n}`,
+  best_streak: n => `Rekord Nieskończonego: ${n}`,
+  endless_result: (n, b) => `Przetrwałeś ${n} fal. Rekord: ${b}.`,
+  warn_bomber: "✈️ Nadlatują ciężkie bombowce.",
+  log_guerrilla: "Nie ma frontu do przełamania: ataki wroga -3 przez 3 tury.",
+  log_chain_home: "Sieć radarowa włączona: -4 obrażenia z każdego ciosu w tej turze.",
+  log_blockade: "Porty zamknięte. Jego skarbiec nie rośnie przez 3 tury.",
+  chip_chain_home: "📡 -4 obr. na cios (tura)",
+  chip_chest_frozen: n => `⚓ skarbiec zamrożony (${n}t)`,
+  chip_protracted: n => `⏳ Przewlekła: +${n} atk`,
+  chip_cornered: "🔥 Osaczona: +5 atk",
   pick_side: "Wybierz stronę",
   pick_side_sub: "Wybór czysto kosmetyczny. Wojna i tak jest identyczna. Zwykle są.",
 
@@ -4942,6 +5564,9 @@ ach: {
   spotless: { name: "Bez skazy", text: "Ani jednej pozycji, którą dałoby się zająć.", hint: "Wygraj bieg, nigdy nie schodząc poniżej 7 reputacji." },
   rockbottom: { name: "Na samym dnie", text: "Wszyscy cię nienawidzą. I tak wygrałeś.", hint: "Wygraj bieg z aktywnym Wyrzutkiem świata." },
   slippery: { name: "Równia pochyła", text: "Zaczęło się od jednej drobnej przysługi.", hint: "Spadnij z 8 do 0 reputacji w jednej bitwie." },
+  endless5: { name: "Długa wojna", text: "Piąta i wciąż stoisz.", hint: "Przetrwaj 5 fal w trybie Nieskończonym." },
+  endless10: { name: "Bez rozejmu", text: "Ktoś powinien był już coś podpisać.", hint: "Przetrwaj 10 fal w trybie Nieskończonym." },
+  world_tour: { name: "Problem wszystkich", text: "Osobiście zdenerwowałeś już całą planetę.", hint: "Pokonaj pozostałe sześć państw w jednym biegu Nieskończonym." },
   maginot:        { name: "Mentalność Maginota", text: "Obrona była idealna. Wojna się przeprowadziła.", hint: "Zgiń od Blitzkriegu z 2+ kartami Bloku w ręce." },
   winter_regards: { name: "Pozdrowienia od Generała Mroza", text: "Nie jesteś pierwszy. Nie będziesz ostatni.", hint: "Zgiń z rąk ZSRR na jego najwyższym progu ataku." },
   broke_dead:     { name: "Bankrut I trup", text: "Bankructwo: ta druga bezwarunkowa kapitulacja.", hint: "Zgiń z rąk Japonii, będąc bankrutem." },
@@ -5002,6 +5627,21 @@ cards: {
   ike_arsenal:   { name: "Ike'ın Cephaneliği", text: "Sahip olduğun her 4 gelir için tüm saldırılar kalıcı +1.", flavor: "Lojistik savaş kazandırır. Ike lojistik kazandırır." },
   patton_push:   { name: "Patton'ın Taarruzu", text: "Gelirinin 1,5 katı kadar hasar verir.", flavor: "Emir beklemez. Hiçbir şey beklemez." },
   arsenal_democracy: { name: "Demokrasinin Cephaneliği", text: "Gelir kalıcı +2. İtibar +1.", flavor: "Meğer ahlaki üstünlüğün üzerinde bir fabrika varmış." },
+  taierzhuang: { name: "Taierzhuang", text: "4 hasar verir, bu savaşta geçen her tur için +1 (en fazla 14). İtibar -2.", flavor: "Bozgun beklediler. Fatura geldi." },
+  flying_tigers: { name: "Uçan Kaplanlar", text: "8 hasar verir. Bloğu yok sayar.", flavor: "Gönüllüler. Teknik olarak." },
+  the_hump: { name: "Hörgüç Hattı", text: "Gelir +1. 1 kart çek.", flavor: "Dağı aş ya da savaşı kaybet. Dağı aştılar." },
+  guerrilla: { name: "Gerilla baskınları", text: "Düşman saldırıları 3 tur boyunca -3.", flavor: "Cephe yoksa, yarılacak cephe de yoktur." },
+  changsha: { name: "Changsha Savunması", text: "10 blok kazan. Bir saldırıyı tamamen bloklarsa 10 geri verir.", flavor: "Üç kez. Üç kez denediler." },
+  bletchley: { name: "Bletchley Park", text: "Bu savaşın kalanında düşmanın sonraki 2 hamlesini görürsün. 1 kart çek. İtibar -2.", flavor: "Savaşın en iyi saklanan sırrı bir dosyalama sorunuydu." },
+  chain_home: { name: "Chain Home", text: "Bu tur her darbeden 4 az hasar alırsın.", flavor: "Geldiklerini önceden gördüler. Bütün numara buydu." },
+  desert_rats: { name: "Çöl Fareleri", text: "9 hasar verir; düşmanın niyetini görebiliyorsan 13.", flavor: "Her yerde kum. Düşmanın planlarında bile." },
+  convoy_blockade: { name: "Konvoy ablukası", text: "3 altın çalar (sonraki gelirle gelir). Düşman kasası 3 tur boyunca büyümez.", flavor: "Ne giren var ne çıkan." },
+  lancaster: { name: "Lancaster akını", text: "16 hasar verir.", flavor: "Ağır, yavaş ve açıkça yolda." },
+  free_france: { name: "Hür Fransa", text: "6 hasar verir; canın yarının altındaysa 12. İtibar -2.", flavor: "Radyo stüdyosunda bir hükümet. Yine de sayıldı." },
+  maginot: { name: "Maginot Hattı", text: "12 blok kazan.", flavor: "Mühendislik kusursuz. Soru yanlıştı." },
+  resistance_net: { name: "Direniş ağı", text: "2 altın çalar (sonraki gelirle gelir). 1 kart çek.", flavor: "Artık herkes postacı." },
+  leclerc: { name: "Leclerc Kolu", text: "5 hasarı iki kez verir; canın yarının altındaysa her vuruş +3.", flavor: "Onlara Paris'i vaat etti. Abartmıyordu." },
+  liberation: { name: "Kurtuluş", text: "10 can iyileştirir. İtibar +1.", flavor: "Çanlar çaldı. Birileri tokmakları saklamıştı." },
 },
 countries: {
   germany: { name: "Almanya",
@@ -5016,6 +5656,15 @@ countries: {
   usa: { name: "Amerika Birleşik Devletleri",
     intro: "Yavaş başlar, durdurulamaz biter. Sekiz turun var. İyi harca.",
     gimmick: "Saldırılar 4'ten başlar, her tur +2 artar. <b>Manhattan Sayacı</b> 8 turda sıfırlanır: 40 hasar, itiraz yok." },
+  china: { name: "Çin",
+    intro: "Ne çöker ne de acele eder. Harcadığın her tur onun kasasına yazılır.",
+    gimmick: "<b>Uzun savaş:</b> her 3 turda saldırıları kalıcı +2 kazanır. Ayrıca 8 blok yapar (💰2). Saat senin değil, onun tarafında." },
+  uk: { name: "Birleşik Krallık",
+    intro: "Mektuplarını okur, limanlarını kurutur. Ekonomini yanında getir.",
+    gimmick: "İki turda bir <b>abluka</b>: senin sonraki gelirin -2, kendi kasası +3. 4. hamleden itibaren <b>ağır bombardıman</b> (💰4) 14 hasar." },
+  france: { name: "Fransa",
+    intro: "Çabuk çöker, en sert sonda dövüşür. Ayakta bırakma.",
+    gimmick: "<b>Direniş:</b> canı yarının altındayken tüm saldırıları +5. Başlaması en ucuz düşman, yarı ölü bırakması en pahalısı." },
 },
 deaths: {
   KILLED_IN_ACTION: "Muharebede Şehit",
@@ -5081,6 +5730,30 @@ strings: {
 
   con_usa: "Pahalı kartlar, dördü içinde en yavaş başlangıç.",
 
+  arch_china: "UZUN SAVAŞ — cephanen zamandır",
+  arch_uk: "İSTİHBARAT — olmadan önce bilmek",
+  arch_france: "DİRENİŞ — kaybederken en güçlü",
+  pro_china: "Dövüş uzadıkça daha sert vurur.",
+  con_china: "Erken hasarı düşük; savaşın uzamasına ihtiyaç duyar.",
+  pro_uk: "Düşmanın planını görür ve kasasını kurutur.",
+  con_uk: "Canı ince; hızlı açılışa karşı cezalandırılır.",
+  pro_france: "Canın yarının altına düşünce ikiye katlar.",
+  con_france: "Sen iyiyken zayıf — bu deste ancak kaybederken kazandırır.",
+  diff_endless: "Sonsuz",
+  diff_endless_sub: n => n ? `Rekor: ${n}` : "Düşene kadar savaş",
+  endless_badge: n => `♾️ SONSUZ — DALGA ${n}`,
+  endless_tag: "DALGA PATRONU",
+  wave_no: n => `♾️ Dalga ${n}`,
+  best_streak: n => `Sonsuz rekoru: ${n}`,
+  endless_result: (n, b) => `${n} dalga hayatta kaldın. Rekor: ${b}.`,
+  warn_bomber: "✈️ Ağır bombardıman uçakları geliyor.",
+  log_guerrilla: "Yarılacak cephe yok: düşman saldırıları 3 tur -3.",
+  log_chain_home: "Radar zinciri açık: bu tur her darbeden -4 hasar.",
+  log_blockade: "Limanlar kapalı. Kasası 3 tur büyümüyor.",
+  chip_chain_home: "📡 darbe başına -4 (tur)",
+  chip_chest_frozen: n => `⚓ kasa donduruldu (${n}t)`,
+  chip_protracted: n => `⏳ Uzun savaş: +${n} sld`,
+  chip_cornered: "🔥 Köşeye sıkışmış: +5 sld",
   pick_side: "Tarafını Seç",
   pick_side_sub: "Sadece görsel bir seçim. Savaş her türlü aynı. Genelde öyledir.",
 
@@ -5301,6 +5974,9 @@ ach: {
   spotless: { name: "Lekesiz", text: "Celp edilecek tek bir kalem bile yok.", hint: "İtibarı hiç 7'nin altına düşürmeden koşuyu kazan." },
   rockbottom: { name: "Dibe vurdu", text: "Herkes senden nefret ediyor. Yine de kazandın.", hint: "Tam Paryab etkinken koşuyu kazan." },
   slippery: { name: "Kaygan zemin", text: "Küçük bir iyilikle başladı.", hint: "Tek bir savaşta itibarı 8'den 0'a düşür." },
+  endless5: { name: "Uzun savaş", text: "Beş oldu ve hâlâ ayaktasın.", hint: "Sonsuz modda 5 dalga hayatta kal." },
+  endless10: { name: "Ateşkes yok", text: "Bu noktada birinin bir şey imzalaması gerekirdi.", hint: "Sonsuz modda 10 dalga hayatta kal." },
+  world_tour: { name: "Herkesin derdi", text: "Artık bizzat tüm gezegeni kızdırdın.", hint: "Tek bir Sonsuz koşuda diğer altı ulusu da yen." },
   maginot:        { name: "Maginot Kafası", text: "Savunma kusursuzdu. Savaş yer değiştirdi.", hint: "Elinde 2+ Blok kartıyla Blitzkrieg'den öl." },
   winter_regards: { name: "General Kış'tan Selamlar", text: "İlk değilsin. Son da olmayacaksın.", hint: "SSCB'nin en yüksek saldırı seviyesinde öl." },
   broke_dead:     { name: "Hem Batık Hem Ölü", text: "İflas: diğer kayıtsız şartsız teslimiyet.", hint: "İflas halindeyken Japonya'ya yenil." },
@@ -5361,6 +6037,21 @@ cards: {
   ike_arsenal:   { name: "Kho vũ khí của Ike", text: "Mỗi 4 thu nhập bạn có, mọi đòn tấn công +1 vĩnh viễn.", flavor: "Hậu cần thắng chiến tranh. Ike thắng hậu cần." },
   patton_push:   { name: "Mũi thọc sâu của Patton", text: "Gây sát thương bằng 1,5× thu nhập của bạn.", flavor: "Ông ấy không chờ lệnh. Ông ấy không chờ gì cả." },
   arsenal_democracy: { name: "Kho vũ khí của nền dân chủ", text: "Thu nhập +2 vĩnh viễn. Danh tiếng +1.", flavor: "Hóa ra trên cao điểm đạo đức có một nhà máy." },
+  taierzhuang: { name: "Đài Nhi Trang", text: "Gây 4 sát thương, +1 cho mỗi lượt đã trôi qua trong trận này (tối đa 14). Danh tiếng -2.", flavor: "Họ chờ một cuộc tháo chạy. Họ nhận được một hóa đơn." },
+  flying_tigers: { name: "Phi Hổ Đoàn", text: "Gây 8 sát thương. Xuyên Chặn.", flavor: "Tình nguyện viên. Trên danh nghĩa." },
+  the_hump: { name: "Đường Bay Lưng Lạc Đà", text: "Thu nhập +1. Rút 1 lá.", flavor: "Bay qua núi hoặc thua cuộc chiến. Họ đã bay qua." },
+  guerrilla: { name: "Tập kích du kích", text: "Đòn tấn công của địch -3 trong 3 lượt.", flavor: "Không có chiến tuyến thì cũng chẳng có chiến tuyến nào để chọc thủng." },
+  changsha: { name: "Phòng thủ Trường Sa", text: "Nhận 10 Chặn. Nếu chặn trọn một đòn, phản lại 10.", flavor: "Ba lần. Họ đã thử ba lần." },
+  bletchley: { name: "Bletchley Park", text: "Thấy 2 nước đi tiếp theo của địch cho hết trận. Rút 1 lá. Danh tiếng -2.", flavor: "Bí mật được giữ kỹ nhất của cuộc chiến hóa ra là chuyện lưu trữ hồ sơ." },
+  chain_home: { name: "Chain Home", text: "Lượt này mỗi đòn trúng bạn giảm 4 sát thương.", flavor: "Họ thấy trước. Toàn bộ mẹo chỉ có thế." },
+  desert_rats: { name: "Chuột Sa Mạc", text: "Gây 9 sát thương; 13 nếu bạn thấy được ý định của địch.", flavor: "Cát ở khắp nơi. Kể cả trong kế hoạch của địch." },
+  convoy_blockade: { name: "Phong tỏa đoàn tàu", text: "Trộm 3 vàng (về cùng thu nhập lượt sau). Két địch ngừng tăng trong 3 lượt.", flavor: "Không gì vào, không gì ra." },
+  lancaster: { name: "Không kích Lancaster", text: "Gây 16 sát thương.", flavor: "Nặng, chậm, và rõ ràng đang bay tới." },
+  free_france: { name: "Nước Pháp Tự Do", text: "Gây 6 sát thương; 12 nếu máu bạn dưới một nửa. Danh tiếng -2.", flavor: "Một chính phủ đặt trong phòng thu. Vậy mà có giá trị thật." },
+  maginot: { name: "Phòng tuyến Maginot", text: "Nhận 12 Chặn.", flavor: "Kỹ thuật tuyệt hảo. Sai câu hỏi." },
+  resistance_net: { name: "Mạng lưới Kháng chiến", text: "Trộm 2 vàng (về cùng thu nhập lượt sau). Rút 1 lá.", flavor: "Giờ ai cũng là người đưa thư." },
+  leclerc: { name: "Binh đoàn Leclerc", text: "Gây 5 sát thương hai lần; +3 mỗi đòn nếu máu dưới một nửa.", flavor: "Ông hứa với họ Paris. Ông không nói quá." },
+  liberation: { name: "Giải phóng", text: "Hồi 10 máu. Danh tiếng +1.", flavor: "Chuông đã reo. Trước đó có người giấu quả lắc." },
 },
 countries: {
   germany: { name: "Đức",
@@ -5375,6 +6066,15 @@ countries: {
   usa: { name: "Hoa Kỳ",
     intro: "Khởi đầu chậm, kết thúc không cản nổi. Bạn có tám lượt. Tiêu cho khéo.",
     gimmick: "Đòn đánh bắt đầu từ 4 và tăng +2 mỗi lượt. <b>Đồng hồ Manhattan</b> về 0 sau 8 lượt: 40 sát thương, miễn kháng cáo." },
+  china: { name: "Trung Quốc",
+    intro: "Nó không sụp và cũng không vội. Mỗi lượt bạn tiêu là một lượt nó tích lũy.",
+    gimmick: "<b>Kháng chiến trường kỳ:</b> cứ 3 lượt trôi qua, đòn của nó vĩnh viễn +2. Nó còn chặn 8 (💰2). Đồng hồ đứng về phía nó." },
+  uk: { name: "Vương quốc Anh",
+    intro: "Nó đọc thư của bạn và bóp nghẹt các cảng. Hãy tự mang kinh tế theo.",
+    gimmick: "Cứ cách một lượt nó <b>phong tỏa</b>: thu nhập kế của bạn -2, két của nó +3. Từ nước đi thứ 4 mở khóa <b>máy bay ném bom hạng nặng</b> (💰4) gây 14." },
+  france: { name: "Pháp",
+    intro: "Gục rất nhanh, đánh mạnh nhất ở cuối. Đừng để nó còn đứng.",
+    gimmick: "<b>Kháng chiến:</b> dưới nửa máu, mọi đòn +5. Kẻ địch rẻ nhất để mở màn, đắt nhất nếu bỏ dở nửa chừng." },
 },
 deaths: {
   KILLED_IN_ACTION: "Tử trận",
@@ -5440,6 +6140,30 @@ strings: {
 
   con_usa: "Bài đắt, khởi đầu chậm nhất trong bốn phe.",
 
+  arch_china: "TRƯỜNG KỲ — thời gian là đạn dược",
+  arch_uk: "TÌNH BÁO — biết trước khi nó xảy ra",
+  arch_france: "KHÁNG CHIẾN — càng thua càng mạnh",
+  pro_china: "Đánh càng lâu càng đau.",
+  con_china: "Sát thương đầu trận thấp; cần trận đấu kéo dài.",
+  pro_uk: "Nhìn thấu kế hoạch địch và bóp nghẹt ngân khố của nó.",
+  con_uk: "Máu mỏng; bị trừng phạt nặng bởi lối mở màn nhanh.",
+  pro_france: "Tăng gấp đôi khi máu tụt dưới một nửa.",
+  con_france: "Yếu khi đang khỏe — bộ bài chỉ có lãi lúc bạn đang thua.",
+  diff_endless: "Vô tận",
+  diff_endless_sub: n => n ? `Kỷ lục: ${n}` : "Đánh đến khi gục",
+  endless_badge: n => `♾️ VÔ TẬN — ĐỢT ${n}`,
+  endless_tag: "TRÙM ĐỢT",
+  wave_no: n => `♾️ Đợt ${n}`,
+  best_streak: n => `Kỷ lục Vô tận: ${n}`,
+  endless_result: (n, b) => `Sống sót ${n} đợt. Kỷ lục: ${b}.`,
+  warn_bomber: "✈️ Máy bay ném bom hạng nặng đang tới.",
+  log_guerrilla: "Không có chiến tuyến để chọc thủng: đòn địch -3 trong 3 lượt.",
+  log_chain_home: "Mạng radar bật: lượt này mỗi đòn trúng giảm 4 sát thương.",
+  log_blockade: "Cảng bị phong tỏa. Két của nó ngừng tăng trong 3 lượt.",
+  chip_chain_home: "📡 -4 mỗi đòn (lượt)",
+  chip_chest_frozen: n => `⚓ két đóng băng (${n} lượt)`,
+  chip_protracted: n => `⏳ Trường kỳ: +${n} công`,
+  chip_cornered: "🔥 Bị dồn: +5 công",
   pick_side: "Chọn phe",
   pick_side_sub: "Chỉ là hình thức. Kiểu gì cuộc chiến cũng như nhau. Chiến tranh thường thế.",
 
@@ -5660,6 +6384,9 @@ ach: {
   spotless: { name: "Không tì vết", text: "Không một khoản mục nào để triệu tập.", hint: "Thắng một lượt chơi mà danh tiếng chưa từng xuống dưới 7." },
   rockbottom: { name: "Chạm đáy", text: "Ai cũng ghét bạn. Bạn vẫn thắng.", hint: "Thắng một lượt chơi khi đang là Kẻ thù của cả thế giới." },
   slippery: { name: "Dốc trơn", text: "Bắt đầu từ một sự châm chước nhỏ.", hint: "Rơi từ 8 xuống 0 danh tiếng trong một trận." },
+  endless5: { name: "Cuộc chiến dài", text: "Năm đợt rồi mà vẫn đứng vững.", hint: "Sống sót 5 đợt ở chế độ Vô tận." },
+  endless10: { name: "Không có đình chiến", text: "Đến nước này lẽ ra phải có ai đó ký cái gì rồi.", hint: "Sống sót 10 đợt ở chế độ Vô tận." },
+  world_tour: { name: "Vấn đề của cả thế giới", text: "Bạn đã đích thân chọc giận toàn bộ hành tinh.", hint: "Đánh bại cả sáu quốc gia còn lại trong một lượt chơi Vô tận." },
   maginot:        { name: "Tư duy Maginot", text: "Phòng tuyến hoàn hảo. Nhưng cuộc chiến dời đi chỗ khác.", hint: "Chết vì Blitzkrieg khi đang cầm 2+ lá bài Chặn." },
   winter_regards: { name: "Lời hỏi thăm của Tướng quân Mùa Đông", text: "Bạn không phải người đầu tiên. Cũng chẳng phải người cuối cùng.", hint: "Chết dưới tay Liên Xô ở mức tấn công cao nhất." },
   broke_dead:     { name: "Vừa nghèo vừa chết", text: "Phá sản: kiểu đầu hàng vô điều kiện còn lại.", hint: "Chết dưới tay Nhật Bản khi đang phá sản." },
@@ -5720,6 +6447,21 @@ cards: {
   ike_arsenal:   { name: "Gudang Senjata Ike", text: "Semua serangan +1 permanen untuk tiap 4 pendapatanmu.", flavor: "Logistik memenangkan perang. Ike memenangkan logistik." },
   patton_push:   { name: "Terobosan Patton", text: "Berikan damage sebesar 1,5× pendapatanmu.", flavor: "Dia tidak menunggu perintah. Dia tidak menunggu apa pun." },
   arsenal_democracy: { name: "Gudang Senjata Demokrasi", text: "Pendapatan +2 permanen. Reputasi +1.", flavor: "Ternyata di atas moral tinggi ada pabriknya." },
+  taierzhuang: { name: "Taierzhuang", text: "Berikan 4 damage, +1 untuk tiap giliran yang sudah lewat di pertempuran ini (maks 14). Reputasi -2.", flavor: "Mereka mengira akan ada kekalahan telak. Yang datang adalah tagihan." },
+  flying_tigers: { name: "Flying Tigers", text: "Berikan 8 damage. Menembus Blok.", flavor: "Sukarelawan. Secara teknis." },
+  the_hump: { name: "Jalur Punuk", text: "Pendapatan +1. Ambil 1 kartu.", flavor: "Lewati gunung atau kalah perang. Mereka melewatinya." },
+  guerrilla: { name: "Serangan gerilya", text: "Serangan musuh -3 selama 3 giliran.", flavor: "Tanpa garis depan, tak ada garis depan untuk ditembus." },
+  changsha: { name: "Pertahanan Changsha", text: "Dapatkan 10 Blok. Jika memblok serangan sepenuhnya, balas 10.", flavor: "Tiga kali. Mereka mencoba tiga kali." },
+  bletchley: { name: "Bletchley Park", text: "Lihat 2 gerakan musuh berikutnya sepanjang sisa pertempuran. Ambil 1 kartu. Reputasi -2.", flavor: "Rahasia paling terjaga dalam perang itu ternyata soal pengarsipan." },
+  chain_home: { name: "Chain Home", text: "Giliran ini kamu menerima 4 damage lebih sedikit per pukulan.", flavor: "Mereka melihatnya datang. Itu saja triknya." },
+  desert_rats: { name: "Tikus Gurun", text: "Berikan 9 damage; 13 jika kamu bisa melihat niat musuh.", flavor: "Pasir di mana-mana. Termasuk di rencana musuh." },
+  convoy_blockade: { name: "Blokade konvoi", text: "Curi 3 emas (tiba dengan pendapatan berikutnya). Peti musuh berhenti tumbuh selama 3 giliran.", flavor: "Tak ada yang masuk, tak ada yang keluar." },
+  lancaster: { name: "Serangan Lancaster", text: "Berikan 16 damage.", flavor: "Berat, lambat, dan jelas sedang menuju ke sini." },
+  free_france: { name: "Prancis Merdeka", text: "Berikan 6 damage; 12 jika HP-mu di bawah setengah. Reputasi -2.", flavor: "Pemerintahan di dalam studio radio. Dan itu berarti." },
+  maginot: { name: "Garis Maginot", text: "Dapatkan 12 Blok.", flavor: "Rekayasa luar biasa. Pertanyaannya yang salah." },
+  resistance_net: { name: "Jaringan Perlawanan", text: "Curi 2 emas (tiba dengan pendapatan berikutnya). Ambil 1 kartu.", flavor: "Sekarang semua orang jadi tukang pos." },
+  leclerc: { name: "Kolom Leclerc", text: "Berikan 5 damage dua kali; +3 per pukulan jika HP-mu di bawah setengah.", flavor: "Dia menjanjikan Paris. Dia tidak melebih-lebihkan." },
+  liberation: { name: "Pembebasan", text: "Pulihkan 10 HP. Reputasi +1.", flavor: "Loncengnya berbunyi. Seseorang sempat menyembunyikan pemukulnya." },
 },
 countries: {
   germany: { name: "Jerman",
@@ -5734,6 +6476,15 @@ countries: {
   usa: { name: "Amerika Serikat",
     intro: "Mulai lambat, akhirnya tak terbendung. Kamu punya delapan giliran. Pakai baik-baik.",
     gimmick: "Serangan mulai dari 4 dan naik +2 tiap giliran. <b>Jam Manhattan</b> mencapai nol dalam 8 giliran: 40 kerusakan, tanpa banding." },
+  china: { name: "Tiongkok",
+    intro: "Ia tidak runtuh dan tidak terburu-buru. Tiap giliran yang kamu habiskan, ia tabung.",
+    gimmick: "<b>Perang berkepanjangan:</b> tiap 3 giliran, serangannya +2 permanen. Ia juga memblok 8 (💰2). Jam berpihak padanya." },
+  uk: { name: "Britania Raya",
+    intro: "Ia membaca suratmu dan mengeringkan pelabuhanmu. Bawa ekonomimu sendiri.",
+    gimmick: "Tiap dua giliran ia <b>memblokade</b>: pendapatanmu berikutnya -2, petinya +3. Dari aksi ke-4 ia membuka <b>pengebom berat</b> (💰4) 14 damage." },
+  france: { name: "Prancis",
+    intro: "Tumbang cepat, bertarung paling keras di akhir. Jangan tinggalkan ia berdiri.",
+    gimmick: "<b>Perlawanan:</b> di bawah setengah HP semua serangannya +5. Musuh termurah untuk dibuka, termahal jika ditinggal setengah mati." },
 },
 deaths: {
   KILLED_IN_ACTION: "Gugur dalam pertempuran",
@@ -5799,6 +6550,30 @@ strings: {
 
   con_usa: "Kartu mahal, start paling lambat dari keempatnya.",
 
+  arch_china: "BERKEPANJANGAN — waktu adalah amunisimu",
+  arch_uk: "INTELIJEN — tahu sebelum terjadi",
+  arch_france: "PERLAWANAN — terkuat saat kalah",
+  pro_china: "Makin lama bertarung makin sakit pukulannya.",
+  con_china: "Damage awal rendah; butuh pertarungan yang panjang.",
+  pro_uk: "Melihat rencana musuh dan mengeringkan kasnya.",
+  con_uk: "HP tipis; dihukum berat oleh pembukaan cepat.",
+  pro_france: "Melipatgandakan begitu HP turun di bawah setengah.",
+  con_france: "Lemah saat kamu sehat — dek ini baru untung ketika kamu kalah.",
+  diff_endless: "Tanpa Akhir",
+  diff_endless_sub: n => n ? `Rekor: ${n}` : "Bertarung sampai tumbang",
+  endless_badge: n => `♾️ TANPA AKHIR — GELOMBANG ${n}`,
+  endless_tag: "BOS GELOMBANG",
+  wave_no: n => `♾️ Gelombang ${n}`,
+  best_streak: n => `Rekor Tanpa Akhir: ${n}`,
+  endless_result: (n, b) => `Bertahan ${n} gelombang. Rekor: ${b}.`,
+  warn_bomber: "✈️ Pengebom berat mendekat.",
+  log_guerrilla: "Tak ada garis depan untuk ditembus: serangan musuh -3 selama 3 giliran.",
+  log_chain_home: "Rantai radar menyala: -4 damage per pukulan giliran ini.",
+  log_blockade: "Pelabuhan ditutup. Petinya berhenti tumbuh 3 giliran.",
+  chip_chain_home: "📡 -4 damage per pukulan (giliran)",
+  chip_chest_frozen: n => `⚓ peti dibekukan (${n} giliran)`,
+  chip_protracted: n => `⏳ Berkepanjangan: +${n} srg`,
+  chip_cornered: "🔥 Terpojok: +5 srg",
   pick_side: "Pilih Pihakmu",
   pick_side_sub: "Cuma kosmetik. Perangnya sama saja. Perang biasanya begitu.",
 
@@ -6019,6 +6794,9 @@ ach: {
   spotless: { name: "Tanpa Noda", text: "Tak satu pun pos yang bisa dipanggil ke pengadilan.", hint: "Menangkan run tanpa pernah turun di bawah 7 Reputasi." },
   rockbottom: { name: "Titik Terendah", text: "Semua orang membencimu. Kamu tetap menang.", hint: "Menangkan run saat Paria Dunia aktif." },
   slippery: { name: "Lereng Licin", text: "Bermula dari satu kelonggaran kecil.", hint: "Jatuh dari 8 ke 0 Reputasi dalam satu pertempuran." },
+  endless5: { name: "Perang panjang", text: "Lima gelombang dan masih berdiri.", hint: "Bertahan 5 gelombang di mode Tanpa Akhir." },
+  endless10: { name: "Tanpa gencatan senjata", text: "Harusnya sudah ada yang menandatangani sesuatu.", hint: "Bertahan 10 gelombang di mode Tanpa Akhir." },
+  world_tour: { name: "Masalah semua orang", text: "Sekarang kamu sudah pribadi membuat seluruh planet kesal.", hint: "Kalahkan keenam negara lain dalam satu run Tanpa Akhir." },
   maginot:        { name: "Pola Pikir Maginot", text: "Pertahanannya sempurna. Perangnya pindah tempat.", hint: "Mati kena Blitzkrieg sambil memegang 2+ kartu Blok." },
   winter_regards: { name: "Salam dari Jenderal Musim Dingin", text: "Kamu bukan yang pertama. Bukan pula yang terakhir.", hint: "Mati oleh Soviet di tingkat serangan tertingginya." },
   broke_dead:     { name: "Bangkrut DAN Mati", text: "Kebangkrutan: bentuk lain menyerah tanpa syarat.", hint: "Mati oleh Jepang saat bangkrut." },
@@ -6081,6 +6859,21 @@ cards: {
   ike_arsenal:   { name: "คลังแสงของไอค์", text: "ทุกๆ รายได้ 4 หน่วยที่คุณมี การโจมตีทั้งหมด +1 ถาวร", flavor: "โลจิสติกส์ชนะสงคราม ไอค์ชนะโลจิสติกส์" },
   patton_push:   { name: "แพตตันบุกทะลวง", text: "สร้างความเสียหายเท่ากับ 1.5 เท่าของรายได้คุณ", flavor: "เขาไม่รอคำสั่ง เขาไม่รออะไรทั้งนั้น" },
   arsenal_democracy: { name: "คลังแสงประชาธิปไตย", text: "รายได้ +2 ถาวร ชื่อเสียง +1", flavor: "ปรากฏว่าบนที่สูงทางศีลธรรมมีโรงงานตั้งอยู่จริงๆ" },
+  taierzhuang: { name: "ไถเอ๋อร์จวง", text: "สร้างความเสียหาย 4 หน่วย +1 ต่อทุกเทิร์นที่ผ่านไปในศึกนี้ (สูงสุด 14) ชื่อเสียง -2", flavor: "พวกเขาคาดว่าจะเป็นการแตกพ่าย แต่ได้ใบเรียกเก็บเงินแทน" },
+  flying_tigers: { name: "ฝูงบินเสือบิน", text: "สร้างความเสียหาย 8 หน่วย ทะลุเกราะ", flavor: "อาสาสมัคร ในทางเทคนิคนะ" },
+  the_hump: { name: "เส้นทางหลังอูฐ", text: "รายได้ +1 จั่ว 1 ใบ", flavor: "บินข้ามภูเขา ไม่งั้นก็แพ้สงคราม พวกเขาบินข้ามไป" },
+  guerrilla: { name: "จู่โจมแบบกองโจร", text: "การโจมตีของศัตรู -3 เป็นเวลา 3 เทิร์น", flavor: "ไม่มีแนวรบ ก็ไม่มีแนวรบให้เจาะ" },
+  changsha: { name: "ป้องกันฉางซา", text: "ได้เกราะ 10 ถ้ากันการโจมตีได้หมด สวนกลับ 10", flavor: "สามครั้ง พวกเขาลองถึงสามครั้ง" },
+  bletchley: { name: "เบลตช์ลีย์พาร์ก", text: "เห็นสองท่าถัดไปของศัตรูตลอดศึกนี้ จั่ว 1 ใบ ชื่อเสียง -2", flavor: "ความลับที่เก็บดีที่สุดของสงคราม กลับเป็นปัญหาเรื่องแฟ้มเอกสาร" },
+  chain_home: { name: "เชนโฮม", text: "เทิร์นนี้รับความเสียหายน้อยลง 4 ต่อการโดนแต่ละครั้ง", flavor: "พวกเขาเห็นมาก่อน เคล็ดลับมีแค่นั้น" },
+  desert_rats: { name: "หนูทะเลทราย", text: "สร้างความเสียหาย 9 หน่วย ถ้าคุณเห็นท่าของศัตรู เพิ่มเป็น 13", flavor: "ทรายอยู่ทุกที่ รวมถึงในแผนของศัตรูด้วย" },
+  convoy_blockade: { name: "ปิดล้อมขบวนเรือ", text: "ขโมย 3 ทอง (มาถึงพร้อมรายได้เทิร์นหน้า) คลังศัตรูหยุดโตเป็นเวลา 3 เทิร์น", flavor: "ไม่มีอะไรเข้า ไม่มีอะไรออก" },
+  lancaster: { name: "โจมตีด้วยแลงคาสเตอร์", text: "สร้างความเสียหาย 16 หน่วย", flavor: "หนัก ช้า และกำลังมุ่งมาหาคุณอย่างชัดเจน" },
+  free_france: { name: "ฝรั่งเศสเสรี", text: "สร้างความเสียหาย 6 หน่วย ถ้าเลือดต่ำกว่าครึ่ง เพิ่มเป็น 12 ชื่อเสียง -2", flavor: "รัฐบาลในห้องส่งวิทยุ แต่มันนับจริงๆ" },
+  maginot: { name: "แนวมาจิโนต์", text: "ได้เกราะ 12", flavor: "วิศวกรรมยอดเยี่ยม แต่ตั้งคำถามผิด" },
+  resistance_net: { name: "เครือข่ายขบวนการต่อต้าน", text: "ขโมย 2 ทอง (มาถึงพร้อมรายได้เทิร์นหน้า) จั่ว 1 ใบ", flavor: "ตอนนี้ทุกคนเป็นบุรุษไปรษณีย์" },
+  leclerc: { name: "กองพลเลอแคลร์", text: "สร้างความเสียหาย 5 หน่วย 2 ครั้ง ถ้าเลือดต่ำกว่าครึ่ง แต่ละครั้ง +3", flavor: "เขาสัญญาว่าจะพาไปปารีส เขาไม่ได้พูดเกินจริง" },
+  liberation: { name: "การปลดปล่อย", text: "ฟื้นฟู 10 HP ชื่อเสียง +1", flavor: "ระฆังดังได้ ก่อนหน้านี้มีคนซ่อนลูกตุ้มเอาไว้" },
 },
 countries: {
   germany: { name: "เยอรมนี",
@@ -6095,6 +6888,15 @@ countries: {
   usa: { name: "สหรัฐอเมริกา",
     intro: "ออกตัวช้า จบเกมหยุดไม่อยู่ คุณมีแปดเทิร์น ใช้ให้คุ้ม",
     gimmick: "การโจมตีเริ่มที่ 4 และเพิ่ม +2 ทุกเทิร์น <b>นาฬิกาแมนฮัตตัน</b> นับถึงศูนย์ใน 8 เทิร์น: 40 ดาเมจ ไม่รับอุทธรณ์" },
+  china: { name: "จีน",
+    intro: "มันไม่พังและไม่รีบ ทุกเทิร์นที่คุณใช้ไป มันเก็บสะสมไว้หมด",
+    gimmick: "<b>สงครามยืดเยื้อ:</b> ทุก 3 เทิร์นที่ผ่านไป การโจมตี +2 ถาวร และยังกันได้ 8 (💰2) นาฬิกาอยู่ข้างมัน ไม่ใช่ข้างคุณ" },
+  uk: { name: "สหราชอาณาจักร",
+    intro: "มันอ่านจดหมายคุณและทำให้ท่าเรือคุณแห้ง เตรียมเศรษฐกิจมาเอง",
+    gimmick: "เทิร์นเว้นเทิร์นมัน<b>ปิดล้อม</b>: รายได้เทิร์นหน้าของคุณ -2 ส่วนคลังของมัน +3 ตั้งแต่ท่าที่ 4 ปลดล็อก<b>เครื่องบินทิ้งระเบิดหนัก</b> (💰4) 14 ดาเมจ" },
+  france: { name: "ฝรั่งเศส",
+    intro: "ล้มเร็ว แต่สู้หนักที่สุดตอนท้าย อย่าปล่อยให้มันยืนอยู่",
+    gimmick: "<b>ขบวนการต่อต้าน:</b> เลือดต่ำกว่าครึ่ง การโจมตีทั้งหมด +5 ศัตรูที่เริ่มถูกที่สุด และแพงที่สุดถ้าปล่อยให้เหลือครึ่งเลือด" },
 },
 deaths: {
   KILLED_IN_ACTION: "เสียชีวิตในหน้าที่",
@@ -6130,6 +6932,9 @@ ach: {
   spotless: { name: "ไร้มลทิน", text: "ไม่มีรายการไหนให้เรียกไต่สวนเลยสักรายการ", hint: "ชนะทั้งรันโดยชื่อเสียงไม่เคยต่ำกว่า 7" },
   rockbottom: { name: "ตกถึงก้นเหว", text: "ทุกคนเกลียดคุณ แต่คุณก็ยังชนะ", hint: "ชนะทั้งรันขณะเป็นศัตรูของทั้งโลก" },
   slippery: { name: "ทางลาดลื่น", text: "มันเริ่มจากการหยวนๆ ครั้งเดียว", hint: "ทำให้ชื่อเสียงตกจาก 8 เหลือ 0 ภายในศึกเดียว" },
+  endless5: { name: "สงครามยืดเยื้อ", text: "ห้าระลอกแล้วยังยืนอยู่", hint: "รอด 5 ระลอกในโหมดไร้ที่สิ้นสุด" },
+  endless10: { name: "ไม่มีการสงบศึก", text: "ป่านนี้น่าจะมีใครเซ็นอะไรสักอย่างได้แล้ว", hint: "รอด 10 ระลอกในโหมดไร้ที่สิ้นสุด" },
+  world_tour: { name: "ปัญหาของทุกคน", text: "ตอนนี้คุณกวนใจทั้งโลกด้วยตัวเองครบแล้ว", hint: "เอาชนะอีกหกชาติที่เหลือในรันไร้ที่สิ้นสุดเดียว" },
   maginot:        { name: "ความคิดแบบมาจิโนต์", text: "แนวรับสมบูรณ์แบบ แต่สงครามย้ายที่", hint: "ตายเพราะบลิทซ์ครีกขณะถือการ์ดเกราะ 2 ใบขึ้นไป" },
   winter_regards: { name: "นายพลเหมันต์ฝากความคิดถึง", text: "คุณไม่ใช่คนแรก และจะไม่ใช่คนสุดท้าย", hint: "ตายเพราะโซเวียตที่ระดับโจมตีสูงสุด" },
   broke_dead:     { name: "ทั้งถังแตกทั้งตาย", text: "ล้มละลาย: การยอมแพ้ไร้เงื่อนไขอีกรูปแบบ", hint: "ตายเพราะญี่ปุ่นขณะล้มละลาย" },
@@ -6193,6 +6998,30 @@ strings: {
 
   con_usa: "การ์ดแพง ออกตัวช้าที่สุดในสี่ชาติ",
 
+  arch_china: "ยืดเยื้อ — เวลาคือกระสุนของคุณ",
+  arch_uk: "ข่าวกรอง — รู้ก่อนที่มันจะเกิด",
+  arch_france: "ต่อต้าน — ยิ่งแพ้ยิ่งแข็ง",
+  pro_china: "ยิ่งสู้นานยิ่งเจ็บ",
+  con_china: "ดาเมจช่วงต้นต่ำ ต้องให้ศึกยืดออกไป",
+  pro_uk: "มองทะลุแผนศัตรูและทำให้คลังมันแห้ง",
+  con_uk: "เลือดบาง โดนเปิดเกมเร็วแล้วเจ็บหนัก",
+  pro_france: "พอเลือดต่ำกว่าครึ่งจะดุขึ้นเท่าตัว",
+  con_france: "ตอนสบายกลับอ่อน — สำรับนี้คุ้มเฉพาะตอนคุณกำลังแพ้",
+  diff_endless: "ไร้ที่สิ้นสุด",
+  diff_endless_sub: n => n ? `สถิติสูงสุด: ${n}` : "สู้จนกว่าจะล้ม",
+  endless_badge: n => `♾️ ไร้ที่สิ้นสุด — ระลอกที่ ${n}`,
+  endless_tag: "บอสประจำระลอก",
+  wave_no: n => `♾️ ระลอกที่ ${n}`,
+  best_streak: n => `สถิติไร้ที่สิ้นสุด: ${n}`,
+  endless_result: (n, b) => `รอดมาได้ ${n} ระลอก สถิติสูงสุด: ${b}`,
+  warn_bomber: "✈️ เครื่องบินทิ้งระเบิดหนักกำลังมา",
+  log_guerrilla: "ไม่มีแนวรบให้เจาะ: การโจมตีของศัตรู -3 เป็นเวลา 3 เทิร์น",
+  log_chain_home: "เครือข่ายเรดาร์ทำงาน: เทิร์นนี้ลดความเสียหายที่โดน 4 ต่อครั้ง",
+  log_blockade: "ปิดท่าเรือ คลังของมันหยุดโต 3 เทิร์น",
+  chip_chain_home: "📡 -4 ต่อการโดน (เทิร์นนี้)",
+  chip_chest_frozen: n => `⚓ คลังถูกแช่แข็ง (${n} เทิร์น)`,
+  chip_protracted: n => `⏳ ยืดเยื้อ: โจมตี +${n}`,
+  chip_cornered: "🔥 จนตรอก: โจมตี +5",
   pick_side: "เลือกฝ่ายของคุณ",
   pick_side_sub: "ชาติของคุณกำหนดการ์ดประจำตัวและกองการ์ดรางวัล เลือกแนวทาง ไม่ใช่เลือกธง",
   arch_germany: "เทมโป — ชิงลงมือก่อน ตีสองที",
@@ -6440,6 +7269,21 @@ cards: {
   ike_arsenal:   { name: "आइक का शस्त्रागार", text: "आपकी हर 4 आय पर, सभी हमले स्थायी रूप से +1।", flavor: "रसद युद्ध जिताती है। आइक रसद जीतता है।" },
   patton_push:   { name: "पैटन की चढ़ाई", text: "अपनी आय के 1.5 गुने के बराबर क्षति दें।", flavor: "वह हुक्म का इंतज़ार नहीं करता। वह किसी चीज़ का इंतज़ार नहीं करता।" },
   arsenal_democracy: { name: "लोकतंत्र का शस्त्रागार", text: "आय स्थायी रूप से +2। प्रतिष्ठा +1।", flavor: "पता चला, नैतिक ऊँचाई पर एक फ़ैक्टरी बनी हुई है।" },
+  taierzhuang: { name: "ताइअरचुआंग", text: "4 क्षति दें, इस लड़ाई में बीत चुकी हर बारी के लिए +1 (अधिकतम 14)। साख -2।", flavor: "उन्हें भगदड़ की उम्मीद थी। मिला एक बिल।" },
+  flying_tigers: { name: "फ़्लाइंग टाइगर्स", text: "8 क्षति दें। ब्लॉक को नज़रअंदाज़ करे।", flavor: "स्वयंसेवक। तकनीकी रूप से।" },
+  the_hump: { name: "हंप हवाई मार्ग", text: "आय +1। 1 कार्ड खींचें।", flavor: "पहाड़ पार करो या जंग हारो। उन्होंने पहाड़ पार किया।" },
+  guerrilla: { name: "छापामार हमले", text: "दुश्मन के हमले 3 बारियों तक -3।", flavor: "मोर्चा ही नहीं तो तोड़ने को मोर्चा कहाँ।" },
+  changsha: { name: "चांगशा की रक्षा", text: "10 ब्लॉक पाएँ। अगर पूरा हमला रोक ले तो 10 वापस मारे।", flavor: "तीन बार। उन्होंने तीन बार कोशिश की।" },
+  bletchley: { name: "ब्लेचली पार्क", text: "बाकी लड़ाई में दुश्मन की अगली 2 चालें दिखेंगी। 1 कार्ड खींचें। साख -2।", flavor: "इस जंग का सबसे सुरक्षित रहस्य दरअसल फ़ाइलिंग की समस्या था।" },
+  chain_home: { name: "चेन होम", text: "इस बारी हर वार से 4 कम नुकसान।", flavor: "उन्होंने पहले ही देख लिया। पूरा जादू बस यही था।" },
+  desert_rats: { name: "डेज़र्ट रैट्स", text: "9 क्षति दें; अगर दुश्मन की चाल दिख रही हो तो 13।", flavor: "हर जगह रेत। दुश्मन की योजनाओं में भी।" },
+  convoy_blockade: { name: "काफ़िला नाकाबंदी", text: "3 सोना चुराएँ (अगली आय के साथ पहुँचेगा)। दुश्मन का कोष 3 बारियों तक नहीं बढ़ेगा।", flavor: "न कुछ अंदर, न कुछ बाहर।" },
+  lancaster: { name: "लैंकेस्टर हमला", text: "16 क्षति दें।", flavor: "भारी, धीमा, और साफ़ दिख रहा है कि आ रहा है।" },
+  free_france: { name: "स्वतंत्र फ़्रांस", text: "6 क्षति दें; अगर आपका HP आधे से कम है तो 12।साख -2।", flavor: "एक रेडियो स्टूडियो में बैठी सरकार। और वह मायने रखती थी।" },
+  maginot: { name: "मैजिनो रेखा", text: "12 ब्लॉक पाएँ।", flavor: "इंजीनियरिंग शानदार। सवाल ग़लत था।" },
+  resistance_net: { name: "प्रतिरोध नेटवर्क", text: "2 सोना चुराएँ (अगली आय के साथ पहुँचेगा)। 1 कार्ड खींचें।", flavor: "अब हर कोई डाकिया है।" },
+  leclerc: { name: "लेक्लेर की टुकड़ी", text: "5 क्षति दो बार; अगर HP आधे से कम है तो हर वार +3।", flavor: "उसने उनसे पेरिस का वादा किया था। वह बढ़ा-चढ़ाकर नहीं कह रहा था।" },
+  liberation: { name: "मुक्ति", text: "10 HP ठीक करें। साख +1।", flavor: "घंटियाँ बज उठीं। किसी ने पहले उनके गजर छिपा दिए थे।" },
 },
 countries: {
   germany: { name: "जर्मनी",
@@ -6454,6 +7298,15 @@ countries: {
   usa: { name: "संयुक्त राज्य अमेरिका",
     intro: "शुरुआत धीमी, अंत बेकाबू। तुम्हारे पास आठ बारियाँ हैं। समझदारी से खर्च करो।",
     gimmick: "हमले 4 से शुरू होकर हर बारी +2 बढ़ते हैं। <b>मैनहट्टन घड़ी</b> 8 बारी में शून्य: 40 नुकसान, कोई अपील नहीं।" },
+  china: { name: "चीन",
+    intro: "न वह ढहता है, न जल्दी करता है। आप जो बारी खर्च करते हैं, वह उसे जमा कर लेता है।",
+    gimmick: "<b>दीर्घकालिक युद्ध:</b> हर 3 बारी बीतने पर उसके हमले स्थायी रूप से +2। वह 8 का ब्लॉक भी करता है (💰2)। घड़ी उसके साथ है, आपके नहीं।" },
+  uk: { name: "यूनाइटेड किंगडम",
+    intro: "वह आपकी चिट्ठियाँ पढ़ता है और बंदरगाह सुखा देता है। अपनी अर्थव्यवस्था साथ लाइए।",
+    gimmick: "हर दूसरी बारी वह <b>नाकाबंदी</b> करता है: आपकी अगली आय -2, उसका कोष +3। चौथी चाल से <b>भारी बमवर्षक</b> (💰4) खुलते हैं, 14 क्षति।" },
+  france: { name: "फ़्रांस",
+    intro: "जल्दी गिरता है, आख़िर में सबसे ज़ोर से लड़ता है। इसे खड़ा मत छोड़िए।",
+    gimmick: "<b>प्रतिरोध:</b> आधे HP से नीचे सभी हमले +5। शुरू करने के लिए सबसे सस्ता दुश्मन, अधमरा छोड़ने पर सबसे महँगा।" },
 },
 deaths: {
   KILLED_IN_ACTION: "युद्ध में शहीद",
@@ -6519,6 +7372,30 @@ strings: {
 
   con_usa: "कार्ड महँगे, चारों में सबसे धीमी शुरुआत।",
 
+  arch_china: "दीर्घकालिक — समय ही आपका गोला-बारूद",
+  arch_uk: "ख़ुफ़िया — होने से पहले जान लेना",
+  arch_france: "प्रतिरोध — हारते हुए सबसे मज़बूत",
+  pro_china: "लड़ाई जितनी लंबी, वार उतना भारी।",
+  con_china: "शुरुआत में नुकसान कम; लड़ाई का लंबा खिंचना ज़रूरी।",
+  pro_uk: "दुश्मन की योजना देख लेता है और उसका ख़ज़ाना सुखा देता है।",
+  con_uk: "HP कम; तेज़ शुरुआत के आगे बुरी तरह पिटता है।",
+  pro_france: "HP आधे से नीचे जाते ही दोगुना ख़तरनाक।",
+  con_france: "सेहतमंद रहते कमज़ोर — यह डेक तभी कमाता है जब आप हार रहे हों।",
+  diff_endless: "अनंत",
+  diff_endless_sub: n => n ? `सर्वोच्च: ${n}` : "गिरने तक लड़िए",
+  endless_badge: n => `♾️ अनंत — लहर ${n}`,
+  endless_tag: "लहर का बॉस",
+  wave_no: n => `♾️ लहर ${n}`,
+  best_streak: n => `अनंत का सर्वोच्च: ${n}`,
+  endless_result: (n, b) => `${n} लहरें बचे। सर्वोच्च: ${b}।`,
+  warn_bomber: "✈️ भारी बमवर्षक आ रहे हैं।",
+  log_guerrilla: "तोड़ने को मोर्चा नहीं: दुश्मन के हमले 3 बारियों तक -3।",
+  log_chain_home: "रडार शृंखला चालू: इस बारी हर वार से 4 कम नुकसान।",
+  log_blockade: "बंदरगाह बंद। उसका कोष 3 बारियों तक नहीं बढ़ेगा।",
+  chip_chain_home: "📡 हर वार पर -4 (बारी)",
+  chip_chest_frozen: n => `⚓ कोष जमा हुआ (${n} बारी)`,
+  chip_protracted: n => `⏳ दीर्घकालिक: हमले +${n}`,
+  chip_cornered: "🔥 घिरा हुआ: हमले +5",
   pick_side: "अपना पक्ष चुनो",
   pick_side_sub: "सिर्फ़ दिखावटी चुनाव। जंग दोनों तरह से एक जैसी है। जंगें आमतौर पर ऐसी ही होती हैं।",
 
@@ -6739,6 +7616,9 @@ ach: {
   spotless: { name: "बेदाग़", text: "तलब करने लायक़ एक भी मद नहीं।", hint: "साख को कभी 7 से नीचे गिराए बिना पूरा रन जीतो।" },
   rockbottom: { name: "सबसे नीचे", text: "सब तुमसे नफ़रत करते हैं। फिर भी तुम जीते।", hint: "सबका दुश्मन रहते हुए रन जीतो।" },
   slippery: { name: "फिसलन भरी ढलान", text: "शुरुआत एक छोटी-सी रियायत से हुई थी।", hint: "एक ही लड़ाई में साख 8 से 0 तक गिराओ।" },
+  endless5: { name: "लंबी लड़ाई", text: "पाँच लहरें और आप अब भी खड़े हैं।", hint: "अनंत मोड में 5 लहरें बचिए।" },
+  endless10: { name: "कोई युद्धविराम नहीं", text: "अब तक तो किसी को कुछ हस्ताक्षर कर देना चाहिए था।", hint: "अनंत मोड में 10 लहरें बचिए।" },
+  world_tour: { name: "सबकी मुसीबत", text: "अब आपने ख़ुद पूरी दुनिया को नाराज़ कर दिया है।", hint: "एक ही अनंत रन में बाकी छहों देशों को हराइए।" },
   maginot:        { name: "मैजिनो सोच", text: "रक्षा एकदम सही थी। जंग जगह बदल गई।", hint: "हाथ में 2+ ब्लॉक कार्ड लिए ब्लिट्ज़क्रीग से मरिए।" },
   winter_regards: { name: "जनरल विंटर का सलाम", text: "आप पहले नहीं हैं। आख़िरी भी नहीं होंगे।", hint: "सोवियत के सबसे ऊँचे हमला-स्तर पर उससे मरिए।" },
   broke_dead:     { name: "कंगाल और मुर्दा", text: "दिवालियापन: दूसरी बिना शर्त हार।", hint: "कंगाल रहते हुए जापान से मरिए।" },
@@ -6799,6 +7679,21 @@ cards: {
   ike_arsenal:   { name: "ترسانة آيك", text: "كل الهجمات +1 دائم عن كل 4 دخل لديك.", flavor: "اللوجستيات تكسب الحروب. وآيك يكسب اللوجستيات." },
   patton_push:   { name: "اندفاعة باتون", text: "ألحق ضرراً يساوي 1.5 ضعف دخلك.", flavor: "لا ينتظر الأوامر. لا ينتظر شيئاً على الإطلاق." },
   arsenal_democracy: { name: "ترسانة الديمقراطية", text: "الدخل +2 دائم. السمعة +1.", flavor: "اتضح أن فوق المرتفَع الأخلاقي مصنعاً." },
+  taierzhuang: { name: "تاي إرتشوانغ", text: "يُلحق 4 ضرر، +1 عن كل دور مضى في هذه المعركة (بحد أقصى 14). السمعة -2.", flavor: "توقعوا فراراً جماعياً. وصلتهم فاتورة." },
+  flying_tigers: { name: "النمور الطائرة", text: "يُلحق 8 ضرر. يتجاهل الصدّ.", flavor: "متطوعون. نظرياً." },
+  the_hump: { name: "خط الحدبة", text: "الدخل +1. اسحب بطاقة.", flavor: "اعبر الجبل أو اخسر الحرب. لقد عبروه." },
+  guerrilla: { name: "غارات العصابات", text: "هجمات العدو -3 لثلاثة أدوار.", flavor: "لا جبهة، إذن لا جبهة تُخترق." },
+  changsha: { name: "دفاع تشانغشا", text: "تكسب 10 صدّ. إن صدّ هجوماً بالكامل، يرد 10.", flavor: "ثلاث مرات. حاولوا ثلاث مرات." },
+  bletchley: { name: "بلتشلي بارك", text: "ترى حركتَي العدو التاليتين لبقية المعركة. اسحب بطاقة. السمعة -2.", flavor: "أفضل أسرار الحرب حفظاً كان مسألة أرشفة." },
+  chain_home: { name: "سلسلة الرادار", text: "هذا الدور تتلقى ضرراً أقل بـ4 عن كل ضربة.", flavor: "رأوهم قادمين. كانت تلك هي الحيلة كلها." },
+  desert_rats: { name: "جرذان الصحراء", text: "يُلحق 9 ضرر؛ و13 إن كنت ترى نية العدو.", flavor: "رمل في كل شيء. وفي خطط العدو أيضاً." },
+  convoy_blockade: { name: "حصار القوافل", text: "يسرق 3 ذهب (تصل مع دخلك القادم). خزينة العدو تتوقف عن النمو 3 أدوار.", flavor: "لا شيء يدخل، ولا شيء يخرج." },
+  lancaster: { name: "غارة لانكستر", text: "يُلحق 16 ضرراً.", flavor: "ثقيلة، بطيئة، ولا لبس في أنها في طريقها إليك." },
+  free_france: { name: "فرنسا الحرة", text: "يُلحق 6 ضرر؛ و12 إن كانت صحتك دون النصف. السمعة -2.", flavor: "حكومة داخل استوديو إذاعي. ومع ذلك كانت تُحسب." },
+  maginot: { name: "خط ماجينو", text: "تكسب 12 صدّ.", flavor: "هندسة بديعة. والسؤال كان خاطئاً." },
+  resistance_net: { name: "شبكة المقاومة", text: "يسرق 2 ذهب (تصل مع دخلك القادم). اسحب بطاقة.", flavor: "صار الجميع سعاة بريد." },
+  leclerc: { name: "رتل لوكلير", text: "يُلحق 5 ضرر مرتين؛ و+3 لكل ضربة إن كانت صحتك دون النصف.", flavor: "وعدهم بباريس. ولم يكن يبالغ." },
+  liberation: { name: "التحرير", text: "يشفي 10 نقاط حياة. السمعة +1.", flavor: "رنّت الأجراس. كان أحدهم قد أخفى مطارقها." },
 },
 countries: {
   germany: { name: "ألمانيا",
@@ -6813,6 +7708,15 @@ countries: {
   usa: { name: "الولايات المتحدة",
     intro: "بداية بطيئة، ونهاية لا تُوقَف. أمامك ثمانية أدوار. أنفقها بحكمة.",
     gimmick: "تبدأ الهجمات من 4 وتزيد +2 كل دور. <b>ساعة مانهاتن</b> تصل إلى الصفر خلال 8 أدوار: 40 ضرراً، ولا استئناف." },
+  china: { name: "الصين",
+    intro: "لا تنهار ولا تستعجل. كل دور تنفقه أنت، تدّخره هي.",
+    gimmick: "<b>حرب طويلة الأمد:</b> كل 3 أدوار تكسب هجماتها +2 بشكل دائم. وتصدّ أيضاً بـ8 (💰2). الساعة في صفها لا في صفك." },
+  uk: { name: "المملكة المتحدة",
+    intro: "تقرأ بريدك وتجفّف موانئك. أحضر اقتصادك معك.",
+    gimmick: "كل دورين <b>تفرض حصاراً</b>: دخلك القادم -2 وخزينتها +3. من حركتها الرابعة تفتح <b>القاذفات الثقيلة</b> (💰4) بـ14 ضرراً." },
+  france: { name: "فرنسا",
+    intro: "تسقط بسرعة، وتقاتل بأشرس ما لديها في النهاية. لا تتركها واقفة.",
+    gimmick: "<b>المقاومة:</b> دون نصف الصحة تكسب كل هجماتها +5. أرخص عدو للبدء به، وأغلى عدو تتركه نصف ميت." },
 },
 deaths: {
   KILLED_IN_ACTION: "قُتل في المعركة",
@@ -6878,6 +7782,30 @@ strings: {
 
   con_usa: "بطاقات غالية، وأبطأ انطلاقة بين الأربع.",
 
+  arch_china: "طويلة الأمد — الوقت هو ذخيرتك",
+  arch_uk: "استخبارات — أن تعرف قبل أن يقع",
+  arch_france: "مقاومة — أقوى ما تكون وهي تخسر",
+  pro_china: "تضرب أشد كلما طال القتال.",
+  con_china: "ضرر ضعيف في البداية؛ تحتاج معركة طويلة.",
+  pro_uk: "ترى خطة العدو وتجفّف خزينته.",
+  con_uk: "صحة قليلة؛ تُعاقَب بشدة أمام بداية سريعة.",
+  pro_france: "تضاعف الرهان ما إن تهبط دون نصف الصحة.",
+  con_france: "ضعيفة وأنت بخير — هذه المجموعة لا تربح إلا وأنت تخسر.",
+  diff_endless: "لانهائي",
+  diff_endless_sub: n => n ? `أفضل سلسلة: ${n}` : "قاتل حتى تسقط",
+  endless_badge: n => `♾️ لانهائي — الموجة ${n}`,
+  endless_tag: "زعيم الموجة",
+  wave_no: n => `♾️ الموجة ${n}`,
+  best_streak: n => `أفضل سلسلة لانهائية: ${n}`,
+  endless_result: (n, b) => `نجوت من ${n} موجة. الأفضل: ${b}.`,
+  warn_bomber: "✈️ قاذفات ثقيلة قادمة.",
+  log_guerrilla: "لا جبهة تُخترق: هجمات العدو -3 لثلاثة أدوار.",
+  log_chain_home: "سلسلة الرادار تعمل: -4 ضرر عن كل ضربة هذا الدور.",
+  log_blockade: "أُغلقت الموانئ. خزينته تتوقف عن النمو 3 أدوار.",
+  chip_chain_home: "📡 -4 لكل ضربة (الدور)",
+  chip_chest_frozen: n => `⚓ الخزينة مجمدة (${n} أدوار)`,
+  chip_protracted: n => `⏳ طويلة الأمد: +${n} هجوم`,
+  chip_cornered: "🔥 محاصَرة: +5 هجوم",
   pick_side: "اختر جانبك",
   pick_side_sub: "خيار شكلي فحسب. الحرب واحدة في الحالتين. الحروب عادةً كذلك.",
 
@@ -7098,6 +8026,9 @@ ach: {
   spotless: { name: "بلا شائبة", text: "ولا بند واحد يمكن استدعاؤه.", hint: "اربح جولة دون أن تنزل سمعتك تحت 7 أبداً." },
   rockbottom: { name: "القاع", text: "الجميع يكرهك. وربحت رغم ذلك.", hint: "اربح جولة وأنت منبوذ عالمياً." },
   slippery: { name: "المنحدر الزلق", text: "بدأ الأمر بخدمة صغيرة واحدة.", hint: "اهبط بالسمعة من 8 إلى 0 داخل معركة واحدة." },
+  endless5: { name: "حرب طويلة", text: "خمس موجات وما زلت واقفاً.", hint: "انجُ من 5 موجات في الوضع اللانهائي." },
+  endless10: { name: "لا هدنة", text: "كان يُفترض أن يوقّع أحدهم شيئاً حتى الآن.", hint: "انجُ من 10 موجات في الوضع اللانهائي." },
+  world_tour: { name: "مشكلة الجميع", text: "لقد أزعجت الآن كوكب الأرض بأكمله شخصياً.", hint: "اهزم الدول الست الأخرى في جولة لانهائية واحدة." },
   maginot:        { name: "عقلية ماجينو", text: "كان الدفاع مثالياً. لكن الحرب غيّرت عنوانها.", hint: "مُت بالحرب الخاطفة وفي يدك بطاقتا صدّ أو أكثر." },
   winter_regards: { name: "تحيات الجنرال شتاء", text: "لستَ الأول. ولن تكون الأخير.", hint: "مُت أمام السوفييت في أعلى مستوى هجوم لديهم." },
   broke_dead:     { name: "مفلس وميت", text: "الإفلاس: الاستسلام غير المشروط الآخر.", hint: "مُت أمام اليابان وأنت مفلس." },
@@ -7230,6 +8161,72 @@ countries: {
     ".........0cc0...........",
     "...0999999299999990.....",
     "..099999992999999990....",
+    "........................",
+  ],
+
+  /* 中国:钢盔士兵头像 —— 与山姆大叔同一套拟人化语言 */
+  china: [
+    "........................",
+    "........00000000........",
+    ".......0dddddddd0.......",
+    "......0dddddddddd0......",
+    "......0000000000000.....",
+    "........0cccccc0........",
+    ".......0cccccccc0.......",
+    ".......0c00cc00c0.......",
+    ".......0cccccccc0.......",
+    ".......0cc0000cc0.......",
+    "........0cccccc0........",
+    ".........000000.........",
+    "........0777770.........",
+    ".......077777770........",
+    "......07777777770.......",
+    ".....0777777777770......",
+    ".....0777777777770......",
+    "........................",
+  ],
+
+  /* 英国:大本钟 */
+  uk: [
+    "........................",
+    "..........00............",
+    ".........0dd0...........",
+    "........0dddd0..........",
+    "........0d00d0..........",
+    ".......00000000.........",
+    ".......0cccccc0.........",
+    ".......0c0cc0c0.........",
+    ".......0cc00cc0.........",
+    ".......0cccccc0.........",
+    ".......00000000.........",
+    "........0dddd0..........",
+    "........0dddd0..........",
+    "........0dddd0..........",
+    "........0dddd0..........",
+    "........0dddd0..........",
+    ".......00000000.........",
+    "........................",
+  ],
+
+  /* 法国:拿破仑骑马 */
+  france: [
+    "........................",
+    "...............00.......",
+    "..............0dd0......",
+    "..............0dd0......",
+    "............000dd000....",
+    "...........0ddddddd0....",
+    "...........0dd000dd0....",
+    "........0000dd0.0dd0....",
+    ".......0eeeeee0.0000....",
+    "......0eeeeeeee0........",
+    ".....0eeeeeeeeee0.......",
+    "....0ee0eeeeeeeee0......",
+    "...0ee0..0eeeeeee0......",
+    "...0e0...0ee0.0ee0......",
+    "...000...0e0..0e0.......",
+    ".........000..000.......",
+    "........................",
     "........................",
   ],
 },
@@ -7866,6 +8863,231 @@ cards: {
     "..000000000000..",
     "................",
   ],
+  /* 中国:城门与旗 */
+  taierzhuang: [
+    "................",
+    ".......00.......",
+    ".......0220.....",
+    ".......00.......",
+    "..000000000000..",
+    "..0eeeeeeeeee0..",
+    "..0e00eeee00e0..",
+    "..0e0eeeeee0e0..",
+    "..0e0e0000e0e0..",
+    "..0e0e0..0e0e0..",
+    "..000000000000..",
+    "................",
+  ],
+  /* 中国:鲨鱼嘴机头 */
+  flying_tigers: [
+    "................",
+    "....00000000....",
+    "...0777777770...",
+    "..077777777770..",
+    "..0ccccccccc70..",
+    "..0c0c0c0c0c70..",
+    "..0ccccccccc70..",
+    "..077777777770..",
+    "...0777777770...",
+    "....00000000....",
+    "................",
+    "................",
+  ],
+  /* 中国:群山与运输机 */
+  the_hump: [
+    "................",
+    ".........0......",
+    "........00d0....",
+    ".......0dddd0...",
+    "........0000....",
+    "................",
+    ".......22.......",
+    "......2222......",
+    "....22222222....",
+    "..222222222222..",
+    ".22222222222222.",
+    "2222222222222222",
+  ],
+  /* 中国:草丛中的身影 */
+  guerrilla: [
+    "................",
+    "..0.........0...",
+    "................",
+    ".....00..00.....",
+    "....0ff00ff0....",
+    "....0ff00ff0....",
+    "...0ffff0fff0...",
+    "...0ff0..0ff0...",
+    "..6.6.6.6.6.6...",
+    ".6.6.6.6.6.6.6..",
+    "6.6.6.6.6.6.6.6.",
+    "................",
+  ],
+  /* 中国:三守长沙的城墙 */
+  changsha: [
+    "................",
+    "...00000000000..",
+    "...0ddddddddd0..",
+    "...0d0d0d0d0d0..",
+    "...0ddddddddd0..",
+    "...0d0d0d0d0d0..",
+    "...0ddddddddd0..",
+    "....0dddddddd0..",
+    "....00ddddd00...",
+    "......00000.....",
+    "................",
+    "................",
+  ],
+  /* 英国:恩尼格玛转子 */
+  bletchley: [
+    "................",
+    "...00000000000..",
+    "...0ccccccccc0..",
+    "...0c0c0c0c0c0..",
+    "...0ccccccccc0..",
+    "...00000000000..",
+    "...0eeeeeeeee0..",
+    "...0e0e0e0e0e0..",
+    "...0eeeeeeeee0..",
+    "...00000000000..",
+    "................",
+    "................",
+  ],
+  /* 英国:雷达桅杆 */
+  chain_home: [
+    "................",
+    ".......0........",
+    "......0b0.......",
+    ".....0bbb0......",
+    "....0bbbbb0.....",
+    ".....0bbb0......",
+    "......0b0.......",
+    ".......0........",
+    "......000.......",
+    ".....0eee0......",
+    "....00000000....",
+    "................",
+  ],
+  /* 英国:沙漠里的坦克 */
+  desert_rats: [
+    "................",
+    "................",
+    ".....00000......",
+    "....04444440....",
+    "..000000000000..",
+    "..044444444440..",
+    "..000000000000..",
+    "..0f0f0f0f0f0...",
+    "...0.0.0.0.0....",
+    "4444444444444444",
+    "................",
+    "................",
+  ],
+  /* 英国:船与锁链 */
+  convoy_blockade: [
+    "................",
+    "..........0.....",
+    "..........00....",
+    "......00000c0...",
+    "......0ccccc0...",
+    "..00000000000...",
+    "..0ccccccccc0...",
+    "...000000000....",
+    "..bb..bb..bb....",
+    ".b0b.b0b.b0b....",
+    "..bb..bb..bb....",
+    "................",
+  ],
+  /* 英国:四发重轰炸机 */
+  lancaster: [
+    "................",
+    ".......00.......",
+    "......0ee0......",
+    "......0ee0......",
+    "0000000ee0000000",
+    "0eeeeeeeeeeeeee0",
+    "0000000ee0000000",
+    "..00..0ee0..00..",
+    "..00..0ee0..00..",
+    "......0ee0......",
+    "......0000......",
+    "................",
+  ],
+  /* 法国:广播麦克风 */
+  free_france: [
+    "................",
+    ".....000000.....",
+    "....0dddddd0....",
+    "....0dccccd0....",
+    "....0dccccd0....",
+    "....0dddddd0....",
+    ".....000000.....",
+    ".......00.......",
+    ".......00.......",
+    "....00000000....",
+    "...0dddddddd0...",
+    "................",
+  ],
+  /* 法国:碉堡 */
+  maginot: [
+    "................",
+    "................",
+    "..000000000000..",
+    "..0eeeeeeeeee0..",
+    "..0e00e00e00e0..",
+    "..0eeeeeeeeee0..",
+    ".00000000000000.",
+    ".0eeeeeeeeeeee0.",
+    ".0e0000000000e0.",
+    ".0eeeeeeeeeeee0.",
+    ".00000000000000.",
+    "................",
+  ],
+  /* 法国:密信 */
+  resistance_net: [
+    "................",
+    "................",
+    "..000000000000..",
+    "..0cccccccccc0..",
+    "..0d00cccc00d0..",
+    "..0cd00cc00dc0..",
+    "..0ccd0cc0dcc0..",
+    "..0cccdccdccc0..",
+    "..0ccccddcccc0..",
+    "..000000000000..",
+    "................",
+    "................",
+  ],
+  /* 法国:装甲纵队 */
+  leclerc: [
+    "................",
+    "................",
+    "...000..........",
+    "..0dd000........",
+    "..0dddd0........",
+    "..000000........",
+    "........000.....",
+    ".......0dd000...",
+    ".......0dddd0...",
+    ".......000000...",
+    "................",
+    "................",
+  ],
+  /* 法国:解放的钟声 */
+  liberation: [
+    "................",
+    ".......00.......",
+    "......0440......",
+    ".....044440.....",
+    "....04444440....",
+    "....04444440....",
+    "...0444444440...",
+    "..044444444440..",
+    "..000000000000..",
+    "......0440......",
+    "......0000......",
+    "................",
+  ],
 },
 };
 
@@ -8208,7 +9430,49 @@ const CARDS = {
     async play() { await attackEnemy(Math.floor(1.5 * grossIncome())); } },
   arsenal_democracy: { cost: 4, cat: "bld", faction: "usa",
     async play() { gainIncome(2); changeRep(1); } },
+
+  /* --- 阵营:中国 — 持久战 --- */
+  taierzhuang: { cost: 2, cat: "mil", atk: true, faction: "china", sig: true, rep: -2,
+    async play() { await attackEnemy(Math.min(14, 4 + Math.max(0, B.turn - 1))); } },
+  flying_tigers: { cost: 2, cat: "mil", atk: true, faction: "china",
+    async play() { await attackEnemy(8, { pierce: true }); } },
+  the_hump: { cost: 2, cat: "bld", faction: "china",
+    async play() { gainIncome(1); draw(1); } },
+  guerrilla: { cost: 1, cat: "pol", faction: "china",
+    async play() { B.winterTurns = 3; B.winterAmt = 3; log(T("log_guerrilla")); sfx.block(); } },
+  changsha: { cost: 3, cat: "mil", faction: "china",
+    async play() { gainBlock(10); B.thorns += 10; } },
+
+  /* --- 阵营:英国 — 情报 --- */
+  bletchley: { cost: 2, cat: "pol", faction: "uk", sig: true, rep: -2,
+    async play() { B.foresight = true; log(T("log_recon")); draw(1); } },
+  chain_home: { cost: 1, cat: "bld", faction: "uk",
+    async play() { B.chainHome = true; log(T("log_chain_home")); sfx.block(); } },
+  desert_rats: { cost: 2, cat: "mil", atk: true, faction: "uk",
+    async play() { await attackEnemy(B.foresight ? 13 : 9); } },
+  convoy_blockade: { cost: 2, cat: "mil", faction: "uk",
+    async play() { stealFromChest(3); B.chestFrozen = 3; log(T("log_blockade")); } },
+  lancaster: { cost: 3, cat: "mil", atk: true, faction: "uk",
+    async play() { await attackEnemy(16); } },
+
+  /* --- 阵营:法国 — 抵抗 --- */
+  free_france: { cost: 2, cat: "mil", atk: true, faction: "france", sig: true, rep: -2,
+    async play() { await attackEnemy(lowHp() ? 12 : 6); } },
+  maginot: { cost: 2, cat: "mil", faction: "france",
+    async play() { gainBlock(12); } },
+  resistance_net: { cost: 1, cat: "bld", faction: "france",
+    async play() { stealFromChest(2); draw(1); } },
+  leclerc: { cost: 2, cat: "mil", atk: true, faction: "france",
+    async play() {
+      const v = lowHp() ? 8 : 5;
+      await attackEnemy(v); await sleep(200); await attackEnemy(v);
+    } },
+  liberation: { cost: 3, cat: "bld", faction: "france",
+    async play() { heal(10); changeRep(1); } },
 };
+
+/* 法国的整套卡组只在落后时才付得起回报 */
+function lowHp() { return G.hp <= G.maxHp / 2; }
 
 const SHARED_IDS = Object.keys(CARDS).filter(id => !CARDS[id].faction);
 
@@ -8217,6 +9481,9 @@ const FACTIONS = {
   soviet:  { sig: "zhukov",        pool: ["katyusha", "general_winter", "deep_battle", "ural"] },
   japan:   { sig: "tokyo_express", pool: ["zero_rush", "yamamoto", "night_raid", "shadow_economy"] },
   usa:     { sig: "liberty_ships", pool: ["rosie", "ike_arsenal", "patton_push", "arsenal_democracy"] },
+  china:   { sig: "taierzhuang",   pool: ["flying_tigers", "the_hump", "guerrilla", "changsha"] },
+  uk:      { sig: "bletchley",     pool: ["chain_home", "desert_rats", "convoy_blockade", "lancaster"] },
+  france:  { sig: "free_france",   pool: ["maginot", "resistance_net", "leclerc", "liberation"] },
 };
 
 /* Spec 5.4: 3× Charge! (signature replaces one), 2× Dig In,
@@ -8232,6 +9499,9 @@ const COUNTRIES = {
   soviet:  { flag: "☭",  hp: 50, bossHp: 5 },
   japan:   { flag: "🇯🇵", hp: 45 },
   usa:     { flag: "🇺🇸", hp: 45 },
+  china:   { flag: "🇨🇳", hp: 55 },
+  uk:      { flag: "🇬🇧", hp: 40 },
+  france:  { flag: "🇫🇷", hp: 38 },
 };
 
 function repTitle(r) {
@@ -8243,7 +9513,8 @@ function repTitle(r) {
 /* ---------------- achievements ---------------- */
 const ACH_GENERAL = ["baptism", "mission_accomplished", "geneva", "war_criminal", "textbook",
                      "economist", "pickpocket", "no_scratch", "photo_finish", "polyglot",
-                     "spotless", "rockbottom", "slippery"];
+                     "spotless", "rockbottom", "slippery",
+                     "endless5", "endless10", "world_tour"];
 const ACH_MATCHUP = ["m_germany_soviet", "m_germany_usa", "m_germany_japan",
                      "m_soviet_germany", "m_soviet_usa", "m_soviet_japan",
                      "m_japan_usa", "m_japan_soviet", "m_japan_germany",
@@ -8281,12 +9552,13 @@ const REP_MAX = 8;   // reputation ceiling (spec 9)
 let G = null; // run state
 let B = null; // battle state
 
-function newRun(playerCountry, hell = false) {
+function newRun(playerCountry, hell = false, endless = false) {
   const others = Object.keys(COUNTRIES).filter(c => c !== playerCountry);
   G = {
     playerCountry,
-    hell,
-    queue: shuffle(others),
+    hell, endless,
+    // 标准/地狱:从其余六国里随机抽三个。无尽:永远续上下一个对手
+    queue: endless ? shuffle(others) : shuffle(others).slice(0, 3),
     battleIdx: 0,
     hp: 50, maxHp: 50,
     rep: 8, repFloor: 8,
@@ -8304,11 +9576,14 @@ function newRun(playerCountry, hell = false) {
 }
 
 function initBattle() {
+  while (G.endless && G.battleIdx >= G.queue.length) queueMoreOpponents();
   const id = G.queue[G.battleIdx];
-  const boss = G.battleIdx === 2 || G.hell;   // hell: every battle is a boss
-  const maxHp = COUNTRIES[id].hp + (boss ? (COUNTRIES[id].bossHp ?? 15) : 0);
+  // 无尽:每三波一个 Boss;标准:只有最后一场
+  const boss = G.endless ? (G.battleIdx % 3 === 2) : (G.battleIdx === 2 || G.hell);
+  const wave = G.endless ? G.battleIdx : 0;
+  const maxHp = COUNTRIES[id].hp + (boss ? (COUNTRIES[id].bossHp ?? 15) : 0) + 8 * wave;
   B = {
-    enemy: { id, boss, maxHp, hp: maxHp, block: 0, chest: 10, usaAtk: 4,
+    enemy: { id, boss, maxHp, hp: maxHp, wave, block: 0, chest: 10, usaAtk: 4,
              actIdx: 0, annStacks: 0, kamAnn: false, fumesAnn: false, stacks: 0 },
     draw: shuffle(G.deck), discard: [], exhausted: [], hand: [],
     turn: 0, gold: 0,
@@ -8317,7 +9592,8 @@ function initBattle() {
     playerBlock: 0, thorns: 0, turnAtkBonus: 0,
     suckerPunch: false, allHands: false, rosie: false, noAttacks: false,
     talkItOut: false, enemySkip: false, foresight: false,
-    schwerpunkt: false, winterTurns: 0, fundedDisabled: false,
+    schwerpunkt: false, winterTurns: 0, winterAmt: 2, fundedDisabled: false,
+    chainHome: false, chestFrozen: 0,
     shadowEconomy: 0, lootNext: 0, lootArrived: false, stolenTotal: 0,
     oncePlayed: [], handCap: HAND_LIMIT,
     cardsPlayed: 0, ctxFirst: false, playedThisTurn: [], factionThisTurn: [],
@@ -8360,6 +9636,24 @@ function enemyAction(idx) {
         return { kind: "kamikaze", dmg: boss ? 16 : 12, self: 5, funded: 4, warn: T("warn_divine"), src: "attack" };
       return { kind: "attack", hits: [4], src: "attack" };
     }
+    case "china": {
+      const pos = idx % 3;
+      const p = protractedBonus();
+      if (pos === 1) return { kind: "block", amount: 8, funded: 2 };
+      return { kind: "attack", hits: [(pos === 0 ? 5 : 7) + p], src: "attack" };
+    }
+    case "uk": {
+      const pos = idx % 3;
+      if (pos === 1) return { kind: "attack", hits: [0], steal: 2, chestGain: 3, src: "blockade" };
+      if (pos === 2 && idx >= 3)
+        return { kind: "attack", hits: [boss ? 19 : 14], funded: 4, src: "bomber", warn: T("warn_bomber") };
+      return { kind: "attack", hits: [pos === 0 ? 6 : 9], src: "attack" };
+    }
+    case "france": {
+      const pos = idx % 3;
+      if (pos === 2) return { kind: "block", amount: 6, funded: 2 };
+      return { kind: "attack", hits: [5 + (franceCornered() ? 5 : 0)], src: "attack" };
+    }
     case "usa": {
       if (idx === 7) return { kind: "nuke", dmg: boss ? 52 : 40, warn: T("warn_nuke"), src: "nuke" };
       // project +2 per future funded ramp so Eye in the Sky forecasts honestly
@@ -8383,6 +9677,22 @@ function sovietStacks() {
   e.stacks = Math.max(e.stacks || 0, current);
   return e.stacks;
 }
+/* 中国:伤害挂在"你花了多少回合"上,而不是"它掉了多少血" */
+/* 无尽:每挺过一波,所有敌人的每次攻击 +1 */
+function waveBonus() {
+  return (B && B.enemy && B.enemy.wave) ? B.enemy.wave : 0;
+}
+
+function protractedBonus() {
+  if (!B || B.enemy.id !== "china") return 0;
+  return 2 * Math.floor(Math.max(0, B.turn - 1) / 3);
+}
+/* 法国:半血以下才露出獠牙 */
+function franceCornered() {
+  const e = B && B.enemy;
+  return !!e && e.id === "france" && e.hp > 0 && e.hp < e.maxHp / 2;
+}
+
 function usaClock() {
   return Math.max(0, 8 - B.enemy.actIdx);
 }
@@ -8449,8 +9759,9 @@ function afterEnemyDamage() {
 
 async function enemyHit(raw, { halve = false, src = "attack" } = {}) {
   if (G.over || B.won) return;
-  let dmg = raw + (G.intervention ? 3 : 0) + (G.pariah ? 2 : 0);
-  if (B.winterTurns > 0) dmg = Math.max(0, dmg - 2);
+  let dmg = raw + (G.intervention ? 3 : 0) + (G.pariah ? 2 : 0) + waveBonus();
+  if (B.winterTurns > 0) dmg = Math.max(0, dmg - (B.winterAmt || 2));
+  if (B.chainHome) dmg = Math.max(0, dmg - 4);
   if (halve) dmg = Math.floor(dmg / 2);
   dmg = Math.max(0, dmg - nopeReduction());
   const blocked = Math.min(B.playerBlock, dmg);
@@ -8604,7 +9915,7 @@ function startPlayerTurn() {
   B.turn++; G.totalTurns++;
   B.playerBlock = 0; B.thorns = 0; B.turnAtkBonus = 0;
   B.suckerPunch = false; B.allHands = false; B.rosie = false; B.noAttacks = false;
-  B.schwerpunkt = false;
+  B.schwerpunkt = false; B.chainHome = false;
   B.cardsPlayed = 0; B.playedThisTurn = []; B.factionThisTurn = [];
   B.busy = false;
 
@@ -8686,7 +9997,9 @@ async function enemyTurn() {
   if (G.over || B.won) return;
   const e = B.enemy;
   e.block = 0;
-  e.chest += chestGain(e); // war chest income, even while chilling
+  // 皇家海军的封锁反过来用:金库停止增长
+  if (B.chestFrozen > 0) B.chestFrozen--;
+  else e.chest += chestGain(e); // war chest income, even while chilling
 
   if (B.enemySkip) {
     B.enemySkip = false;
@@ -8728,7 +10041,7 @@ async function enemyTurn() {
     }
     if (a.steal) {
       B.stealNext += a.steal;
-      e.chest += a.steal; // Japan banks what it loots
+      e.chest += a.chestGain || a.steal; // 掠夺者把战利品存进自己金库
       popup("#player-panel", `💰-${a.steal}`, "pop-steal");
       sfx.coin();
       log(T("log_steal", a.steal));
@@ -8784,11 +10097,19 @@ async function winBattle() {
   sfx.win();
 
   ach("baptism");
+  (G.beaten = G.beaten || []).push(B.enemy.id);
   ach(`m_${G.playerCountry}_${B.enemy.id}`);
   if (!B.tookDamage) ach("no_scratch");
   polyglotRecord();
 
-  const last = G.battleIdx === 2;
+  const last = !G.endless && G.battleIdx === 2;
+  if (G.endless) {
+    G.streak = (G.streak || 0) + 1;
+    recordStreak(G.streak);
+    if (G.streak >= 5) ach("endless5");
+    if (G.streak >= 10) ach("endless10");
+    if (new Set(G.beaten || []).size >= 6) ach("world_tour");
+  }
   if (last) {
     ach("mission_accomplished");
     if (!G.dirtyPlayed) ach("geneva");
@@ -8934,6 +10255,7 @@ function showTitle() {
     <div class="logo">WAR<span>ECONOMY</span></div>
     ${T("logo_sub") ? `<div class="logo-zh">${T("logo_sub")}</div>` : ""}
     ${done ? `<div class="badge-gold">🏅 ${T("badge_war_over")}<span>${T("badge_war_over_sub")}</span></div>` : ""}
+    ${bestStreak() ? `<div class="streak-badge">♾️ ${T("best_streak", bestStreak())}</div>` : ""}
     <p class="tag">${T("tagline")}</p>
     <ul class="howto">
       <li>${T("howto1")}</li>
@@ -8950,7 +10272,7 @@ function showTitle() {
 
 /* Difficulty is chosen on the select screen and survives a language
    switch (which re-renders the screen in place). */
-let hellSelected = false;
+let modeSelected = "std";   // "std" | "hell" | "endless"
 
 function showSelect() {
   rerender = showSelect;
@@ -8970,11 +10292,14 @@ function showSelect() {
     <p class="subtitle">${T("pick_side_sub")}</p>
 
     <div class="diff-row">
-      <button class="diff-btn${hellSelected ? "" : " on"}" onclick="UI.setHell(false)">
+      <button class="diff-btn${modeSelected === "std" ? " on" : ""}" onclick="UI.setMode('std')">
         <b>${T("diff_normal")}</b><span>${T("diff_normal_sub")}</span>
       </button>
-      <button class="diff-btn hell${hellSelected ? " on" : ""}" onclick="UI.setHell(true)">
+      <button class="diff-btn hell${modeSelected === "hell" ? " on" : ""}" onclick="UI.setMode('hell')">
         <b>🔥 ${T("diff_hell")}</b><span>${T("diff_hell_sub")}</span>
+      </button>
+      <button class="diff-btn endless${modeSelected === "endless" ? " on" : ""}" onclick="UI.setMode('endless')">
+        <b>♾️ ${T("diff_endless")}</b><span>${T("diff_endless_sub", bestStreak())}</span>
       </button>
     </div>
 
@@ -9010,15 +10335,16 @@ function showHelpModal() {
 function showBattleIntro() {
   rerender = showBattleIntro;
   const id = G.queue[G.battleIdx];
-  const boss = G.battleIdx === 2 || G.hell;
+  const boss = G.endless ? (G.battleIdx % 3 === 2) : (G.battleIdx === 2 || G.hell);
   const opener = G.battleIdx === 0
     ? `<p class="subtitle">${T("opener", coName(G.playerCountry))}</p>` : "";
   $("#app").innerHTML = `
   <div class="screen">
     ${opener}
     <span class="vs-badge ${boss ? "boss" : ""}">${
-      G.hell ? T("hell_badge", G.battleIdx + 1)
-             : (boss ? T("boss_badge") : T("battle_badge", G.battleIdx + 1))}</span>
+      G.endless ? T("endless_badge", G.battleIdx + 1)
+        : G.hell ? T("hell_badge", G.battleIdx + 1)
+        : (boss ? T("boss_badge") : T("battle_badge", G.battleIdx + 1))}</span>
     ${flagHtml(id, "intro-flag")}
     <div class="intro-name">${coName(id)}</div>
     <p class="intro-quote">“${esc(coIntro(id))}”</p>
@@ -9034,7 +10360,7 @@ function renderBattleSkeleton() {
   $("#app").innerHTML = `
   <div class="battle">
     <div class="topbar">
-      <span class="battle-no">⚔️ ${G.battleIdx + 1}/3</span>
+      <span class="battle-no">${G.endless ? T("wave_no", G.battleIdx + 1) : `⚔️ ${G.battleIdx + 1}/3`}</span>
       <div id="rep-box">
         <span>🌍</span>
         <div class="repbar"><div id="rep-fill"></div></div>
@@ -9050,7 +10376,7 @@ function renderBattleSkeleton() {
         ${flagHtml(e.id, "enemy-flag")}
         <div style="flex:1;min-width:0">
           <div class="enemy-name">${coName(e.id)}${
-            e.boss ? ` <span class="boss-tag">${G.hell ? T("hell_tag") : T("final_boss_tag")}</span>` : ""}</div>
+            e.boss ? ` <span class="boss-tag">${G.endless ? T("endless_tag") : G.hell ? T("hell_tag") : T("final_boss_tag")}</span>` : ""}</div>
           <div class="hpbar"><div id="enemy-hp-fill"></div></div>
           <div class="hp-line"><span id="enemy-hp-text"></span><span id="enemy-chest" title="${esc(T("war_chest"))}"></span><span id="enemy-block"></span></div>
         </div>
@@ -9085,8 +10411,8 @@ function renderBattleSkeleton() {
 function intentHtml(a, future = false) {
   if (!a) return "";
   const e = B.enemy;
-  const iv = (G.intervention ? 3 : 0) + (G.pariah ? 2 : 0);
-  const winter = B.winterTurns > 0 ? 2 : 0;
+  const iv = (G.intervention ? 3 : 0) + (G.pariah ? 2 : 0) + waveBonus();
+  const winter = (B.winterTurns > 0 ? (B.winterAmt || 2) : 0) + (B.chainHome ? 4 : 0);
   const adj = v => Math.max(0, v + iv - winter);
   let txt = "", warn = false;
   if (a.kind === "attack") {
@@ -9227,6 +10553,25 @@ function updateBattle() {
   $("#send-it").disabled = B.busy || B.won || G.over;
 }
 
+/* 无尽模式:对手永远续得上,且不会连着重复同一个 */
+function queueMoreOpponents() {
+  const others = Object.keys(COUNTRIES).filter(c => c !== G.playerCountry);
+  let next = shuffle(others);
+  if (next[0] === G.queue[G.queue.length - 1] && next.length > 1)
+    [next[0], next[1]] = [next[1], next[0]];
+  G.queue = G.queue.concat(next);
+}
+
+/* 最长连胜是无尽模式唯一的跨局存档 */
+function bestStreak() {
+  try { return parseInt(localStorage.getItem("we_streak") || "0", 10) || 0; }
+  catch (e) { return 0; }
+}
+function recordStreak(n) {
+  try { if (n > bestStreak()) localStorage.setItem("we_streak", String(n)); }
+  catch (e) { /* 无痕模式等 */ }
+}
+
 /* ---------------- between-battle dilemmas (spec 9.2) ----------------
    One randomly drawn deal after each victory, priced in Reputation, HP,
    or the card reward itself. Declining is always free. */
@@ -9356,7 +10701,9 @@ function showDeath(cause) {
     <div class="corner-bar">${langBtnHtml()}</div>
     <h1 class="screen-title">${T("death_title")}</h1>
     <div class="cause">☠ ${deathText(cause)}</div>
-    <p class="subtitle">${T("defeated_by", e, G.battleIdx + 1)}</p>
+    <p class="subtitle">${G.endless
+        ? T("endless_result", G.streak || 0, bestStreak())
+        : T("defeated_by", e, G.battleIdx + 1)}</p>
     <div class="stat-grid">
       <span class="k">${T("k_rep")}</span><span class="v">🌍 ${G.rep}/10 — ${repTitle(G.rep)}</span>
       <span class="k">${T("k_turns_survived")}</span><span class="v">⏱ ${G.totalTurns}</span>
@@ -9451,8 +10798,14 @@ function showAchModal() {
 /* ---------------- UI handlers ---------------- */
 window.UI = {
   toSelect() { sfx.click(); showSelect(); },
-  setHell(v) { hellSelected = v; sfx.click(); showSelect(); },
-  pickCountry(id) { sfx.click(); newRun(id, hellSelected); runLocked = true; showBattleIntro(); },
+  setMode(m) { modeSelected = m; sfx.click(); showSelect(); },
+  setHell(v) { modeSelected = v ? "hell" : "std"; sfx.click(); showSelect(); },
+  pickCountry(id) {
+    sfx.click();
+    newRun(id, modeSelected === "hell", modeSelected === "endless");
+    runLocked = true;
+    showBattleIntro();
+  },
   showHelp() { sfx.click(); showHelpModal(); },
   fight() { sfx.click(); initBattle(); },
   play(i) { playCard(i); },

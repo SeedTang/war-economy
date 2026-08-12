@@ -408,6 +408,14 @@ button.card.unplayable:hover { transform: none; }
 .diff-btn.on b { color: var(--amber); }
 .diff-btn.hell.on { border-color: var(--dirty); background: #3a1e1e; }
 .diff-btn.hell.on b { color: #ff9e9e; }
+.diff-btn.endless.on { border-color: var(--purple); background: #2b2038; }
+.diff-btn.endless.on b { color: #d4b4f0; }
+/* 三档难度在窄屏上竖排,免得挤成一团 */
+@media (max-width: 560px) { .diff-row { flex-direction: column; } }
+.streak-badge {
+  font-size: 12px; color: var(--purple); letter-spacing: .06em;
+  border: 1px solid var(--purple); border-radius: 999px; padding: 4px 14px;
+}
 .diff-btn:hover { transform: translateY(-1px); }
 
 /* ---------- help / faction pros-cons ---------- */
