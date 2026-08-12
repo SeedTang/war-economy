@@ -1458,7 +1458,9 @@ function showDilemma() {
   rerender = showDilemma;
   // keep the same offer if the player switches language while deciding
   if (!currentDilemma) {
-    const pool = DILEMMAS.filter(d => !(d.hp && G.hp + d.hp <= 0));  // never offer a suicide deal
+    const pool = DILEMMAS.filter(d =>
+      !(d.hp && G.hp + d.hp <= 0) &&      // never offer a suicide deal
+      !(G.endless && (d.hp || d.heal)));  // 无尽下波回满血,拿血当筹码的抉择全是假的
     currentDilemma = shuffle(pool.length ? pool : DILEMMAS)[0];
   }
   const d = currentDilemma;

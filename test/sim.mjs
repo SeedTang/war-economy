@@ -65,7 +65,10 @@ function totalAttackAvail() {
   if (B.bankrupt || B.noAttacks) return 0;
   const base = { charge:6, double_tap:10, big_boom:14, burn_it_all:18, death_above:8,
     scorched_sky:20, guderian:9, desert_fox:9, wolfpack:4, zhukov:10, katyusha:16,
-    deep_battle:10, night_raid:7, zero_rush:(B.lootArrived?8:5), patton_push:Math.floor(1.5*grossIncome()) };
+    deep_battle:10, night_raid:7, zero_rush:(B.lootArrived?8:5), patton_push:Math.floor(1.5*grossIncome()),
+    taierzhuang:Math.min(14, 4 + Math.max(0, B.turn - 1)), flying_tigers:8,
+    desert_rats:(B.foresight ? 13 : 9), lancaster:16,
+    free_france:(lowHp() ? 12 : 6), leclerc:(lowHp() ? 16 : 10) };
   let gold = B.gold, dmg = 0;
   const items = B.hand
     .map((h, i) => ({ id: h.id, c: effCost(h), d: (base[h.id] || 0) + (CARDS[h.id].atk ? B.permAtk + B.turnAtkBonus : 0) }))
@@ -129,6 +132,31 @@ function scoreCard(h) {
     case "katyusha": s = 7; break;
     case "desert_fox": s = 6; break;
     case "patton_push": s = grossIncome() >= 6 ? 8 : 3; break;
+
+    /* --- 中国 --- */
+    // 台儿庄越拖越强,前期打是浪费
+    case "taierzhuang": s = B.turn >= 5 ? 8 : (B.turn >= 3 ? 5 : 3); break;
+    case "flying_tigers": s = e.block > 0 ? 8 : 6; break;
+    case "the_hump": s = early ? 8 : 3; break;
+    case "guerrilla": s = inc >= 8 ? 7 : 2; break;
+    case "changsha": s = inc >= 8 ? 8 : (inc >= 5 ? 5 : 1); break;
+
+    /* --- 英国 --- */
+    case "bletchley": s = B.foresight ? 1 : 7; break;
+    case "chain_home": s = inc >= 8 ? 7 : 1; break;
+    case "desert_rats": s = 6; break;
+    // 封锁金库:对靠钱开大招的敌人才值钱
+    case "convoy_blockade": s = e.chest >= 3 ? (["usa","germany","uk","china"].includes(e.id) ? 7 : 5) : 1; break;
+    case "lancaster": s = 7; break;
+
+    /* --- 法国 --- */
+    // 自由法国/勒克莱尔在残血时翻倍,健康时别急着打
+    case "free_france": s = lowHp() ? 8 : 5; break;
+    case "maginot": s = inc >= 9 ? 8 : (inc >= 6 ? 5 : 1); break;
+    case "resistance_net": s = e.chest > 0 ? (early ? 6 : 4) : 2; break;
+    case "leclerc": s = lowHp() ? 8 : 6; break;
+    case "liberation": s = G.hp <= G.maxHp - 10 ? (hpLow ? 8 : 5) : (G.rep <= 6 ? 3 : 0); break;
+
     default: s = 1;
   }
   if (CARDS[id].atk) {
@@ -180,7 +208,10 @@ function botPickReward() {
     autobahn:5, all_aboard:4, patch_up:5, eye_sky:2, good_guy:2, time_out:2, art_deal:1,
     fake_news:2, sucker_punch:3, scorched_sky:4, burn_it_all:5, charge:3, lets_have_it:4,
     all_hands:3, buy_now:1, deep_battle:4, schwerpunkt:4, desert_fox:5, guderian:5,
-    zhukov:6, rosie:3 };
+    zhukov:6, rosie:3,
+    taierzhuang:6, flying_tigers:6, the_hump:7, guerrilla:4, changsha:5,
+    bletchley:4, chain_home:4, desert_rats:6, convoy_blockade:5, lancaster:7,
+    free_france:6, maginot:4, resistance_net:5, leclerc:6, liberation:5 };
   const early = G.battleIdx === 0;
   let best = rewardPicks[0], bs = -1;
   for (const id of rewardPicks) {
@@ -194,7 +225,7 @@ function botPickReward() {
 }
 
 async function simRun(faction) {
-  hellSelected = !!globalThis.__HELL;
+  modeSelected = globalThis.__HELL ? "hell" : "std";
   UI.pickCountry(faction);
   UI.fight();
   for (let safety = 0; safety < 500; safety++) {
@@ -206,10 +237,10 @@ async function simRun(faction) {
       if (currentDilemma) {
         const d = currentDilemma;
         let take = false;
-        if (d.id === "salvage") take = G.hp <= G.maxHp - 14;
-        else if (d.id === "requisition") take = G.rep >= 9;
-        else if (d.id === "accords") take = G.hp > 20 && G.rep < 10;
-        else if (d.id === "amnesty") take = G.rep < 10 && G.hp <= 25;
+        if (d.id === "salvage") take = G.hp <= G.maxHp - 14 && G.rep >= 5;
+        else if (d.id === "requisition") take = G.rep >= 6;
+        else if (d.id === "accords") take = G.hp > 24 && G.rep <= 5;
+        else if (d.id === "amnesty") take = G.rep <= 4;
         UI.dilemma(take);
       }
       while (rewardPicks) botPickReward();
@@ -247,7 +278,7 @@ if (process.argv[3] === "oldtheft") {
 /* ---------------- driver ---------------- */
 const N = parseInt(process.argv[2] || "1000", 10);
 if (process.argv.includes("hell")) { vm.runInContext("globalThis.__HELL = true;", ctx); console.log("=== HELL MODE (every battle is a boss) ==="); }
-const factions = ["germany", "soviet", "japan", "usa"];
+const factions = ["germany", "soviet", "japan", "usa", "china", "uk", "france"];
 const results = {};
 
 for (const f of factions) {

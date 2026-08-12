@@ -811,6 +811,23 @@ run("G.hp = 12; G.battleIdx = 1; UI.fight();");
 t("S22 标准模式战间不回血", S("G.hp") === 12);
 run(`modeSelected = "std";`);
 
+// 无尽下拿血当筹码的抉择要被过滤掉
+run(`modeSelected = "endless"; UI.pickCountry("germany"); UI.fight(); G.hp = 40;`);
+const dilPool = S(`(() => {
+  const seen = new Set();
+  for (let i = 0; i < 200; i++) { currentDilemma = null; showDilemma(); seen.add(currentDilemma.id); }
+  return [...seen].sort();
+})()`);
+t("S22 无尽不再发打捞权/协约", JSON.stringify(dilPool) === JSON.stringify(["amnesty","requisition"]));
+run(`modeSelected = "std"; UI.pickCountry("germany"); G.queue = ["soviet","japan","usa"]; G.battleIdx = 0; UI.fight(); G.hp = 40;`);
+const dilStd = S(`(() => {
+  const seen = new Set();
+  for (let i = 0; i < 400; i++) { currentDilemma = null; showDilemma(); seen.add(currentDilemma.id); }
+  return [...seen].sort();
+})()`);
+t("S22 标准模式四个抉择都还在", JSON.stringify(dilStd) === JSON.stringify(["accords","amnesty","requisition","salvage"]));
+run("currentDilemma = null;");
+
 /* ---------- results ---------- */
 console.log(`\nPASS ${pass}  FAIL ${fail}`);
 if (failures.length) {
