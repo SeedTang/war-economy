@@ -283,7 +283,7 @@ const CARDS = {
   liberty_ships: { cost: 3, cat: "bld", faction: "usa", sig: true, rep: -2,
     async play() {
       gainIncome(1);
-      if (B.handCap < 5) { B.handCap = 5; log(T("log_handcap")); }
+      if (B.handCap < 6) { B.handCap = 6; log(T("log_handcap")); }
       draw(1);
     } },
   rosie: { cost: 2, cat: "bld", faction: "usa",
@@ -366,7 +366,7 @@ const COUNTRIES = {
   germany: { flag: "🇩🇪", hp: 35 },
   soviet:  { flag: "☭",  hp: 50, bossHp: 5 },
   japan:   { flag: "🇯🇵", hp: 45 },
-  usa:     { flag: "🇺🇸", hp: 45 },
+  usa:     { flag: "🇺🇸", hp: 45, bossHp: 5 },
   china:   { flag: "🇨🇳", hp: 55 },
   uk:      { flag: "🇬🇧", hp: 40 },
   france:  { flag: "🇫🇷", hp: 38 },
@@ -687,7 +687,7 @@ function gainIncome(n) {
 /* Hand limit is 4 for everyone; Liberty Ships buys the USA a 5th slot.
    Card-driven draw may exceed it (spec 3) — HAND_MAX only keeps the
    hand renderable. */
-const HAND_LIMIT = 4;
+const HAND_LIMIT = 5;
 const HAND_MAX = 10;
 
 function draw(n, autobahn = false, cap = HAND_MAX) {

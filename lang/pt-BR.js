@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "A Aposta de Yamamoto", text: "Rouba 5 de ouro (chega com sua próxima renda). O próximo movimento 💰 inimigo é anulado.", flavor: "Ele deu seis meses. Não estava errado." },
   night_raid:    { name: "Ataque Noturno", text: "Causa 7 de dano. Ignora Bloqueio. Custa 0 se o cofre inimigo estiver vazio.", flavor: "Eles treinaram pra isso. No escuro. De propósito." },
   shadow_economy:{ name: "Economia Paralela", text: "Sempre que roubar, o saque é 1 de ouro maior. Permanente nesta batalha.", flavor: "Fora dos livros. Bem fora." },
-  liberty_ships: { name: "Navios Liberty", text: "Renda +1. Compre 1 carta. Limite de mão 4 → 5 pelo resto da batalha. Reputação -2.", flavor: "Construídos mais rápido do que afundavam. Por pouco." },
+  liberty_ships: { name: "Navios Liberty", text: "Renda +1. Compre 1 carta. Limite de mão 5 → 6 pelo resto da batalha. Reputação -2.", flavor: "Construídos mais rápido do que afundavam. Por pouco." },
   rosie:         { name: "O Turno da Rosie", text: "Neste turno, cartas de Construção custam 1 a menos (mín. 0).", flavor: "A gente consegue. A gente ESTÁ conseguindo." },
   ike_arsenal:   { name: "O Arsenal do Ike", text: "Todos os ataques +1 permanente para cada 4 de renda que você tiver.", flavor: "Logística ganha guerras. Ike ganha a logística." },
   patton_push:   { name: "O Avanço de Patton", text: "Causa dano igual a 1,5× sua renda.", flavor: "Ele não espera ordens. Ele não espera nada." },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "O básico",
 
-  help_factions_title: "As quatro potências",
+  help_factions_title: "As sete potências",
 
   help_r1: "A cada turno você recebe renda, paga 1 de ouro de manutenção e gasta o resto. Ouro não gasto some.",
 
@@ -231,7 +231,7 @@ strings: {
 
   log_safety: "Trava desligada. Ataques +4 neste turno.",
   log_income: "Renda +1 por turno.",
-  log_handcap: "Estaleiros abertos: agora você tem 5 cartas por turno.",
+  log_handcap: "Estaleiros abertos: agora você tem 6 cartas por turno.",
   chip_handcap: n => `🃏 limite de mão ${n}`,
   log_once_spent: "A fábrica já está rodando. Uma Máquina de Guerra por batalha.",
   chip_wm_spent: "🏭 Máquina de Guerra usada",

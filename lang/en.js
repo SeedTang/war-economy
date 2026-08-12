@@ -49,7 +49,7 @@ cards: {
   shadow_economy:{ name: "Shadow Economy", text: "Whenever you steal, the haul is 1 gold bigger. Permanent this battle.", flavor: "Off the books. Way off." },
 
   /* --- USA: Snowball --- */
-  liberty_ships: { name: "Liberty Ships", text: "Income +1. Draw 1 card. Hand limit 4 → 5 for the rest of this battle. Reputation -2.", flavor: "Built faster than they could be sunk. Barely." },
+  liberty_ships: { name: "Liberty Ships", text: "Income +1. Draw 1 card. Hand limit 5 → 6 for the rest of this battle. Reputation -2.", flavor: "Built faster than they could be sunk. Barely." },
   rosie:         { name: "Rosie's Shift", text: "This turn, Building cards cost 1 less (min 0).", flavor: "We Can Do It. We ARE Doing It." },
   ike_arsenal:   { name: "Ike's Arsenal", text: "All attacks permanently +1 for every 4 income you have.", flavor: "Logistics wins wars. Ike wins logistics." },
   patton_push:   { name: "Patton's Push", text: "Deal damage equal to 1.5× your income.", flavor: "He's not waiting for orders. He's not waiting for anything." },
@@ -161,7 +161,7 @@ strings: {
 
   help_rules_title: "The Basics",
 
-  help_factions_title: "The Four Powers",
+  help_factions_title: "The Seven Powers",
 
   help_r1: "Each turn you collect income, pay 1 gold upkeep, then spend what's left. Unspent gold vanishes — use it or lose it.",
 
@@ -296,7 +296,7 @@ strings: {
 
   log_safety: "Safety's off. Attacks +4 this turn.",
   log_income: "Income +1 per turn.",
-  log_handcap: "The yards are open: you now hold 5 cards a turn.",
+  log_handcap: "The yards are open: you now hold 6 cards a turn.",
   chip_handcap: n => `🃏 hand limit ${n}`,
   log_once_spent: "The factory's already running. One War Machine per battle.",
   chip_wm_spent: "🏭 War Machine spent",

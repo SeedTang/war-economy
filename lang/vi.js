@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "Canh bạc của Yamamoto", text: "Trộm 5 vàng (về cùng thu nhập lượt sau). Nước đi 💰 tiếp theo của địch bị hủy.", flavor: "Ông ấy hứa sáu tháng. Ông ấy không sai." },
   night_raid:    { name: "Tập kích đêm", text: "Gây 7 sát thương. Xuyên Chặn. Giá 0 nếu két của địch trống rỗng.", flavor: "Họ luyện tập cho việc này. Trong bóng tối. Cố tình." },
   shadow_economy:{ name: "Kinh tế ngầm", text: "Mỗi lần trộm, chiến lợi phẩm nhiều hơn 1 vàng. Kéo dài hết trận.", flavor: "Ngoài sổ sách. Xa lắm." },
-  liberty_ships: { name: "Tàu Liberty", text: "Thu nhập +1. Rút 1 lá. Giới hạn bài trên tay 4 → 5 cho hết trận này. Danh tiếng -2.", flavor: "Đóng nhanh hơn tốc độ bị đánh chìm. Suýt soát." },
+  liberty_ships: { name: "Tàu Liberty", text: "Thu nhập +1. Rút 1 lá. Giới hạn bài trên tay 5 → 6 cho hết trận này. Danh tiếng -2.", flavor: "Đóng nhanh hơn tốc độ bị đánh chìm. Suýt soát." },
   rosie:         { name: "Ca làm của Rosie", text: "Lượt này, bài Công trình giảm 1 giá (tối thiểu 0).", flavor: "Chúng ta làm được. Chúng ta ĐANG làm đây." },
   ike_arsenal:   { name: "Kho vũ khí của Ike", text: "Mỗi 4 thu nhập bạn có, mọi đòn tấn công +1 vĩnh viễn.", flavor: "Hậu cần thắng chiến tranh. Ike thắng hậu cần." },
   patton_push:   { name: "Mũi thọc sâu của Patton", text: "Gây sát thương bằng 1,5× thu nhập của bạn.", flavor: "Ông ấy không chờ lệnh. Ông ấy không chờ gì cả." },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "Cơ bản",
 
-  help_factions_title: "Bốn cường quốc",
+  help_factions_title: "Bảy cường quốc",
 
   help_r1: "Mỗi lượt bạn nhận thu nhập, trả 1 vàng quân phí, rồi tiêu phần còn lại. Vàng không tiêu sẽ mất.",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Mở chốt an toàn. Lượt này đòn đánh +4.",
   log_income: "Thu nhập +1 mỗi lượt.",
-  log_handcap: "Xưởng đóng tàu chạy hết công suất: giờ bạn cầm 5 lá mỗi lượt.",
+  log_handcap: "Xưởng đóng tàu chạy hết công suất: giờ bạn cầm 6 lá mỗi lượt.",
   chip_handcap: n => `🃏 giới hạn tay ${n}`,
   log_once_spent: "Nhà máy đang chạy rồi. Mỗi trận chỉ một Cỗ máy Chiến tranh.",
   chip_wm_spent: "🏭 Đã dùng Cỗ máy Chiến tranh",

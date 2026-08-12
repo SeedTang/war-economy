@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "La apuesta de Yamamoto", text: "Roba 5 de oro (llega con tus próximos ingresos). El próximo movimiento 💰 enemigo queda anulado.", flavor: "Dio seis meses. No se equivocó." },
   night_raid:    { name: "Incursión nocturna", text: "Inflige 7 de daño. Ignora Bloqueo. Cuesta 0 si el cofre enemigo está vacío.", flavor: "Entrenaron para esto. A oscuras. A propósito." },
   shadow_economy:{ name: "Economía sumergida", text: "Cada vez que robes, el botín es 1 de oro mayor. Permanente esta batalla.", flavor: "Fuera de los libros. Muy fuera." },
-  liberty_ships: { name: "Barcos Liberty", text: "Ingresos +1. Roba 1 carta. Límite de mano 4 → 5 el resto de la batalla. Reputación -2.", flavor: "Construidos más rápido de lo que los hundían. Por poco." },
+  liberty_ships: { name: "Barcos Liberty", text: "Ingresos +1. Roba 1 carta. Límite de mano 5 → 6 el resto de la batalla. Reputación -2.", flavor: "Construidos más rápido de lo que los hundían. Por poco." },
   rosie:         { name: "El turno de Rosie", text: "Este turno, las cartas de Edificio cuestan 1 menos (mín. 0).", flavor: "Podemos hacerlo. Lo ESTAMOS haciendo." },
   ike_arsenal:   { name: "El arsenal de Ike", text: "Todos los ataques +1 permanente por cada 4 de ingresos que tengas.", flavor: "La logística gana guerras. Ike gana la logística." },
   patton_push:   { name: "El empuje de Patton", text: "Inflige daño igual a 1,5× tus ingresos.", flavor: "No espera órdenes. No espera nada." },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "Lo básico",
 
-  help_factions_title: "Las cuatro potencias",
+  help_factions_title: "Las siete potencias",
 
   help_r1: "Cada turno cobras ingresos, pagas 1 de oro de mantenimiento y gastas el resto. El oro no gastado se pierde.",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Seguro quitado. Ataques +4 este turno.",
   log_income: "Ingresos +1 por turno.",
-  log_handcap: "Astilleros abiertos: ahora tienes 5 cartas por turno.",
+  log_handcap: "Astilleros abiertos: ahora tienes 6 cartas por turno.",
   chip_handcap: n => `🃏 límite de mano ${n}`,
   log_once_spent: "La fábrica ya está en marcha. Una Máquina de Guerra por batalla.",
   chip_wm_spent: "🏭 Máquina de Guerra usada",

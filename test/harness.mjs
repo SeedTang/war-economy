@@ -704,17 +704,17 @@ fresh("japan", "usa");
 t("S17 new run resets rep to 8", S("(newRun('japan'), G.rep)") === 8);
 t("S17 new run clears pariah", S("G.pariah") === false);
 
-/* ---------- S16: hand limit 4, Liberty Ships buys the 5th ---------- */
+/* ---------- S16: hand limit 5, Liberty Ships buys the 6th ---------- */
 fresh("germany", "soviet");
-t("S16 hand refills to 4", S("B.hand.length") === 4);
-t("S16 handCap starts at 4", S("B.handCap") === 4);
+t("S16 hand refills to 5", S("B.hand.length") === 5);
+t("S16 handCap starts at 5", S("B.handCap") === 5);
 run("UI.endTurn()"); await settle(800);
-t("S16 still 4 next turn", S("B.hand.length") === 4);
+t("S16 still 5 next turn", S("B.hand.length") === 5);
 
-// draw cards may exceed the limit: full hand of 4, play a draw-2 → 5
-run("B.draw = ['charge','charge','charge']; B.hand = [{id:'all_aboard'},{id:'charge'},{id:'charge'},{id:'charge'}]; B.gold = 5; updateBattle();");
+// draw cards may exceed the limit: full hand of 5, play a draw-2 → 6
+run("B.draw = ['charge','charge','charge']; B.hand = [{id:'all_aboard'},{id:'charge'},{id:'charge'},{id:'charge'},{id:'charge'}]; B.gold = 5; updateBattle();");
 run("UI.play(0)"); await settle(200);
-t("S16 All Aboard can exceed the cap", S("B.hand.length") === 5);
+t("S16 All Aboard can exceed the cap", S("B.hand.length") === 6);
 run("B.draw = ['charge','charge','charge','charge','charge','charge','charge','charge','charge','charge']; B.hand = [{id:'enchilada'},{id:'all_aboard'},{id:'all_aboard'},{id:'all_aboard'}]; B.gold = 20; updateBattle();");
 run("UI.play(0)"); await settle(300);
 run("UI.play(0)"); await settle(200);
@@ -723,20 +723,25 @@ t("S16 hard ceiling holds at 10", S("B.hand.length") <= 10);
 
 // USA: Liberty Ships raises the cap for the rest of the battle
 fresh("usa", "germany");
-t("S16 USA also starts at 4", S("B.handCap") === 4 && S("B.hand.length") === 4);
+t("S16 USA also starts at 5", S("B.handCap") === 5 && S("B.hand.length") === 5);
 run("B.hand = [{id:'liberty_ships'}]; B.draw = ['charge','charge']; B.gold = 9; updateBattle();");
 run("UI.play(0)"); await settle(200);
-t("S16 Liberty Ships raises cap to 5", S("B.handCap") === 5);
-run("B.hand = []; B.draw = ['charge','charge','charge','charge','charge','charge']; UI.endTurn()"); await settle(800);
-t("S16 USA now refills to 5", S("B.hand.length") === 5);
+t("S16 Liberty Ships raises cap to 6", S("B.handCap") === 6);
+run("B.hand = []; B.draw = ['charge','charge','charge','charge','charge','charge','charge']; UI.endTurn()"); await settle(800);
+t("S16 USA now refills to 6", S("B.hand.length") === 6);
 run("B.hand = [{id:'liberty_ships'}]; B.gold = 9; updateBattle(); UI.play(0)"); await settle(200);
-t("S16 cap does not stack past 5", S("B.handCap") === 5);
+t("S16 cap does not stack past 6", S("B.handCap") === 6);
 
-// the 5th slot is USA-only and resets between battles
+// the 6th slot is USA-only and resets between battles
 fresh("germany", "soviet");
-t("S16 no other faction can raise it", S("!CARDS.war_machine.handCap && B.handCap") === 4);
+t("S16 no other faction can raise it", S("!CARDS.war_machine.handCap && B.handCap") === 5);
 fresh("usa", "japan");
-t("S16 cap resets next battle", S("B.handCap") === 4);
+t("S16 cap resets next battle", S("B.handCap") === 5);
+
+// 美国当 Boss 时血量 45+5,不再是 45+15
+fresh("germany", "usa", 2);
+t("S16 美国 Boss 血量 50", S("B.enemy.maxHp") === 50);
+t("S16 美国普通形态仍是 45", (fresh("germany", "usa"), S("B.enemy.maxHp")) === 45);
 
 /* ---------- S15: hell difficulty ---------- */
 run(`modeSelected = "hell"; UI.pickCountry("japan"); G.queue = ["germany","soviet","usa"]; G.battleIdx = 0; UI.fight();`);

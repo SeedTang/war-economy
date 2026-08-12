@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "Le pari de Yamamoto", text: "Vole 5 pièces d'or (livrées avec votre prochain revenu). Le prochain coup 💰 ennemi est annulé.", flavor: "Il avait donné six mois. Il n'avait pas tort." },
   night_raid:    { name: "Raid nocturne", text: "Inflige 7 dégâts. Ignore le Blocage. Coûte 0 si le trésor ennemi est vide.", flavor: "Ils se sont entraînés pour ça. Dans le noir. Exprès." },
   shadow_economy:{ name: "Économie de l'ombre", text: "À chaque vol, le butin grossit de 1 pièce d'or. Permanent cette bataille.", flavor: "Hors des registres. Très loin des registres." },
-  liberty_ships: { name: "Liberty Ships", text: "Revenu +1. Piochez 1 carte. Limite de main 4 → 5 pour le reste de la bataille. Réputation -2.", flavor: "Construits plus vite qu'ils n'étaient coulés. De justesse." },
+  liberty_ships: { name: "Liberty Ships", text: "Revenu +1. Piochez 1 carte. Limite de main 5 → 6 pour le reste de la bataille. Réputation -2.", flavor: "Construits plus vite qu'ils n'étaient coulés. De justesse." },
   rosie:         { name: "Le service de Rosie", text: "Ce tour, les cartes Bâtiment coûtent 1 de moins (min. 0).", flavor: "On peut le faire. On EST en train de le faire." },
   ike_arsenal:   { name: "L'arsenal d'Ike", text: "Toutes les attaques +1 permanent pour chaque tranche de 4 de revenu.", flavor: "La logistique gagne les guerres. Ike gagne la logistique." },
   patton_push:   { name: "La percée de Patton", text: "Inflige des dégâts égaux à 1,5× votre revenu.", flavor: "Il n'attend pas les ordres. Il n'attend rien du tout." },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "Les bases",
 
-  help_factions_title: "Les quatre puissances",
+  help_factions_title: "Les sept puissances",
 
   help_r1: "Chaque tour : vous encaissez le revenu, payez 1 or d'entretien, puis dépensez le reste. L'or non dépensé disparaît.",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Cran de sûreté enlevé. Attaques +4 ce tour.",
   log_income: "Revenu +1 par tour.",
-  log_handcap: "Les chantiers tournent : vous tenez désormais 5 cartes par tour.",
+  log_handcap: "Les chantiers tournent : vous tenez désormais 6 cartes par tour.",
   chip_handcap: n => `🃏 limite de main ${n}`,
   log_once_spent: "L'usine tourne déjà. Une seule Machine de Guerre par bataille.",
   chip_wm_spent: "🏭 Machine de Guerre utilisée",

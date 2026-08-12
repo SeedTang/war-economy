@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "Zakład Yamamoto", text: "Kradnie 5 złota (dotrą z następnym dochodem). Następny ruch 💰 wroga zostaje odwołany.", flavor: "Dawał pół roku. Nie pomylił się." },
   night_raid:    { name: "Nocny rajd", text: "Zadaje 7 obrażeń. Ignoruje Blok. Kosztuje 0, gdy skarbiec wroga jest pusty.", flavor: "Trenowali do tego. Po ciemku. Celowo." },
   shadow_economy:{ name: "Szara strefa", text: "Przy każdej kradzieży łup jest większy o 1 złota. Na stałe w tej bitwie.", flavor: "Poza księgami. Daleko poza." },
-  liberty_ships: { name: "Statki Liberty", text: "Dochód +1. Dobierz 1 kartę. Limit ręki 4 → 5 do końca bitwy. Reputacja -2.", flavor: "Budowane szybciej, niż je zatapiano. Ledwo." },
+  liberty_ships: { name: "Statki Liberty", text: "Dochód +1. Dobierz 1 kartę. Limit ręki 5 → 6 do końca bitwy. Reputacja -2.", flavor: "Budowane szybciej, niż je zatapiano. Ledwo." },
   rosie:         { name: "Zmiana Rosie", text: "W tej turze karty Budynków kosztują o 1 mniej (min. 0).", flavor: "Damy radę. Właśnie DAJEMY radę." },
   ike_arsenal:   { name: "Arsenał Ike'a", text: "Wszystkie ataki na stałe +1 za każde 4 dochodu.", flavor: "Logistyka wygrywa wojny. Ike wygrywa logistykę." },
   patton_push:   { name: "Natarcie Pattona", text: "Zadaje obrażenia równe 1,5× twojego dochodu.", flavor: "Nie czeka na rozkazy. Nie czeka na nic." },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "Podstawy",
 
-  help_factions_title: "Cztery mocarstwa",
+  help_factions_title: "Siedem mocarstw",
 
   help_r1: "Co turę zbierasz dochód, płacisz 1 złota utrzymania i wydajesz resztę. Niewydane złoto przepada.",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Bezpiecznik zdjęty. Ataki +4 w tej turze.",
   log_income: "Dochód +1 na turę.",
-  log_handcap: "Stocznie ruszyły: masz teraz 5 kart na turę.",
+  log_handcap: "Stocznie ruszyły: masz teraz 6 kart na turę.",
   chip_handcap: n => `🃏 limit ręki ${n}`,
   log_once_spent: "Fabryka już pracuje. Jedna Maszyna Wojenna na bitwę.",
   chip_wm_spent: "🏭 Maszyna Wojenna zużyta",

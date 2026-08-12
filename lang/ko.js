@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "야마모토의 도박", text: "5골드를 훔친다(다음 수입에 입금). 적의 다음 💰행동이 취소된다.", flavor: "6개월은 날뛰겠다고 했다. 틀린 말이 아니었다." },
   night_raid:    { name: "야간 기습", text: "7 피해. 방어 무시. 적 금고가 비어 있으면 비용 0.", flavor: "이걸 위해 훈련했다. 어둠 속에서. 일부러." },
   shadow_economy:{ name: "그림자 경제", text: "훔칠 때마다 장물이 1골드 커진다. 이번 전투 동안 유지.", flavor: "장부 밖. 한참 밖." },
-  liberty_ships: { name: "리버티선", text: "수입 +1. 1장 뽑는다. 이번 전투 동안 손패 한도 4 → 5.평판 -2.", flavor: "격침당하는 속도보다 빠르게 건조했다. 간신히." },
+  liberty_ships: { name: "리버티선", text: "수입 +1. 1장 뽑는다. 이번 전투 동안 손패 한도 5 → 6.평판 -2.", flavor: "격침당하는 속도보다 빠르게 건조했다. 간신히." },
   rosie:         { name: "로지의 교대근무", text: "이번 턴 건설 카드 비용 -1 (최소 0).", flavor: "우린 할 수 있다. 지금 하고 있다." },
   ike_arsenal:   { name: "아이크의 무기고", text: "수입 4마다 모든 공격이 영구히 +1.", flavor: "보급이 전쟁을 이긴다. 아이크가 보급을 이긴다." },
   patton_push:   { name: "패튼의 돌파", text: "수입의 1.5배만큼 피해를 준다.", flavor: "그는 명령을 기다리지 않는다. 아무것도 기다리지 않는다." },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "기본 규칙",
 
-  help_factions_title: "4대 열강",
+  help_factions_title: "7대 열강",
 
   help_r1: "매 턴 수입을 받고, 유지비 1골드를 낸 뒤, 남은 돈을 쓴다. 쓰지 않은 골드는 사라진다.",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "안전장치 해제. 이번 턴 공격 +4.",
   log_income: "수입이 매 턴 +1.",
-  log_handcap: "조선소 가동: 이제 매 턴 5장을 든다.",
+  log_handcap: "조선소 가동: 이제 매 턴 6장을 든다.",
   chip_handcap: n => `🃏 손패 한도 ${n}`,
   log_once_spent: "공장은 이미 돌아가고 있다. 전투당 전쟁 기계는 하나뿐.",
   chip_wm_spent: "🏭 전쟁 기계 사용됨",

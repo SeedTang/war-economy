@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "Yamamoto'nun Bahsi", text: "5 altın çalar (sonraki gelirle gelir). Düşmanın bir sonraki 💰 hamlesi iptal olur.", flavor: "Altı ay demişti. Yanılmadı." },
   night_raid:    { name: "Gece Baskını", text: "7 hasar verir. Bloğu deler. Düşman kasası boşsa maliyeti 0.", flavor: "Bunun için çalıştılar. Karanlıkta. Bilerek." },
   shadow_economy:{ name: "Kayıt Dışı Ekonomi", text: "Her hırsızlıkta ganimet 1 altın büyür. Bu savaş boyunca kalıcı.", flavor: "Defter dışı. Bayağı dışı." },
-  liberty_ships: { name: "Liberty Gemileri", text: "Gelir +1. 1 kart çek. Bu savaşın kalanında el limiti 4 → 5. İtibar -2.", flavor: "Batırıldıklarından hızlı inşa edildiler. Ucu ucuna." },
+  liberty_ships: { name: "Liberty Gemileri", text: "Gelir +1. 1 kart çek. Bu savaşın kalanında el limiti 5 → 6. İtibar -2.", flavor: "Batırıldıklarından hızlı inşa edildiler. Ucu ucuna." },
   rosie:         { name: "Rosie'nin Vardiyası", text: "Bu tur Bina kartları 1 eksik maliyetli (en az 0).", flavor: "Yapabiliriz. Zaten YAPIYORUZ." },
   ike_arsenal:   { name: "Ike'ın Cephaneliği", text: "Sahip olduğun her 4 gelir için tüm saldırılar kalıcı +1.", flavor: "Lojistik savaş kazandırır. Ike lojistik kazandırır." },
   patton_push:   { name: "Patton'ın Taarruzu", text: "Gelirinin 1,5 katı kadar hasar verir.", flavor: "Emir beklemez. Hiçbir şey beklemez." },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "Temeller",
 
-  help_factions_title: "Dört büyük güç",
+  help_factions_title: "Yedi büyük güç",
 
   help_r1: "Her tur gelir alırsın, 1 altın bakım ödersin, kalanı harcarsın. Harcanmayan altın buharlaşır.",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Emniyet açık. Bu tur saldırılar +4.",
   log_income: "Gelir tur başına +1.",
-  log_handcap: "Tersaneler açıldı: artık tur başına 5 kart tutuyorsun.",
+  log_handcap: "Tersaneler açıldı: artık tur başına 6 kart tutuyorsun.",
   chip_handcap: n => `🃏 el limiti ${n}`,
   log_once_spent: "Fabrika zaten çalışıyor. Savaş başına bir Savaş Makinesi.",
   chip_wm_spent: "🏭 Savaş Makinesi kullanıldı",

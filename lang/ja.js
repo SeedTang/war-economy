@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "山本の賭け", text: "5ゴールド奪う(次の収入で届く)。敵の次の💰行動を無効化する。", flavor: "半年は暴れてみせると言った。間違ってなかった。" },
   night_raid:    { name: "夜襲", text: "7ダメージ。ブロック無視。敵の軍資金が空ならコスト0。", flavor: "彼らはこのために訓練した。暗闇で。わざわざ。" },
   shadow_economy:{ name: "闇経済", text: "奪うたびに戦利品が1ゴールド増える。この戦闘中ずっと。", flavor: "帳簿の外。だいぶ外。" },
-  liberty_ships: { name: "リバティ船", text: "収入+1。1枚引く。この戦闘中、手札上限が4→5になる。評判 -2。", flavor: "沈められるより速く造った。ぎりぎりで。" },
+  liberty_ships: { name: "リバティ船", text: "収入+1。1枚引く。この戦闘中、手札上限が5→6になる。評判 -2。", flavor: "沈められるより速く造った。ぎりぎりで。" },
   rosie:         { name: "ロージーのシフト", text: "このターン、建設カードのコスト-1（最低0）。", flavor: "We Can Do It。今まさにやってる。" },
   ike_arsenal:   { name: "アイクの兵器庫", text: "収入4につき、すべての攻撃が永久に+1。", flavor: "兵站が戦争を制す。アイクが兵站を制す。" },
   patton_push:   { name: "パットンの突進", text: "収入の1.5倍のダメージを与える。", flavor: "彼は命令を待たない。何も待たない。" },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "基本ルール",
 
-  help_factions_title: "四大国",
+  help_factions_title: "七大国",
 
   help_r1: "毎ターン、収入を得て、維持費1ゴールドを払い、残りを使う。使わなかったゴールドは消える。",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "安全装置解除。このターン攻撃 +4。",
   log_income: "収入が毎ターン +1。",
-  log_handcap: "造船所が稼働：手札は毎ターン5枚になった。",
+  log_handcap: "造船所が稼働：手札は毎ターン6枚になった。",
   chip_handcap: n => `🃏 手札上限 ${n}`,
   log_once_spent: "工場はもう稼働中だ。戦争機械は1戦闘に1つまで。",
   chip_wm_spent: "🏭 戦争機械は使用済み",

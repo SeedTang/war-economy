@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "Taruhan Yamamoto", text: "Curi 5 emas (tiba dengan pendapatan berikutnya). Gerakan 💰 musuh berikutnya dibatalkan.", flavor: "Dia bilang enam bulan. Dia tidak salah." },
   night_raid:    { name: "Serangan Malam", text: "Berikan 7 damage. Menembus Blok. Biaya 0 jika peti musuh kosong.", flavor: "Mereka berlatih untuk ini. Dalam gelap. Sengaja." },
   shadow_economy:{ name: "Ekonomi Bayangan", text: "Tiap kali mencuri, jarahan bertambah 1 emas. Permanen pertempuran ini.", flavor: "Di luar pembukuan. Jauh di luar." },
-  liberty_ships: { name: "Kapal Liberty", text: "Pendapatan +1. Ambil 1 kartu. Batas kartu di tangan 4 → 5 sisa pertempuran ini. Reputasi -2.", flavor: "Dibangun lebih cepat daripada ditenggelamkan. Nyaris." },
+  liberty_ships: { name: "Kapal Liberty", text: "Pendapatan +1. Ambil 1 kartu. Batas kartu di tangan 5 → 6 sisa pertempuran ini. Reputasi -2.", flavor: "Dibangun lebih cepat daripada ditenggelamkan. Nyaris." },
   rosie:         { name: "Shift-nya Rosie", text: "Giliran ini, kartu Bangunan biayanya -1 (min. 0).", flavor: "Kita bisa. Kita SEDANG melakukannya." },
   ike_arsenal:   { name: "Gudang Senjata Ike", text: "Semua serangan +1 permanen untuk tiap 4 pendapatanmu.", flavor: "Logistik memenangkan perang. Ike memenangkan logistik." },
   patton_push:   { name: "Terobosan Patton", text: "Berikan damage sebesar 1,5× pendapatanmu.", flavor: "Dia tidak menunggu perintah. Dia tidak menunggu apa pun." },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "Dasar-dasar",
 
-  help_factions_title: "Empat kekuatan",
+  help_factions_title: "Tujuh kekuatan",
 
   help_r1: "Tiap giliran kamu terima pendapatan, bayar 1 emas perawatan, lalu belanjakan sisanya. Emas yang tak dipakai lenyap.",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Kunci pengaman dilepas. Serangan +4 giliran ini.",
   log_income: "Pemasukan +1 per giliran.",
-  log_handcap: "Galangan kapal jalan: sekarang kamu pegang 5 kartu per giliran.",
+  log_handcap: "Galangan kapal jalan: sekarang kamu pegang 6 kartu per giliran.",
   chip_handcap: n => `🃏 batas tangan ${n}`,
   log_once_spent: "Pabriknya sudah jalan. Satu Mesin Perang per pertempuran.",
   chip_wm_spent: "🏭 Mesin Perang terpakai",

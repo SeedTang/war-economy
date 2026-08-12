@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "山本的赌注", text: "偷5金币(下回合入账)。敌人的下一个💰行动被取消。", flavor: "他说撑六个月。他没说错。" },
   night_raid:    { name: "夜袭", text: "造成7点伤害，无视格挡。敌方金库为空时费用为0。", flavor: "他们专门练过。在黑暗里。故意的。" },
   shadow_economy:{ name: "影子经济", text: "每次偷窃的赃款+1金币。本场战斗内永久有效。", flavor: "账本外的账。很外。" },
-  liberty_ships: { name: "自由轮", text: "收入 +1。抽 1 张牌。本场战斗手牌上限 4 → 5。声誉 -2。", flavor: "沉没的速度赶不上下水的速度。勉强。" },
+  liberty_ships: { name: "自由轮", text: "收入 +1。抽 1 张牌。本场战斗手牌上限 5 → 6。声誉 -2。", flavor: "沉没的速度赶不上下水的速度。勉强。" },
   rosie:         { name: "铆钉女工的班次", text: "本回合建设牌费用-1（最低0）。", flavor: "我们能行。我们正在行。" },
   ike_arsenal:   { name: "艾克的军火库", text: "你每有 4 点收入，所有攻击永久 +1。", flavor: "后勤赢得战争。艾克赢得后勤。" },
   patton_push:   { name: "巴顿的突进", text: "造成等于你收入 1.5 倍的伤害。", flavor: "他不等命令。他什么都不等。" },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "基本规则",
 
-  help_factions_title: "四大阵营",
+  help_factions_title: "七大阵营",
 
   help_r1: "每回合先收钱，再扣 1 金军费，剩下的才能花。没花完的金币会作废——花掉或者浪费掉。",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "保险栓开了。本回合攻击 +4。",
   log_income: "收入每回合 +1。",
-  log_handcap: "船厂开工：你每回合可以拿 5 张牌了。",
+  log_handcap: "船厂开工：你每回合可以拿 6 张牌了。",
   chip_handcap: n => `🃏 手牌上限 ${n}`,
   log_once_spent: "工厂已经开工了。每场战斗只能造一台战争机器。",
   chip_wm_spent: "🏭 战争机器已用",

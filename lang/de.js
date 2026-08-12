@@ -43,7 +43,7 @@ cards: {
   yamamoto:      { name: "Yamamotos Wette", text: "Stiehlt 5 Gold (kommt mit dem nächsten Einkommen). Der nächste 💰-Zug des Gegners fällt aus.", flavor: "Er gab sechs Monate. Er lag nicht falsch." },
   night_raid:    { name: "Nachtangriff", text: "Verursacht 7 Schaden. Ignoriert Block. Kostet 0, wenn die gegnerische Kasse leer ist.", flavor: "Dafür haben sie trainiert. Im Dunkeln. Mit Absicht." },
   shadow_economy:{ name: "Schattenwirtschaft", text: "Bei jedem Diebstahl ist die Beute 1 Gold größer. Dauerhaft in diesem Kampf.", flavor: "Schwarze Kasse. Sehr schwarz." },
-  liberty_ships: { name: "Liberty-Frachter", text: "Einkommen +1. Ziehe 1 Karte. Handlimit 4 → 5 für den Rest des Kampfes. Ruf -2.", flavor: "Schneller gebaut als versenkt. Knapp." },
+  liberty_ships: { name: "Liberty-Frachter", text: "Einkommen +1. Ziehe 1 Karte. Handlimit 5 → 6 für den Rest des Kampfes. Ruf -2.", flavor: "Schneller gebaut als versenkt. Knapp." },
   rosie:         { name: "Rosies Schicht", text: "Diesen Zug kosten Gebäudekarten 1 weniger (min. 0).", flavor: "Wir schaffen das. Wir schaffen es GERADE." },
   ike_arsenal:   { name: "Ikes Arsenal", text: "Alle Angriffe dauerhaft +1 pro 4 Einkommen.", flavor: "Logistik gewinnt Kriege. Ike gewinnt Logistik." },
   patton_push:   { name: "Pattons Vorstoß", text: "Verursacht Schaden in Höhe von 1,5× deinem Einkommen.", flavor: "Er wartet nicht auf Befehle. Er wartet auf gar nichts." },
@@ -109,7 +109,7 @@ strings: {
 
   help_rules_title: "Grundlagen",
 
-  help_factions_title: "Die vier Mächte",
+  help_factions_title: "Die sieben Mächte",
 
   help_r1: "Jeden Zug: Einkommen kassieren, 1 Gold Unterhalt zahlen, den Rest ausgeben. Nicht ausgegebenes Gold verfällt.",
 
@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Sicherung raus. Angriffe +4 diese Runde.",
   log_income: "Einkommen +1 pro Runde.",
-  log_handcap: "Die Werften laufen: Du hältst jetzt 5 Karten pro Zug.",
+  log_handcap: "Die Werften laufen: Du hältst jetzt 6 Karten pro Zug.",
   chip_handcap: n => `🃏 Handlimit ${n}`,
   log_once_spent: "Die Fabrik läuft bereits. Eine Kriegsmaschine pro Kampf.",
   chip_wm_spent: "🏭 Kriegsmaschine verbraucht",
