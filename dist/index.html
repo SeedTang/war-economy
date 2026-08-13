@@ -9581,7 +9581,9 @@ function initBattle() {
   if (G.endless) G.hp = G.maxHp;
   const id = G.queue[G.battleIdx];
   // 无尽:每三波一个 Boss;标准:只有最后一场
-  const boss = G.endless ? (G.battleIdx % 3 === 2) : (G.battleIdx === 2 || G.hell);
+  const boss = isBossBattle();
+  // 无尽:声誉每三波回满。没有终点的跑法里,一次性的 8 点等于招牌卡用完就废
+  if (G.endless && G.battleIdx % 3 === 0) G.rep = REP_MAX;
   const wave = G.endless ? G.battleIdx : 0;
   const maxHp = COUNTRIES[id].hp + (boss ? (COUNTRIES[id].bossHp ?? 15) : 0) + 8 * wave;
   B = {
@@ -9682,7 +9684,14 @@ function sovietStacks() {
 /* 中国:伤害挂在"你花了多少回合"上,而不是"它掉了多少血" */
 /* 无尽:每挺过一波,所有敌人的每次攻击 +1 */
 function waveBonus() {
-  return (B && B.enemy && B.enemy.wave) ? B.enemy.wave : 0;
+  const w = (B && B.enemy && B.enemy.wave) ? B.enemy.wave : 0;
+  return Math.floor(w / 3);   // 每三波 +1,不是每波
+}
+
+/* 无尽:每活过一波,基础收入永久 +1。
+   敌人的成长是累加的,玩家的经济每波清零——不给这条,两条曲线第三波就交叉。 */
+function waveIncome() {
+  return (G && G.endless && B && B.enemy) ? B.enemy.wave : 0;
 }
 
 function protractedBonus() {
@@ -9704,7 +9713,7 @@ function nopeReduction() {
 function germanyFumes() {
   return B.enemy.id === "germany" && Math.floor(B.enemy.actIdx / 3) >= 3;
 }
-function grossIncome() { return 3 + B.permIncome; }
+function grossIncome() { return 3 + B.permIncome + waveIncome(); }
 
 /* War Chest funding. Yamamoto's Wager eats the next attempt. */
 function tryFund(cost) {
@@ -10334,10 +10343,17 @@ function showHelpModal() {
   </div>`;
 }
 
+/* 这一场是不是 Boss。介绍页和战斗初始化必须用同一份判定 */
+function isBossBattle() {
+  return G.endless ? (G.battleIdx % 4 === 3) : (G.battleIdx === 2 || G.hell);
+}
+
 function showBattleIntro() {
   rerender = showBattleIntro;
+  // 无尽的对手队列是按需续的:介绍页比 initBattle 先跑,这里不续就会读到 undefined
+  while (G.endless && G.battleIdx >= G.queue.length) queueMoreOpponents();
   const id = G.queue[G.battleIdx];
-  const boss = G.endless ? (G.battleIdx % 3 === 2) : (G.battleIdx === 2 || G.hell);
+  const boss = isBossBattle();
   const opener = G.battleIdx === 0
     ? `<p class="subtitle">${T("opener", coName(G.playerCountry))}</p>` : "";
   $("#app").innerHTML = `

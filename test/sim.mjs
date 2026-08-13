@@ -225,13 +225,15 @@ function botPickReward() {
 }
 
 async function simRun(faction) {
-  modeSelected = globalThis.__HELL ? "hell" : "std";
+  modeSelected = globalThis.__ENDLESS ? "endless" : (globalThis.__HELL ? "hell" : "std");
   UI.pickCountry(faction);
   UI.fight();
   for (let safety = 0; safety < 500; safety++) {
     if (G.over) return { win: false, battles: G.battleIdx, turns: G.totalTurns };
     if (B.won) {
-      if (G.battleIdx === 2) return { win: true, battles: 3, turns: G.totalTurns };
+      // 无尽:没有终点,记录活到第几波
+      if (globalThis.__ENDLESS && G.battleIdx >= 60) return { win: true, battles: G.battleIdx, turns: G.totalTurns };
+      if (!globalThis.__ENDLESS && G.battleIdx === 2) return { win: true, battles: 3, turns: G.totalTurns };
       // dilemma first: take heals when hurt, cards when healthy, never sell
       // reputation below the allied-aid line
       if (currentDilemma) {
@@ -278,21 +280,32 @@ if (process.argv[3] === "oldtheft") {
 /* ---------------- driver ---------------- */
 const N = parseInt(process.argv[2] || "1000", 10);
 if (process.argv.includes("hell")) { vm.runInContext("globalThis.__HELL = true;", ctx); console.log("=== HELL MODE (every battle is a boss) ==="); }
+if (process.argv.includes("endless")) { vm.runInContext("globalThis.__ENDLESS = true;", ctx); console.log("=== ENDLESS MODE (报活到第几波,而不是胜率) ==="); }
 const factions = ["germany", "soviet", "japan", "usa", "china", "uk", "france"];
 const results = {};
 
 for (const f of factions) {
   let wins = 0, turns = 0, stalled = 0;
-  const lostAt = [0, 0, 0];
+  const lostAt = [0, 0, 0], waves = [];
   for (let i = 0; i < N; i++) {
     const r = await vm.runInContext(`simRun(${JSON.stringify(f)})`, ctx);
     if (r.win) wins++;
     else lostAt[Math.min(2, r.battles)]++;
+    waves.push(r.battles + (r.win ? 1 : 0));
     turns += r.turns;
     if (r.stalled) stalled++;
   }
-  results[f] = { winPct: (100 * wins / N), avgTurns: turns / N, lostAt, stalled };
-  console.log(
+  results[f] = { winPct: (100 * wins / N), avgTurns: turns / N, lostAt, stalled, waves };
+  if (process.argv.includes("endless")) {
+    waves.sort((a, b) => a - b);
+    const avg = waves.reduce((a, b) => a + b, 0) / waves.length;
+    const med = waves[Math.floor(waves.length / 2)];
+    console.log(
+      `${f.padEnd(8)} 平均活到第 ${avg.toFixed(1)} 波  中位数 ${med}  ` +
+      `最好 ${waves[waves.length - 1]}  最差 ${waves[0]}` +
+      (stalled ? `  STALLED ${stalled}` : "")
+    );
+  } else console.log(
     `${f.padEnd(8)} win ${results[f].winPct.toFixed(1)}%  ` +
     `avg turns ${results[f].avgTurns.toFixed(1)}  ` +
     `losses at battle1/2/3: ${lostAt.join("/")}` +
@@ -300,6 +313,12 @@ for (const f of factions) {
   );
 }
 
-const rates = factions.map(f => results[f].winPct);
-const spread = Math.max(...rates) - Math.min(...rates);
-console.log(`\nspread: ${spread.toFixed(1)} percentage points (target ≤ 10)`);
+if (process.argv.includes("endless")) {
+  const all = factions.flatMap(f => results[f].waves).sort((a, b) => a - b);
+  const avg = all.reduce((a, b) => a + b, 0) / all.length;
+  console.log(`\n七国合计:平均第 ${avg.toFixed(1)} 波阵亡,中位数 ${all[Math.floor(all.length/2)]},最远 ${all[all.length-1]}`);
+} else {
+  const rates = factions.map(f => results[f].winPct);
+  const spread = Math.max(...rates) - Math.min(...rates);
+  console.log(`\nspread: ${spread.toFixed(1)} percentage points (target ≤ 10)`);
+}

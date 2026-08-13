@@ -554,9 +554,42 @@ t("S20 无尽标记", S("G.endless") === true);
 t("S20 无尽第一波不是Boss", S("B.enemy.boss") === false);
 t("S20 无尽波次为0", S("B.enemy.wave") === 0);
 run("G.battleIdx = 2; UI.fight();");
-t("S20 无尽每三波一个Boss", S("B.enemy.boss") === true);
+t("S20 第3波还不是Boss", S("B.enemy.boss") === false);
 t("S20 无尽第3波血量递增", S("B.enemy.maxHp") > S("COUNTRIES[B.enemy.id].hp"));
-t("S20 无尽波次加成", S("waveBonus()") === 2);
+run("G.battleIdx = 3; UI.fight();");
+t("S20 无尽每四波一个Boss", S("B.enemy.boss") === true);
+t("S20 第7波不是Boss", (run("G.battleIdx = 6; UI.fight();"), S("B.enemy.boss")) === false);
+t("S20 第8波是Boss", (run("G.battleIdx = 7; UI.fight();"), S("B.enemy.boss")) === true);
+
+// 攻击加成每三波才 +1
+run("G.battleIdx = 2; UI.fight();");
+t("S20 前三波攻击不涨", S("waveBonus()") === 0);
+run("G.battleIdx = 3; UI.fight();");
+t("S20 第4波攻击 +1", S("waveBonus()") === 1);
+run("G.battleIdx = 9; UI.fight();");
+t("S20 第10波攻击 +3", S("waveBonus()") === 3);
+
+// 玩家经济跟着波次涨
+run("G.battleIdx = 0; UI.fight();");
+t("S20 第1波基础收入 3", S("grossIncome()") === 3);
+run("G.battleIdx = 4; UI.fight();");
+t("S20 第5波基础收入 7", S("grossIncome()") === 7);
+t("S20 标准模式收入不受波次影响",
+  (run(`modeSelected = "std"; UI.pickCountry("germany"); G.queue = ["soviet","japan","usa"]; G.battleIdx = 2; UI.fight();`),
+   S("grossIncome()")) === 3);
+run(`modeSelected = "endless"; UI.pickCountry("germany"); UI.fight();`);
+
+// 声誉每三波回满
+run("G.rep = 1; G.battleIdx = 2; UI.fight();");
+t("S20 第3波不回声誉", S("G.rep") === 1);
+run("G.battleIdx = 3; UI.fight();");
+t("S20 第4波回满声誉", S("G.rep") === 8);
+run("G.rep = 2; G.battleIdx = 6; UI.fight();");
+t("S20 第7波再回满", S("G.rep") === 8);
+t("S20 标准模式声誉不回",
+  (run(`modeSelected = "std"; UI.pickCountry("germany"); G.queue = ["soviet","japan","usa"]; G.battleIdx = 0; UI.fight(); G.rep = 3; G.battleIdx = 1; UI.fight();`),
+   S("G.rep")) === 3);
+run(`modeSelected = "endless"; UI.pickCountry("germany"); UI.fight();`);
 run("G.battleIdx = 20; UI.fight();");
 t("S20 对手池自动续上", S("B.enemy.id") !== undefined && S("G.queue.length") > 20);
 run(`modeSelected = "std";`);
@@ -827,6 +860,25 @@ const dilStd = S(`(() => {
 })()`);
 t("S22 标准模式四个抉择都还在", JSON.stringify(dilStd) === JSON.stringify(["accords","amnesty","requisition","salvage"]));
 run("currentDilemma = null;");
+
+/* ---------- S23: 无尽介绍页不能因为队列没续上而崩 ---------- */
+run(`modeSelected = "endless"; UI.pickCountry("germany"); UI.fight();`);
+const deepIntro = S(`(() => {
+  const seen = [];
+  for (let i = 0; i < 30; i++) { G.battleIdx = i; showBattleIntro(); seen.push(G.queue[i]); }
+  return { 全部有对手: seen.every(Boolean), 队列长度: G.queue.length };
+})()`);
+t("S23 第30波介绍页仍有对手", deepIntro.全部有对手 === true && deepIntro.队列长度 >= 30);
+t("S23 介绍页和战斗用同一份Boss判定", S(`(() => {
+  for (let i = 0; i < 24; i++) {
+    G.battleIdx = i; showBattleIntro();
+    const introBoss = isBossBattle();
+    UI.fight();
+    if (introBoss !== B.enemy.boss) return false;
+  }
+  return true;
+})()`) === true);
+run(`modeSelected = "std";`);
 
 /* ---------- results ---------- */
 console.log(`\nPASS ${pass}  FAIL ${fail}`);
