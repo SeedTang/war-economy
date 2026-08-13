@@ -936,7 +936,7 @@ strings: {
 
   log_safety: "Safety's off. Attacks +4 this turn.",
   log_income: "Income +1 per turn.",
-  log_handcap: "The yards are open: you now hold 6 cards a turn.",
+  log_handcap: n => `The yards are open: you now hold ${n} cards a turn.`,
   chip_handcap: n => `🃏 hand limit ${n}`,
   log_once_spent: "The factory's already running. One War Machine per battle.",
   chip_wm_spent: "🏭 War Machine spent",
@@ -1296,7 +1296,7 @@ strings: {
 
   log_safety: "保险栓开了。本回合攻击 +4。",
   log_income: "收入每回合 +1。",
-  log_handcap: "船厂开工：你每回合可以拿 6 张牌了。",
+  log_handcap: n => `船厂开工：你每回合可以拿 ${n} 张牌了。`,
   chip_handcap: n => `🃏 手牌上限 ${n}`,
   log_once_spent: "工厂已经开工了。每场战斗只能造一台战争机器。",
   chip_wm_spent: "🏭 战争机器已用",
@@ -1708,7 +1708,7 @@ strings: {
 
   log_safety: "保險栓開了。本回合攻擊 +4。",
   log_income: "收入每回合 +1。",
-  log_handcap: "船廠開工：你每回合可以拿 6 張牌了。",
+  log_handcap: n => `船廠開工：你每回合可以拿 ${n} 張牌了。`,
   chip_handcap: n => `🃏 手牌上限 ${n}`,
   log_once_spent: "工廠已經開工了。每場戰鬥只能造一台戰爭機器。",
   chip_wm_spent: "🏭 戰爭機器已用",
@@ -2118,7 +2118,7 @@ strings: {
 
   log_safety: "安全装置解除。このターン攻撃 +4。",
   log_income: "収入が毎ターン +1。",
-  log_handcap: "造船所が稼働：手札は毎ターン6枚になった。",
+  log_handcap: n => `造船所が稼働：手札は毎ターン${n}枚になった。`,
   chip_handcap: n => `🃏 手札上限 ${n}`,
   log_once_spent: "工場はもう稼働中だ。戦争機械は1戦闘に1つまで。",
   chip_wm_spent: "🏭 戦争機械は使用済み",
@@ -2528,7 +2528,7 @@ strings: {
 
   log_safety: "안전장치 해제. 이번 턴 공격 +4.",
   log_income: "수입이 매 턴 +1.",
-  log_handcap: "조선소 가동: 이제 매 턴 6장을 든다.",
+  log_handcap: n => `조선소 가동: 이제 매 턴 ${n}장을 든다.`,
   chip_handcap: n => `🃏 손패 한도 ${n}`,
   log_once_spent: "공장은 이미 돌아가고 있다. 전투당 전쟁 기계는 하나뿐.",
   chip_wm_spent: "🏭 전쟁 기계 사용됨",
@@ -2938,7 +2938,7 @@ strings: {
 
   log_safety: "Seguro quitado. Ataques +4 este turno.",
   log_income: "Ingresos +1 por turno.",
-  log_handcap: "Astilleros abiertos: ahora tienes 6 cartas por turno.",
+  log_handcap: n => `Astilleros abiertos: ahora tienes ${n} cartas por turno.`,
   chip_handcap: n => `🃏 límite de mano ${n}`,
   log_once_spent: "La fábrica ya está en marcha. Una Máquina de Guerra por batalla.",
   chip_wm_spent: "🏭 Máquina de Guerra usada",
@@ -3349,7 +3349,7 @@ strings: {
 
   log_safety: "Trava desligada. Ataques +4 neste turno.",
   log_income: "Renda +1 por turno.",
-  log_handcap: "Estaleiros abertos: agora você tem 6 cartas por turno.",
+  log_handcap: n => `Estaleiros abertos: agora você tem ${n} cartas por turno.`,
   chip_handcap: n => `🃏 limite de mão ${n}`,
   log_once_spent: "A fábrica já está rodando. Uma Máquina de Guerra por batalha.",
   chip_wm_spent: "🏭 Máquina de Guerra usada",
@@ -3759,7 +3759,7 @@ strings: {
 
   log_safety: "Cran de sûreté enlevé. Attaques +4 ce tour.",
   log_income: "Revenu +1 par tour.",
-  log_handcap: "Les chantiers tournent : vous tenez désormais 6 cartes par tour.",
+  log_handcap: n => `Les chantiers tournent : vous tenez désormais ${n} cartes par tour.`,
   chip_handcap: n => `🃏 limite de main ${n}`,
   log_once_spent: "L'usine tourne déjà. Une seule Machine de Guerre par bataille.",
   chip_wm_spent: "🏭 Machine de Guerre utilisée",
@@ -4169,7 +4169,7 @@ strings: {
 
   log_safety: "Sicherung raus. Angriffe +4 diese Runde.",
   log_income: "Einkommen +1 pro Runde.",
-  log_handcap: "Die Werften laufen: Du hältst jetzt 6 Karten pro Zug.",
+  log_handcap: n => `Die Werften laufen: Du hältst jetzt ${n} Karten pro Zug.`,
   chip_handcap: n => `🃏 Handlimit ${n}`,
   log_once_spent: "Die Fabrik läuft bereits. Eine Kriegsmaschine pro Kampf.",
   chip_wm_spent: "🏭 Kriegsmaschine verbraucht",
@@ -4579,7 +4579,7 @@ strings: {
 
   log_safety: "Sicura tolta. Attacchi +4 questo turno.",
   log_income: "Entrate +1 a turno.",
-  log_handcap: "Cantieri aperti: ora tieni 6 carte a turno.",
+  log_handcap: n => `Cantieri aperti: ora tieni ${n} carte a turno.`,
   chip_handcap: n => `🃏 limite di mano ${n}`,
   log_once_spent: "La fabbrica è già in funzione. Una Macchina da Guerra per battaglia.",
   chip_wm_spent: "🏭 Macchina da Guerra usata",
@@ -4989,7 +4989,7 @@ strings: {
 
   log_safety: "Предохранитель снят. Атаки +4 в этот ход.",
   log_income: "Доход +1 за ход.",
-  log_handcap: "Верфи заработали: теперь у вас 6 карт за ход.",
+  log_handcap: n => `Верфи заработали: теперь у вас ${n} карт за ход.`,
   chip_handcap: n => `🃏 лимит руки ${n}`,
   log_once_spent: "Завод уже работает. Одна Военная машина за бой.",
   chip_wm_spent: "🏭 Военная машина использована",
@@ -5399,7 +5399,7 @@ strings: {
 
   log_safety: "Bezpiecznik zdjęty. Ataki +4 w tej turze.",
   log_income: "Dochód +1 na turę.",
-  log_handcap: "Stocznie ruszyły: masz teraz 6 kart na turę.",
+  log_handcap: n => `Stocznie ruszyły: masz teraz ${n} kart na turę.`,
   chip_handcap: n => `🃏 limit ręki ${n}`,
   log_once_spent: "Fabryka już pracuje. Jedna Maszyna Wojenna na bitwę.",
   chip_wm_spent: "🏭 Maszyna Wojenna zużyta",
@@ -5809,7 +5809,7 @@ strings: {
 
   log_safety: "Emniyet açık. Bu tur saldırılar +4.",
   log_income: "Gelir tur başına +1.",
-  log_handcap: "Tersaneler açıldı: artık tur başına 6 kart tutuyorsun.",
+  log_handcap: n => `Tersaneler açıldı: artık tur başına ${n} kart tutuyorsun.`,
   chip_handcap: n => `🃏 el limiti ${n}`,
   log_once_spent: "Fabrika zaten çalışıyor. Savaş başına bir Savaş Makinesi.",
   chip_wm_spent: "🏭 Savaş Makinesi kullanıldı",
@@ -6219,7 +6219,7 @@ strings: {
 
   log_safety: "Mở chốt an toàn. Lượt này đòn đánh +4.",
   log_income: "Thu nhập +1 mỗi lượt.",
-  log_handcap: "Xưởng đóng tàu chạy hết công suất: giờ bạn cầm 6 lá mỗi lượt.",
+  log_handcap: n => `Xưởng đóng tàu chạy hết công suất: giờ bạn cầm ${n} lá mỗi lượt.`,
   chip_handcap: n => `🃏 giới hạn tay ${n}`,
   log_once_spent: "Nhà máy đang chạy rồi. Mỗi trận chỉ một Cỗ máy Chiến tranh.",
   chip_wm_spent: "🏭 Đã dùng Cỗ máy Chiến tranh",
@@ -6629,7 +6629,7 @@ strings: {
 
   log_safety: "Kunci pengaman dilepas. Serangan +4 giliran ini.",
   log_income: "Pemasukan +1 per giliran.",
-  log_handcap: "Galangan kapal jalan: sekarang kamu pegang 6 kartu per giliran.",
+  log_handcap: n => `Galangan kapal jalan: sekarang kamu pegang ${n} kartu per giliran.`,
   chip_handcap: n => `🃏 batas tangan ${n}`,
   log_once_spent: "Pabriknya sudah jalan. Satu Mesin Perang per pertempuran.",
   chip_wm_spent: "🏭 Mesin Perang terpakai",
@@ -7091,7 +7091,7 @@ strings: {
 
   log_safety: "ปลดเซฟตี้แล้ว เทิร์นนี้โจมตี +4",
   log_income: "รายได้ +1 ต่อเทิร์น",
-  log_handcap: "อู่ต่อเรือเดินเครื่อง: ตอนนี้คุณถือการ์ด 6 ใบต่อเทิร์น",
+  log_handcap: n => `อู่ต่อเรือเดินเครื่อง: ตอนนี้คุณถือการ์ด ${n} ใบต่อเทิร์น`,
   chip_handcap: n => `🃏 ถือได้ ${n} ใบ`,
   log_once_spent: "โรงงานเดินเครื่องอยู่แล้ว เครื่องจักรสงครามได้ศึกละหนึ่งเครื่อง",
   chip_wm_spent: "🏭 ใช้เครื่องจักรสงครามแล้ว",
@@ -7451,7 +7451,7 @@ strings: {
 
   log_safety: "सेफ्टी हटी। इस बारी हमले +4।",
   log_income: "आमदनी हर बारी +1।",
-  log_handcap: "गोदी चालू: अब आप हर बारी 6 कार्ड रखते हैं।",
+  log_handcap: n => `गोदी चालू: अब आप हर बारी ${n} कार्ड रखते हैं।`,
   chip_handcap: n => `🃏 हाथ की सीमा ${n}`,
   log_once_spent: "फ़ैक्टरी पहले से चल रही है। हर लड़ाई में एक ही युद्ध मशीन।",
   chip_wm_spent: "🏭 युद्ध मशीन इस्तेमाल हो चुकी",
@@ -7861,7 +7861,7 @@ strings: {
 
   log_safety: "رُفع الأمان. الهجمات +4 هذا الدور.",
   log_income: "الدخل +1 لكل دور.",
-  log_handcap: "أحواض بناء السفن تعمل: صرت تحمل 6 بطاقات كل دور.",
+  log_handcap: n => `أحواض بناء السفن تعمل: صرت تحمل ${n} بطاقات كل دور.`,
   chip_handcap: n => `🃏 حد اليد ${n}`,
   log_once_spent: "المصنع يعمل بالفعل. آلة حرب واحدة لكل معركة.",
   chip_wm_spent: "🏭 استُخدمت آلة الحرب",
@@ -9415,7 +9415,8 @@ const CARDS = {
   liberty_ships: { cost: 3, cat: "bld", faction: "usa", sig: true, rep: -1,
     async play() {
       gainIncome(1);
-      if (B.handCap < 6) { B.handCap = 6; log(T("log_handcap")); }
+      const want = Math.min(HAND_MAX, baseHandCap(B.enemy.wave) + 1);
+      if (B.handCap < want) { B.handCap = want; log(T("log_handcap", B.handCap)); }
       draw(1);
     } },
   rosie: { cost: 2, cat: "bld", faction: "usa",
@@ -9599,7 +9600,7 @@ function initBattle() {
     schwerpunkt: false, winterTurns: 0, winterAmt: 2, fundedDisabled: false,
     chainHome: false, chestFrozen: 0,
     shadowEconomy: 0, lootNext: 0, lootArrived: false, stolenTotal: 0,
-    oncePlayed: [], handCap: HAND_LIMIT,
+    oncePlayed: [], handCap: baseHandCap(wave),
     cardsPlayed: 0, ctxFirst: false, playedThisTurn: [], factionThisTurn: [],
     selfHarmTurn: -1, tookDamage: false, lastHandIds: [],
     repStart: G.rep, repFloor: G.rep,
@@ -9692,6 +9693,15 @@ function waveBonus() {
    敌人的成长是累加的,玩家的经济每波清零——不给这条,两条曲线第三波就交叉。 */
 function waveIncome() {
   return (G && G.endless && B && B.enemy) ? B.enemy.wave : 0;
+}
+
+/* 无尽:每四波手牌上限 +1。金币不跨回合,5 张 1-2 费的手牌一回合
+   吃不下 10 金以上,光涨收入到第 8 波就白涨了。 */
+function waveHandBonus(wave) {
+  return G.endless ? Math.floor(wave / 4) : 0;
+}
+function baseHandCap(wave) {
+  return Math.min(HAND_MAX, HAND_LIMIT + waveHandBonus(wave));
 }
 
 function protractedBonus() {

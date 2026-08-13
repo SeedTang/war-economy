@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Emniyet açık. Bu tur saldırılar +4.",
   log_income: "Gelir tur başına +1.",
-  log_handcap: "Tersaneler açıldı: artık tur başına 6 kart tutuyorsun.",
+  log_handcap: n => `Tersaneler açıldı: artık tur başına ${n} kart tutuyorsun.`,
   chip_handcap: n => `🃏 el limiti ${n}`,
   log_once_spent: "Fabrika zaten çalışıyor. Savaş başına bir Savaş Makinesi.",
   chip_wm_spent: "🏭 Savaş Makinesi kullanıldı",

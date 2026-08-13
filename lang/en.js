@@ -296,7 +296,7 @@ strings: {
 
   log_safety: "Safety's off. Attacks +4 this turn.",
   log_income: "Income +1 per turn.",
-  log_handcap: "The yards are open: you now hold 6 cards a turn.",
+  log_handcap: n => `The yards are open: you now hold ${n} cards a turn.`,
   chip_handcap: n => `🃏 hand limit ${n}`,
   log_once_spent: "The factory's already running. One War Machine per battle.",
   chip_wm_spent: "🏭 War Machine spent",

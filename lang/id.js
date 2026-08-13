@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Kunci pengaman dilepas. Serangan +4 giliran ini.",
   log_income: "Pemasukan +1 per giliran.",
-  log_handcap: "Galangan kapal jalan: sekarang kamu pegang 6 kartu per giliran.",
+  log_handcap: n => `Galangan kapal jalan: sekarang kamu pegang ${n} kartu per giliran.`,
   chip_handcap: n => `🃏 batas tangan ${n}`,
   log_once_spent: "Pabriknya sudah jalan. Satu Mesin Perang per pertempuran.",
   chip_wm_spent: "🏭 Mesin Perang terpakai",

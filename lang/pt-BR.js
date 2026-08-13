@@ -231,7 +231,7 @@ strings: {
 
   log_safety: "Trava desligada. Ataques +4 neste turno.",
   log_income: "Renda +1 por turno.",
-  log_handcap: "Estaleiros abertos: agora você tem 6 cartas por turno.",
+  log_handcap: n => `Estaleiros abertos: agora você tem ${n} cartas por turno.`,
   chip_handcap: n => `🃏 limite de mão ${n}`,
   log_once_spent: "A fábrica já está rodando. Uma Máquina de Guerra por batalha.",
   chip_wm_spent: "🏭 Máquina de Guerra usada",

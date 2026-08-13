@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "安全装置解除。このターン攻撃 +4。",
   log_income: "収入が毎ターン +1。",
-  log_handcap: "造船所が稼働：手札は毎ターン6枚になった。",
+  log_handcap: n => `造船所が稼働：手札は毎ターン${n}枚になった。`,
   chip_handcap: n => `🃏 手札上限 ${n}`,
   log_once_spent: "工場はもう稼働中だ。戦争機械は1戦闘に1つまで。",
   chip_wm_spent: "🏭 戦争機械は使用済み",

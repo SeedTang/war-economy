@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "안전장치 해제. 이번 턴 공격 +4.",
   log_income: "수입이 매 턴 +1.",
-  log_handcap: "조선소 가동: 이제 매 턴 6장을 든다.",
+  log_handcap: n => `조선소 가동: 이제 매 턴 ${n}장을 든다.`,
   chip_handcap: n => `🃏 손패 한도 ${n}`,
   log_once_spent: "공장은 이미 돌아가고 있다. 전투당 전쟁 기계는 하나뿐.",
   chip_wm_spent: "🏭 전쟁 기계 사용됨",

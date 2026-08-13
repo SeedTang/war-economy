@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Sicherung raus. Angriffe +4 diese Runde.",
   log_income: "Einkommen +1 pro Runde.",
-  log_handcap: "Die Werften laufen: Du hältst jetzt 6 Karten pro Zug.",
+  log_handcap: n => `Die Werften laufen: Du hältst jetzt ${n} Karten pro Zug.`,
   chip_handcap: n => `🃏 Handlimit ${n}`,
   log_once_spent: "Die Fabrik läuft bereits. Eine Kriegsmaschine pro Kampf.",
   chip_wm_spent: "🏭 Kriegsmaschine verbraucht",

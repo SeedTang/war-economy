@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Sicura tolta. Attacchi +4 questo turno.",
   log_income: "Entrate +1 a turno.",
-  log_handcap: "Cantieri aperti: ora tieni 6 carte a turno.",
+  log_handcap: n => `Cantieri aperti: ora tieni ${n} carte a turno.`,
   chip_handcap: n => `🃏 limite di mano ${n}`,
   log_once_spent: "La fabbrica è già in funzione. Una Macchina da Guerra per battaglia.",
   chip_wm_spent: "🏭 Macchina da Guerra usata",

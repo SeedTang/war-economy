@@ -880,6 +880,42 @@ t("S23 介绍页和战斗用同一份Boss判定", S(`(() => {
 })()`) === true);
 run(`modeSelected = "std";`);
 
+/* ---------- S24: 无尽手牌上限随波次涨 ---------- */
+run(`modeSelected = "endless"; UI.pickCountry("germany"); UI.fight();`);
+const capCurve = S(`(() => {
+  const r = {};
+  for (const w of [0, 3, 4, 7, 8, 11, 19, 23, 40]) { G.battleIdx = w; UI.fight(); r[w + 1] = B.handCap; }
+  return r;
+})()`);
+t("S24 第1波 5 张", capCurve["1"] === 5);
+t("S24 第4波仍是 5 张", capCurve["4"] === 5);
+t("S24 第5波 6 张", capCurve["5"] === 6);
+t("S24 第9波 7 张", capCurve["9"] === 7);
+t("S24 第12波 7 张", capCurve["12"] === 7);
+t("S24 第20波 9 张", capCurve["20"] === 9);
+t("S24 上限封顶在 10", capCurve["24"] === 10 && capCurve["41"] === 10);
+
+// 实际补牌数要跟上限一致
+run("G.battleIdx = 8; UI.fight();");
+t("S24 第9波真的发 7 张", S("B.hand.length") === 7);
+
+// 自由轮在无尽里仍然要能再 +1(不能因为基准已经到 6 就失效)
+run(`modeSelected = "endless"; UI.pickCountry("usa"); G.battleIdx = 4; UI.fight();`);
+t("S24 美国第5波基准 6 张", S("B.handCap") === 6);
+run("B.hand = [{id:'liberty_ships'}]; B.gold = 9; updateBattle(); UI.play(0)"); await settle(250);
+t("S24 自由轮把它抬到 7", S("B.handCap") === 7);
+run("B.factionThisTurn = []; B.hand = [{id:'liberty_ships'}]; B.gold = 9; updateBattle(); UI.play(0)"); await settle(250);
+t("S24 自由轮不叠加", S("B.handCap") === 7);
+run(`G.battleIdx = 40; UI.fight(); B.hand = [{id:'liberty_ships'}]; B.gold = 9; updateBattle(); UI.play(0)`); await settle(250);
+t("S24 自由轮也不能突破 10", S("B.handCap") === 10);
+
+// 标准/地狱不受影响
+run(`modeSelected = "std"; UI.pickCountry("germany"); G.queue = ["soviet","japan","usa"]; G.battleIdx = 2; UI.fight();`);
+t("S24 标准模式永远 5 张", S("B.handCap") === 5 && S("B.hand.length") === 5);
+run(`modeSelected = "hell"; UI.pickCountry("germany"); G.queue = ["soviet","japan","usa"]; G.battleIdx = 2; UI.fight();`);
+t("S24 地狱模式也是 5 张", S("B.handCap") === 5);
+run(`modeSelected = "std";`);
+
 /* ---------- results ---------- */
 console.log(`\nPASS ${pass}  FAIL ${fail}`);
 if (failures.length) {

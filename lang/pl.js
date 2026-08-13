@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Bezpiecznik zdjęty. Ataki +4 w tej turze.",
   log_income: "Dochód +1 na turę.",
-  log_handcap: "Stocznie ruszyły: masz teraz 6 kart na turę.",
+  log_handcap: n => `Stocznie ruszyły: masz teraz ${n} kart na turę.`,
   chip_handcap: n => `🃏 limit ręki ${n}`,
   log_once_spent: "Fabryka już pracuje. Jedna Maszyna Wojenna na bitwę.",
   chip_wm_spent: "🏭 Maszyna Wojenna zużyta",

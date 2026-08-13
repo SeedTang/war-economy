@@ -283,7 +283,8 @@ const CARDS = {
   liberty_ships: { cost: 3, cat: "bld", faction: "usa", sig: true, rep: -1,
     async play() {
       gainIncome(1);
-      if (B.handCap < 6) { B.handCap = 6; log(T("log_handcap")); }
+      const want = Math.min(HAND_MAX, baseHandCap(B.enemy.wave) + 1);
+      if (B.handCap < want) { B.handCap = want; log(T("log_handcap", B.handCap)); }
       draw(1);
     } },
   rosie: { cost: 2, cat: "bld", faction: "usa",
@@ -467,7 +468,7 @@ function initBattle() {
     schwerpunkt: false, winterTurns: 0, winterAmt: 2, fundedDisabled: false,
     chainHome: false, chestFrozen: 0,
     shadowEconomy: 0, lootNext: 0, lootArrived: false, stolenTotal: 0,
-    oncePlayed: [], handCap: HAND_LIMIT,
+    oncePlayed: [], handCap: baseHandCap(wave),
     cardsPlayed: 0, ctxFirst: false, playedThisTurn: [], factionThisTurn: [],
     selfHarmTurn: -1, tookDamage: false, lastHandIds: [],
     repStart: G.rep, repFloor: G.rep,
@@ -560,6 +561,15 @@ function waveBonus() {
    敌人的成长是累加的,玩家的经济每波清零——不给这条,两条曲线第三波就交叉。 */
 function waveIncome() {
   return (G && G.endless && B && B.enemy) ? B.enemy.wave : 0;
+}
+
+/* 无尽:每四波手牌上限 +1。金币不跨回合,5 张 1-2 费的手牌一回合
+   吃不下 10 金以上,光涨收入到第 8 波就白涨了。 */
+function waveHandBonus(wave) {
+  return G.endless ? Math.floor(wave / 4) : 0;
+}
+function baseHandCap(wave) {
+  return Math.min(HAND_MAX, HAND_LIMIT + waveHandBonus(wave));
 }
 
 function protractedBonus() {

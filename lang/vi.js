@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Mở chốt an toàn. Lượt này đòn đánh +4.",
   log_income: "Thu nhập +1 mỗi lượt.",
-  log_handcap: "Xưởng đóng tàu chạy hết công suất: giờ bạn cầm 6 lá mỗi lượt.",
+  log_handcap: n => `Xưởng đóng tàu chạy hết công suất: giờ bạn cầm ${n} lá mỗi lượt.`,
   chip_handcap: n => `🃏 giới hạn tay ${n}`,
   log_once_spent: "Nhà máy đang chạy rồi. Mỗi trận chỉ một Cỗ máy Chiến tranh.",
   chip_wm_spent: "🏭 Đã dùng Cỗ máy Chiến tranh",

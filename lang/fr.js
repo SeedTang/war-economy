@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "Cran de sûreté enlevé. Attaques +4 ce tour.",
   log_income: "Revenu +1 par tour.",
-  log_handcap: "Les chantiers tournent : vous tenez désormais 6 cartes par tour.",
+  log_handcap: n => `Les chantiers tournent : vous tenez désormais ${n} cartes par tour.`,
   chip_handcap: n => `🃏 limite de main ${n}`,
   log_once_spent: "L'usine tourne déjà. Une seule Machine de Guerre par bataille.",
   chip_wm_spent: "🏭 Machine de Guerre utilisée",

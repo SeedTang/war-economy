@@ -230,7 +230,7 @@ strings: {
 
   log_safety: "保险栓开了。本回合攻击 +4。",
   log_income: "收入每回合 +1。",
-  log_handcap: "船厂开工：你每回合可以拿 6 张牌了。",
+  log_handcap: n => `船厂开工：你每回合可以拿 ${n} 张牌了。`,
   chip_handcap: n => `🃏 手牌上限 ${n}`,
   log_once_spent: "工厂已经开工了。每场战斗只能造一台战争机器。",
   chip_wm_spent: "🏭 战争机器已用",
